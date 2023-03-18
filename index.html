@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chess Mazes</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+</head>
+
+<body>
+  <div id="mainContainer">
+    <h1 id="page-title">Chess Mazes</h1>
+    <div id="board" />
+  </div>
+  <div>
+    <button class="button" id="btnPrev">Previous</button>
+    <button class="button" id="btnNext">Next</button>
+  </div>
+  <div>
+    <p id="txtSolved">Solved: []</h2>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+  <script type="module" src="./puzzles.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>

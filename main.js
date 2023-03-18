@@ -1,0 +1,239 @@
+import puzzles from "./puzzles.js";
+import isValidMove from "./moveValidator.js";
+import pieceImages from "./assets.js";
+
+const board = document.getElementById("board");
+
+let curPuzzle = 0;
+let solvedPuzzles = new Set();
+let pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+let draggedPiece = null;
+let startCol, startRow;
+
+function setupButtonHandlers() {
+    document.getElementById("btnPrev").addEventListener("click", () => {
+        curPuzzle--;
+        if (curPuzzle < 0) {
+            curPuzzle = puzzles.length - 1;
+        }
+
+        document.location.hash = curPuzzle + 1;
+        pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+        drawBoard();
+    });
+
+    document.getElementById("btnNext").addEventListener("click", () => {
+        curPuzzle++;
+        if (curPuzzle >= puzzles.length) {
+            curPuzzle = 0;
+        }
+
+        document.location.hash = curPuzzle + 1;
+        pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+        drawBoard();
+    });
+}
+
+function drawBoard() {
+    let solvedText = solvedPuzzles.has(curPuzzle + 1) ? "✅" : "";
+    document.getElementById("page-title").innerText = `Chess Maze #${curPuzzle + 1} ${solvedText}`;
+    board.innerHTML = "";
+
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            const square = document.createElement("div");
+            square.classList.add("square");
+            square.classList.add((i + j) % 2 ? "black" : "white");
+            square.dataset.row = i;
+            square.dataset.col = j;
+
+            const piece = pieces[i * 8 + j];
+            if (piece !== "") {
+                const img = document.createElement("img");
+                img.src = pieceImages[piece];
+                img.style.position = 'absolute';
+                square.appendChild(img);
+            }
+
+            board.appendChild(square);
+
+            // Draw coordinates at the edge of the board, at the corner of the square
+            if (j === 0) {
+                const text = document.createElement("div");
+                text.classList.add("letter-coords");
+                text.innerHTML = 8 - i;
+                square.appendChild(text);
+
+                // align the element to the left and top of the square
+            }
+
+            if (i === 7) {
+                const text = document.createElement("div");
+                text.classList.add("number-coords");
+                text.innerHTML = String.fromCharCode(97 + j);
+                square.appendChild(text);
+
+                // align the element to the right and bottom of the square
+                text.style.marginLeft = "auto";
+                text.style.marginTop = "auto";
+            }
+
+        }
+    }
+
+    const squares = document.querySelectorAll(".square");
+    const pieceElements = document.querySelectorAll(".square img");
+
+    for (let pieceElement of pieceElements) {
+        pieceElement.draggable = true;
+    }
+
+    for (let square of squares) {
+        square.addEventListener("dragstart", dragStart);
+        square.addEventListener("dragover", dragOver);
+        square.addEventListener("drop", dragDrop);
+    }
+}
+
+function coordsToLocation(row, col) {
+    const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    return letters[col] + (8 - row);
+}
+
+function dragStart(event) {
+    draggedPiece = event.target;
+    draggedPiece.classList.add("dragged");
+    startCol = parseInt(event.target.parentElement.dataset.col);
+    startRow = parseInt(event.target.parentElement.dataset.row);
+}
+
+function dragOver(event) {
+    event.preventDefault();
+}
+
+function resetBoard() {
+    pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+    drawBoard();
+}
+
+function dragDrop(event) {
+    draggedPiece.classList.remove("dragged");
+
+    let target = event.target;
+    if (event.target.tagName.toLowerCase() === "img") {
+        console.log("dropped on image");
+        target = event.target.parentElement;
+    };
+
+    const endCol = parseInt(target.dataset.col);
+    const endRow = parseInt(target.dataset.row);
+    console.log(`dragEnd: {${startRow}, ${startCol}} -> {${endRow}, ${endCol}}`);
+
+    // Check if start and end are the same
+    if (startCol === endCol && startRow === endRow) {
+        return;
+    }
+
+    if (isValidMove(pieces, startCol, startRow, endCol, endRow, true)) {
+        const piece = pieces[startRow * 8 + startCol];
+        pieces[startRow * 8 + startCol] = "";
+        pieces[endRow * 8 + endCol] = piece;
+        // remove only child img element from target square
+        [...target.children].forEach(
+            child => child.tagName.toLowerCase() === "img" && child.remove()
+        );
+
+        target.appendChild(draggedPiece);
+        if (isThreatened(endCol, endRow)) {
+            Swal.fire({
+                title: 'Try again!',
+                text: 'You are threatened by a black piece.',
+                icon: 'error',
+                //timer: 2000,
+                timerProgressBar: true,
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'my-swal'
+                }
+            }).then(() => {
+                resetBoard();
+            });
+        } else if (isThreatened(...locateBlackKing(pieces))) {
+            Swal.fire({
+                title: 'Good job!',
+                text: 'You have successfully checked the black king.',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'my-swal'
+                }
+            }).then(() => {
+                solvedPuzzles.add(curPuzzle + 1);
+                localStorage.setItem("solvedPuzzles", JSON.stringify(Array.from(solvedPuzzles)));
+                document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
+                document.getElementById("btnNext").click();
+            });
+        };
+    }
+
+    draggedPiece = null;
+}
+
+function isThreatened(col, row, debug = false) {
+    const isWhite = pieces[row * 8 + col].toLowerCase() !== pieces[row * 8 + col];
+
+    // Check if any piece can move to the square
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (pieces[i * 8 + j] === "") continue;
+            if (debug) console.log(`Checking if ${pieces[i * 8 + j]} at ${coordsToLocation(i, j)} can move to ${coordsToLocation(row, col)}`);
+            if (isValidMove(pieces, j, i, col, row, true, isWhite)) {
+                if (debug) console.log(`Threatened by ${pieces[i * 8 + j]} at ${coordsToLocation(i, j)}`);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function locateBlackKing(board) {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (board[i * 8 + j] === "k") {
+                return [j, i];
+            }
+        }
+    }
+}
+
+function loadSolvedPuzzles() {
+    const solved = localStorage.getItem("solvedPuzzles");
+    if (solved) {
+        solvedPuzzles = new Set(JSON.parse(solved));
+    }
+
+    document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
+}
+
+function loadCurrentPuzzle() {
+    const hash = window.location.hash;
+    if (hash) {
+        const puzzle = parseInt(hash.substring(1));
+        if (puzzle >= 1 && puzzle <= puzzles.length) {
+            curPuzzle = puzzle - 1;
+        }
+    }
+}
+
+function main() {
+    loadCurrentPuzzle();
+    loadSolvedPuzzles();
+    setupButtonHandlers();
+    drawBoard();
+}
+
+// On document ready, call main
+document.addEventListener("DOMContentLoaded", main);
