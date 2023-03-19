@@ -88,10 +88,31 @@ function drawBoard() {
         pieceElement.draggable = true;
     }
 
+    const [whiteCol, whiteRow] = locateWhitePiece(pieces);
+
     for (let square of squares) {
         square.addEventListener("dragstart", dragStart);
         square.addEventListener("dragover", dragOver);
         square.addEventListener("drop", dragDrop);
+
+        square.addEventListener("click", () => {
+            const col = parseInt(square.dataset.col);
+            const row = parseInt(square.dataset.row);
+
+            // Check if white piece can move to the square
+            const [startCol, startRow] = locateWhitePiece(pieces);
+            if (isValidMove(pieces, startCol, startRow, col, row)) {
+                moveWhitePieceTo(col, row);
+                drawBoard();
+            }
+        });
+
+        // if white piece can move to the square, highlight it
+        // if (isValidMove(pieces, whiteCol, whiteRow, parseInt(square.dataset.col), parseInt(square.dataset.row))) {
+        //     square.classList.add("highlight");
+        // } else {
+        //     square.classList.remove("highlight");
+        // }
     }
 }
 
@@ -116,6 +137,53 @@ function resetBoard() {
     drawBoard();
 }
 
+function moveWhitePieceTo(col, row) {
+    const [startCol, startRow] = locateWhitePiece(pieces);
+    let movedPiece = document.querySelector(`[data-row="${startRow}"][data-col="${startCol}"] img`);
+    let targetSquare = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+    const piece = pieces[startRow * 8 + startCol];
+    pieces[startRow * 8 + startCol] = "";
+    pieces[row * 8 + col] = piece;
+    // remove only child img element from target square
+    [...targetSquare.children].forEach(
+        child => child.tagName.toLowerCase() === "img" && child.remove()
+    );
+
+    targetSquare.appendChild(movedPiece);
+    if (isThreatened(col, row)) {
+        Swal.fire({
+            title: 'Try again!',
+            text: 'You are threatened by a black piece.',
+            icon: 'error',
+            //timer: 2000,
+            timerProgressBar: true,
+            confirmButtonText: 'OK',
+            customClass: {
+                popup: 'my-swal'
+            }
+        }).then(() => {
+            resetBoard();
+        });
+    } else if (isThreatened(...locateBlackKing(pieces))) {
+        Swal.fire({
+            title: 'Good job!',
+            text: 'You have successfully checked the black king.',
+            icon: 'success',
+            timer: 2000,
+            timerProgressBar: true,
+            confirmButtonText: 'OK',
+            customClass: {
+                popup: 'my-swal'
+            }
+        }).then(() => {
+            solvedPuzzles.add(curPuzzle + 1);
+            localStorage.setItem("solvedPuzzles", JSON.stringify(Array.from(solvedPuzzles)));
+            document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
+            document.getElementById("btnNext").click();
+        });
+    };
+}
+
 function dragDrop(event) {
     draggedPiece.classList.remove("dragged");
 
@@ -135,47 +203,8 @@ function dragDrop(event) {
     }
 
     if (isValidMove(pieces, startCol, startRow, endCol, endRow, true)) {
-        const piece = pieces[startRow * 8 + startCol];
-        pieces[startRow * 8 + startCol] = "";
-        pieces[endRow * 8 + endCol] = piece;
-        // remove only child img element from target square
-        [...target.children].forEach(
-            child => child.tagName.toLowerCase() === "img" && child.remove()
-        );
-
-        target.appendChild(draggedPiece);
-        if (isThreatened(endCol, endRow)) {
-            Swal.fire({
-                title: 'Try again!',
-                text: 'You are threatened by a black piece.',
-                icon: 'error',
-                //timer: 2000,
-                timerProgressBar: true,
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'my-swal'
-                }
-            }).then(() => {
-                resetBoard();
-            });
-        } else if (isThreatened(...locateBlackKing(pieces))) {
-            Swal.fire({
-                title: 'Good job!',
-                text: 'You have successfully checked the black king.',
-                icon: 'success',
-                timer: 2000,
-                timerProgressBar: true,
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'my-swal'
-                }
-            }).then(() => {
-                solvedPuzzles.add(curPuzzle + 1);
-                localStorage.setItem("solvedPuzzles", JSON.stringify(Array.from(solvedPuzzles)));
-                document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
-                document.getElementById("btnNext").click();
-            });
-        };
+        moveWhitePieceTo(endCol, endRow);
+        drawBoard();
     }
 
     draggedPiece = null;
@@ -209,6 +238,17 @@ function locateBlackKing(board) {
     }
 }
 
+function locateWhitePiece(board) {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            let piece = board[i * 8 + j];
+            if (piece !== "" && piece.toLowerCase() !== piece) {
+                return [j, i];
+            }
+        }
+    }
+}
+
 function loadSolvedPuzzles() {
     const solved = localStorage.getItem("solvedPuzzles");
     if (solved) {
@@ -232,7 +272,7 @@ function main() {
     loadCurrentPuzzle();
     loadSolvedPuzzles();
     setupButtonHandlers();
-    drawBoard();
+    resetBoard();
 }
 
 // On document ready, call main

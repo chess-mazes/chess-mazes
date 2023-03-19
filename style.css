@@ -40,9 +40,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
   width: 100%;
-  position: fixed;
+  height: 100%;
+}
+
+.highlight {
+  /* put a small black circle in the middle of the square */
+  background-image: radial-gradient(circle, black 5%, transparent 30%);
 }
 
 #board {
