@@ -1,6 +1,7 @@
 import puzzles from "./puzzles.js";
 import isValidMove from "./moveValidator.js";
 import pieceImages from "./assets.js";
+import loadFromFEN from "./fenLoader.js";
 
 const board = document.getElementById("board");
 
@@ -9,6 +10,8 @@ let solvedPuzzles = new Set();
 let pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
 let draggedPiece = null;
 let startCol, startRow;
+let customPuzzle = false;
+let originalCustomBoard = null;
 
 function setupButtonHandlers() {
     document.getElementById("btnPrev").addEventListener("click", () => {
@@ -19,6 +22,7 @@ function setupButtonHandlers() {
 
         document.location.hash = curPuzzle + 1;
         pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+        customPuzzle = false;
         drawBoard();
     });
 
@@ -30,15 +34,31 @@ function setupButtonHandlers() {
 
         document.location.hash = curPuzzle + 1;
         pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+        customPuzzle = false;
         drawBoard();
+    });
+
+    document.getElementById("btnLoadFen").addEventListener("click", () => {
+        const fen = prompt("FEN string");
+        if (fen) {
+            originalCustomBoard = loadFromFEN(fen);
+            if (originalCustomBoard) {
+                pieces = JSON.parse(JSON.stringify(originalCustomBoard));
+                customPuzzle = true;
+                document.getElementById("page-title").innerText = "Chess Maze (Custom)";
+                drawBoard();
+            }
+        }
     });
 }
 
 function drawBoard() {
-    let solvedText = solvedPuzzles.has(curPuzzle + 1) ? "✅" : "";
-    document.getElementById("page-title").innerText = `Chess Maze #${curPuzzle + 1} ${solvedText}`;
-    board.innerHTML = "";
+    if (!customPuzzle) {
+        let solvedText = solvedPuzzles.has(curPuzzle + 1) ? "✅" : "";
+        document.getElementById("page-title").innerText = `Chess Maze #${curPuzzle + 1} ${solvedText}`;
+    }
 
+    board.innerHTML = "";
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             const square = document.createElement("div");
@@ -133,7 +153,12 @@ function dragOver(event) {
 }
 
 function resetBoard() {
-    pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+    if (customPuzzle) {
+        pieces = JSON.parse(JSON.stringify(originalCustomBoard));
+    } else {
+        pieces = JSON.parse(JSON.stringify(puzzles[curPuzzle]));
+    }
+    
     drawBoard();
 }
 
@@ -176,10 +201,12 @@ function moveWhitePieceTo(col, row) {
                 popup: 'my-swal'
             }
         }).then(() => {
-            solvedPuzzles.add(curPuzzle + 1);
-            localStorage.setItem("solvedPuzzles", JSON.stringify(Array.from(solvedPuzzles)));
-            document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
-            document.getElementById("btnNext").click();
+            if (!customPuzzle) {
+                solvedPuzzles.add(curPuzzle + 1);
+                localStorage.setItem("solvedPuzzles", JSON.stringify(Array.from(solvedPuzzles)));
+                document.getElementById("txtSolved").innerText = `Solved: [${Array.from(solvedPuzzles).sort().join(", ")}]`;
+                document.getElementById("btnNext").click();
+            }
         });
     };
 }
