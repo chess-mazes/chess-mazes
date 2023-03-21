@@ -4,6 +4,7 @@ import pieceImages from "./assets.js";
 import loadFromFEN from "./fenLoader.js";
 
 const board = document.getElementById("board");
+const moveSound = new Audio("move.mp3");
 
 let curPuzzle = 0;
 let solvedPuzzles = new Set();
@@ -105,7 +106,13 @@ function drawBoard() {
     const pieceElements = document.querySelectorAll(".square img");
 
     for (let pieceElement of pieceElements) {
-        pieceElement.draggable = true;
+        // check if the piece is white
+        // get the piece's location
+        let [col, row] = [parseInt(pieceElement.parentElement.dataset.col), parseInt(pieceElement.parentElement.dataset.row)];
+        let piece = pieces[row * 8 + col];
+        if (piece === piece.toUpperCase()) {
+            pieceElement.draggable = true;
+        }
     }
 
     const [whiteCol, whiteRow] = locateWhitePiece(pieces);
@@ -175,6 +182,9 @@ function moveWhitePieceTo(col, row) {
     );
 
     targetSquare.appendChild(movedPiece);
+    moveSound.currentTime = 0;
+    moveSound.play();
+
     if (isThreatened(col, row)) {
         Swal.fire({
             title: 'Try again!',
