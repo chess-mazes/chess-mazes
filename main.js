@@ -13,6 +13,7 @@ let draggedPiece = null;
 let startCol, startRow;
 let customPuzzle = false;
 let originalCustomBoard = null;
+let soundOn = localStorage.getItem("soundOn") === "true" || false;
 
 function setupButtonHandlers() {
     document.getElementById("btnPrev").addEventListener("click", () => {
@@ -50,6 +51,13 @@ function setupButtonHandlers() {
                 drawBoard();
             }
         }
+    });
+
+    document.getElementById("btnSound").innerText = soundOn ? "Sound: On" : "Sound: Off";
+    document.getElementById("btnSound").addEventListener("click", () => {
+        soundOn = !soundOn;
+        localStorage.setItem("soundOn", soundOn);
+        document.getElementById("btnSound").innerText = soundOn ? "Sound: On" : "Sound: Off";
     });
 }
 
@@ -182,8 +190,11 @@ function moveWhitePieceTo(col, row) {
     );
 
     targetSquare.appendChild(movedPiece);
-    moveSound.currentTime = 0;
-    moveSound.play();
+
+    if (soundOn) {
+        moveSound.currentTime = 0;
+        moveSound.play();
+    }
 
     if (isThreatened(col, row)) {
         Swal.fire({
