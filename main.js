@@ -52,6 +52,29 @@ function setupButtonHandlers() {
         }
     });
 
+    document.getElementById("btnAbout").addEventListener("click", () => {
+        Swal.fire({
+            title: "About",
+            html: `
+            <b>Chess Mazes</b> is a puzzle game that helps you visualize chess moves and avoid hanging pieces.
+            
+            The game is based on the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston.
+            <br><br>
+
+            <b>How to play:</b>
+            Either drag and drop the pieces to move them, or click a target square to move the selected piece to it.
+            The goal is to check the black king without having your pieces threatened.
+            <br><br>
+
+            <b>License:</b>
+            The puzzles that appear in the game are taken from the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston, and licensed under the "Fair Use" clause of the US Copyright Law.
+            The game implementation is licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
+            `,
+            confirmButtonText: "Got it!"
+        });
+        localStorage.setItem("aboutRead", true);
+    });
+
     document.getElementById("btnSound").innerText = soundOn ? "Sound: On" : "Sound: Off";
     document.getElementById("btnSound").addEventListener("click", () => {
         soundOn = !soundOn;
@@ -320,6 +343,10 @@ function main() {
     loadSolvedPuzzles();
     setupButtonHandlers();
     resetBoard();
+
+    if (localStorage.getItem("aboutRead") !== "true") {
+        document.getElementById("btnAbout").click();
+    }
 }
 
 // On document ready, call main
