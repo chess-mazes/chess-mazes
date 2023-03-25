@@ -61,9 +61,14 @@ function setupButtonHandlers() {
             The game is based on the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston.
             <br><br>
 
-            <b>How to play:</b>
+            <b>How to Play:</b>
             Either drag and drop the pieces to move them, or click a target square to move the selected piece to it.
             The goal is to check the black king without having your pieces threatened.
+            <br><br>
+
+            <b>Custom Puzzles:</b>
+            You can load custom puzzles by entering a <a href="https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">FEN string</a> in the "Load FEN" dialog.
+            If you have access to the original book, you can convert puzzles to FEN strings using tools such as <a href="https://chessvision.ai">ChessVision.ai</a>.
             <br><br>
 
             <b>License:</b>
