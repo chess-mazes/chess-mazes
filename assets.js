@@ -13,4 +13,7 @@ const pieceImages = {
     "k": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/240px-Chess_kdt45.svg.png"
 };
 
-export default pieceImages;
+const moveSound = new Audio("move.mp3");
+
+
+export { pieceImages, moveSound };

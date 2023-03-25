@@ -1,10 +1,9 @@
 import puzzles from "./puzzles.js";
 import isValidMove from "./moveValidator.js";
-import pieceImages from "./assets.js";
+import { pieceImages, moveSound } from "./assets.js";
 import loadFromFEN from "./fenLoader.js";
 
 const board = document.getElementById("board");
-const moveSound = new Audio("move.mp3");
 
 let curPuzzle = 0;
 let solvedPuzzles = new Set();
