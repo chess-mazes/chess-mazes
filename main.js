@@ -58,11 +58,11 @@ function setupButtonHandlers() {
             html: `
             <b>Chess Mazes</b> is a puzzle game that helps you visualize chess moves and avoid hanging pieces.
             
-            The game is based on the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston.
+            The game is based on the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by chess master Bruce Alberston.
             <br><br>
 
             <b>How to Play:</b>
-            Either drag and drop the pieces to move them, or click a target square to move the selected piece to it.
+            Either drag and drop the pieces to move them, or click a target square to move your piece to it.
             The goal is to check the black king without having your pieces threatened.
             <br><br>
 
@@ -119,8 +119,6 @@ function drawBoard() {
                 text.classList.add("letter-coords");
                 text.innerHTML = 8 - i;
                 square.appendChild(text);
-
-                // align the element to the left and top of the square
             }
 
             if (i === 7) {
