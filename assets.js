@@ -1,19 +1,40 @@
 const pieceImages = {
-    "P": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/240px-Chess_plt45.svg.png",
-    "R": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/240px-Chess_rlt45.svg.png",
-    "N": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/240px-Chess_nlt45.svg.png",
-    "B": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/240px-Chess_blt45.svg.png",
-    "Q": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/240px-Chess_qlt45.svg.png",
-    "K": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/240px-Chess_klt45.svg.png",
-    "p": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/240px-Chess_pdt45.svg.png",
-    "r": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/240px-Chess_rdt45.svg.png",
-    "n": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/240px-Chess_ndt45.svg.png",
-    "b": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/240px-Chess_bdt45.svg.png",
-    "q": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/240px-Chess_qdt45.svg.png",
-    "k": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/240px-Chess_kdt45.svg.png"
+    "P": "./assets/pieceImages/w_p.png",
+    "R": "./assets/pieceImages/w_r.png",
+    "N": "./assets/pieceImages/w_n.png",
+    "B": "./assets/pieceImages/w_b.png",
+    "Q": "./assets/pieceImages/w_q.png",
+    "K": "./assets/pieceImages/w_k.png",
+    "p": "./assets/pieceImages/b_p.png",
+    "r": "./assets/pieceImages/b_r.png",
+    "n": "./assets/pieceImages/b_n.png",
+    "b": "./assets/pieceImages/b_b.png",
+    "q": "./assets/pieceImages/b_q.png",
+    "k": "./assets/pieceImages/b_k.png"
 };
 
-const moveSound = new Audio("move.mp3");
+const moveSound = new Audio('./assets/moveSound/move.mp3');
 
+const aboutHtml = `
+<b>Chess Mazes</b> is a puzzle game that helps you visualize chess moves and avoid hanging pieces.
 
-export { pieceImages, moveSound };
+The game is based on the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by chess master Bruce Alberston.
+<br><br>
+
+<b>How to Play:</b>
+Either drag and drop the pieces to move them, or click a target square to move your piece to it.
+The goal is to check the black king without having your pieces threatened.
+<br><br>
+
+<b>Custom Puzzles:</b>
+You can load custom puzzles by entering a <a href="https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">FEN string</a> in the "Load FEN" dialog.
+If you have access to the original book, you can convert puzzles to FEN strings using tools such as <a href="https://chessvision.ai">ChessVision.ai</a>.
+<br><br>
+
+<b>License:</b>
+The puzzles that appear in the game are taken from the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston, and licensed under the "Fair Use" clause of the US Copyright Law.
+The game implementation is licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
+See <i>ReadMe.md</i> for more details.
+`
+
+export { pieceImages, moveSound, aboutHtml};

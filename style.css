@@ -18,9 +18,11 @@ body {
   border: 1px solid black;
   display: flex;
   flex-wrap: wrap;
+  margin: 1rem;
 }
 
 .square {
+  position: relative;
   width: 100px;
   height: 100px;
   display: flex;
@@ -28,11 +30,16 @@ body {
   align-items: center;
 }
 
-.white {
+.piece {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.light {
   background-color: #DEE3E6;
 }
 
-.black {
+.dark {
   background-color: #8CA2AD;
 }
 
@@ -52,10 +59,6 @@ body {
   background-image: radial-gradient(circle, black 5%, transparent 30%);
 }
 
-#board {
-  margin: 1rem;
-}
-
 .square img {
   width: 100px;
   height: 100px;
@@ -66,14 +69,18 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.letter-coords {
-  margin-right: auto;
-  margin-bottom: auto;
+.letter-label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 
-.number-coords {
-  margin-left: auto;
-  margin-top: auto;
+.number-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .my-swal {

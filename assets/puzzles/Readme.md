@@ -1,0 +1,1 @@
+The puzzles that appear in the game are taken from the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston, and are provided under the "Fair Use" clause of the US Copyright Law.

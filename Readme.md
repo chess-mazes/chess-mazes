@@ -12,4 +12,9 @@ If you have access to the original book, you can convert puzzles to FEN strings 
 
 ### License
 The puzzles that appear in the game are taken from the book <a href="https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232">"Chess Mazes"</a> (2004) by Bruce Alberston, and licensed under the "Fair Use" clause of the US Copyright Law.
+
+The assets (sounds, images) are licensed under Creative Commons Zero (CC0) and are attributed to their respective creators.
+
+The favicon is from <a href="https://tabler-icons.io/">Tabler icons</a> ("crown") and licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
+
 The game implementation is licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
