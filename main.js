@@ -24,17 +24,15 @@ function main() {
 
     new GameView(new GameViewModel(new GameModel()));
 
-    /* TODO */   
+    /* TODO */
 
-    // Now: Add document.hash support
-    
-    // Fix ViewPort
+    // Now: Add move counter (and num of moves needed for solution)
+
     // Add tests for all pieces (including pawn)
-    // Add move counter (and num of moves needed for solution)
     // Change puzzles to more varied and interesting ones
-    // Add board themes
     // Add piece themes
     // Fix main / gh-pages sync
+    // Fix ViewPort
     // Publish
 }
 

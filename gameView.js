@@ -5,8 +5,10 @@ class GameView {
     constructor(gameViewModel) {
         this.gameViewModel = gameViewModel;
         this.draggedPiece = null;
+        this.theme = 'theme-default';
+
         gameViewModel.subscribe((event, data) => {
-            console.log(`Event: ${event}`);
+            console.log(`Event: ${event} Data: ${data}`);
             
             if (event === 'BoardChanged') {
                 this.drawBoard(data);
@@ -26,9 +28,16 @@ class GameView {
                 this.threatenedPopup(threatText).then(() => this.gameViewModel.loadCurrentPuzzle());
             } else if (event === 'SolvedPuzzlesChanged') {
                 document.getElementById('txtSolved').innerText = `Solved: [${Array.from(data).sort().join(', ')}]`;
+            } else if (event === 'ThemeChanged') {
+                let oldTheme = this.theme;
+                this.theme = 'theme-' + data;
+
+                Array.from(document.getElementsByClassName(oldTheme)).forEach(element => {
+                    element.classList.remove(oldTheme);
+                    element.classList.add(this.theme);
+                });
             }
         });
-
 
         this.setupInputHandlers();
         gameViewModel.start(); // Start the game
@@ -68,6 +77,7 @@ class GameView {
         document.getElementById('btnLoadFen').addEventListener('click', () => this.gameViewModel.loadFen(prompt('Enter FEN string:')));
         document.getElementById('btnSound').addEventListener('click', () => this.gameViewModel.toggleSound());
         document.getElementById('btnAbout').addEventListener('click', () => this.showAbout());
+        document.getElementById('btnNextTheme').addEventListener('click', () => this.gameViewModel.loadNextTheme());
 
         // Board click handler
         document.getElementById('board').addEventListener('click', (event) => {
@@ -141,6 +151,9 @@ class GameView {
             squareElement.setAttribute('data-row', rowNum);
             squareElement.setAttribute('data-col', colNum);
 
+            // Set the theme
+            squareElement.classList.add(this.theme);
+
             // Alternate the colors of the squares
             squareElement.classList.add(((rowNum + colNum) % 2 === 0) ? 'light' : 'dark');
 
@@ -165,7 +178,6 @@ class GameView {
                 let pieceElement = document.createElement('img');
                 pieceElement.src = pieceImages[piece];
                 pieceElement.className = 'piece';
-                pieceElement.classList.add(piece);
                 squareElement.appendChild(pieceElement);
             }
 

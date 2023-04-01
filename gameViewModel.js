@@ -1,11 +1,13 @@
 import puzzles from './assets/puzzles/puzzles.js';
 import loadFromFEN from './fenLoader.js';
+import themes from './themes.js';
 
 class GameViewModel {
     constructor(gameModel) {
         this._gameModel = gameModel;
         this._subscribers = [];
         this._curPuzzle = 0;
+        this._curTheme = 0;
         this._soundOn = false;
         this._title = 'Chess Mazes';
         this._solvedPuzzles = new Set();
@@ -32,6 +34,11 @@ class GameViewModel {
             this._curPuzzle = puzzleNum - 1;
         } else if (localStorage.getItem('curPuzzle')) {
             this._curPuzzle = parseInt(localStorage.getItem('curPuzzle'));
+        }
+
+        if (localStorage.getItem('curTheme')) {
+            this._curTheme = parseInt(localStorage.getItem('curTheme'));
+            this.loadCurrentTheme();
         }
 
         if (localStorage.getItem('solvedPuzzles')) {
@@ -66,6 +73,21 @@ class GameViewModel {
         this._curPuzzle = (this._curPuzzle - 1 + puzzles.length) % puzzles.length;
         localStorage.setItem('curPuzzle', this._curPuzzle);
         this.loadCurrentPuzzle();
+    }
+
+    loadCurrentTheme() {
+        this._notifySubscribers('ThemeChanged', themes[this._curTheme]);
+        localStorage.setItem('curTheme', this._curTheme);
+    }
+
+    loadNextTheme() {
+        this._curTheme = (this._curTheme + 1) % themes.length;
+        this.loadCurrentTheme();
+    }
+
+    loadPrevTheme() {
+        this._curTheme = (this._curTheme - 1 + themes.length) % themes.length;
+        this.loadCurrentTheme();
     }
 
     loadFen(fenString) {

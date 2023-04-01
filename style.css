@@ -35,12 +35,36 @@ body {
   max-height: 80%;
 }
 
-.light {
+.theme-default.light {
   background-color: #DEE3E6;
 }
 
-.dark {
+.theme-default.dark {
   background-color: #8CA2AD;
+}
+
+.theme-candy.light {
+  background-color: #F9E3E3;
+}
+
+.theme-candy.dark {
+  background-color: #F9C3C3;
+}
+
+.theme-wood.light {
+  background-color: #f0d9b5;
+}
+
+.theme-wood.dark {
+  background-color: #b48863;
+}
+
+.theme-emerald.light {
+  background-color: #eeeed3;
+}
+
+.theme-emerald.dark {
+  background-color: #759656;
 }
 
 #mainContainer {
