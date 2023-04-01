@@ -26,7 +26,8 @@ function main() {
 
     /* TODO */   
 
-    // Add document.hash support
+    // Now: Add document.hash support
+    
     // Fix ViewPort
     // Add tests for all pieces (including pawn)
     // Add move counter (and num of moves needed for solution)

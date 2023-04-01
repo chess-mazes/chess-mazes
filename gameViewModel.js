@@ -23,7 +23,14 @@ class GameViewModel {
             this.toggleSound();
         }
 
-        if (localStorage.getItem('curPuzzle')) {
+        let puzzleNum = null;
+        if (document.location.hash) {
+            puzzleNum = parseInt(document.location.hash.substring(1));
+        }
+
+        if (puzzleNum >= 1 && puzzleNum <= puzzles.length) {
+            this._curPuzzle = puzzleNum - 1;
+        } else if (localStorage.getItem('curPuzzle')) {
             this._curPuzzle = parseInt(localStorage.getItem('curPuzzle'));
         }
 
@@ -45,6 +52,8 @@ class GameViewModel {
         this._gameModel.loadPuzzle(puzzles[this._curPuzzle]);
         this._setTitle(`Chess Mazes #${this._curPuzzle + 1}${solvedText}`);
         this._customPuzzle = false;
+        localStorage.setItem('curPuzzle', this._curPuzzle);
+        document.location.hash = this._curPuzzle + 1;
     }
 
     loadNextPuzzle() {
@@ -64,6 +73,7 @@ class GameViewModel {
         this._gameModel.loadPuzzle(puzzle);
         this._customPuzzle = true;
         this._setTitle('Custom Puzzle');
+        document.location.hash = '';
     }
 
     setAboutRead(status = true) {
