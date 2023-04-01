@@ -168,3 +168,30 @@ body {
 .button:-webkit-details-marker {
   display: none;
 }
+
+.solved-container {
+  background-color: #e0e0f0;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+}
+
+.solved-item {
+  background-color: #c0c0e0;
+  color: black;
+  min-width: 20px;
+  border-radius: 25px;
+  padding: 5px;
+  margin-left: 3px;
+  display: inline-block;
+  text-align: center;
+}
+
+.solved-item:hover {
+  background-color: #a0a0e0;
+}
+
+.github-fork-ribbon:before {
+  background-color: #000;
+}

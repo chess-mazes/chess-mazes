@@ -27,7 +27,20 @@ class GameView {
                 let threatText = `${pieceNames[data.piece]} at ${rowColToAlgebraic(data.row, data.col)}`;
                 this.threatenedPopup(threatText).then(() => this.gameViewModel.loadCurrentPuzzle());
             } else if (event === 'SolvedPuzzlesChanged') {
-                document.getElementById('txtSolved').innerText = `Solved: [${Array.from(data).sort().join(', ')}]`;
+                let solvedContainer = document.getElementById('solved-container');
+                solvedContainer.innerHTML = 'Solved';
+
+                let solvedItems = Array.from(data);
+                if (solvedItems.length === 0) {
+                    solvedItems = ['None'];
+                }
+
+                solvedItems.sort().forEach(puzzleNum => {
+                    let solvedItem = document.createElement('div');
+                    solvedItem.classList.add('solved-item');
+                    solvedItem.innerText = puzzleNum;
+                    solvedContainer.appendChild(solvedItem);
+                });
             } else if (event === 'ThemeChanged') {
                 let oldTheme = this.theme;
                 this.theme = 'theme-' + data;
