@@ -287,4 +287,89 @@ describe('GameModel', () => {
         let result = game.validateMove(7, 2, 6, 1, true);
         expect(result.status).toBe(true);
     });
+
+    test('Validation: White pawn moves', () => {
+        const game = new GameModel();
+        let puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols + 1] = 'P';
+        game.loadPuzzle(puzzle);
+
+        // Try to move one space
+        let result = game.validateMove(1, 1, 2, 1);
+        expect(result.status).toBe(true);
+
+        // Try to move one space backwards
+        result = game.validateMove(1, 1, 0, 1);
+        expect(result.status).toBe(false);
+        expect(result.reason).toBe('InvalidMovePattern');
+
+        // Try to move two spaces from starting position
+        result = game.validateMove(1, 1, 3, 1);
+        expect(result.status).toBe(true);
+
+        // Try to move two spaces from starting position with friendly piece in the way
+        puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols + 1] = 'P';
+        puzzle[GameModel.NumCols * 2 + 1] = 'P';
+        game.loadPuzzle(puzzle);
+        result = game.validateMove(1, 1, 3, 1);
+        expect(result.status).toBe(false);
+        expect(result.reason).toBe('BlockedPath');
+
+        // Try to move two spaces from non-starting position
+        puzzle[GameModel.NumCols + 1] = '';
+        puzzle[GameModel.NumCols * 2 + 1] = 'P';
+        result = game.validateMove(2, 1, 4, 1);
+        expect(result.status).toBe(false);
+        expect(result.reason).toBe('InvalidMovePattern');
+
+        // Try to move three spaces
+        result = game.validateMove(1, 1, 4, 1);
+        expect(result.status).toBe(false);
+        expect(result.reason).toBe('InvalidMovePattern');
+    });
+
+    test('Validation: White pawn capture', () => {
+        const game = new GameModel();
+        let puzzle = Array(64).fill('');
+
+        // Try to capture an enemy piece
+        puzzle[GameModel.NumCols + 1] = 'P';
+        puzzle[GameModel.NumCols * 2 + 2] = 'p';
+        game.loadPuzzle(puzzle);
+        let result = game.validateMove(1, 1, 2, 2);
+        expect(result.status).toBe(true);
+
+        // Try to capture a friendly piece
+        puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols + 1] = 'P';
+        puzzle[GameModel.NumCols * 2 + 2] = 'P';
+        game.loadPuzzle(puzzle);
+        result = game.validateMove(1, 1, 2, 2);
+        expect(result.status).toBe(false);
+
+        // Try to capture from the wrong direction
+        puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols * 5 + 5] = 'p';
+        puzzle[GameModel.NumCols * 6 + 6] = 'P';
+        game.loadPuzzle(puzzle);
+        result = game.validateMove(6, 6, 5, 5);
+        expect(result.status).toBe(false);
+
+        // Try to capture from second row to 4th row
+        puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols * 1 + 2] = 'P';
+        puzzle[GameModel.NumCols * 3 + 3] = 'p';
+        game.loadPuzzle(puzzle);
+        result = game.validateMove(1, 2, 3, 3);
+        expect(result.status).toBe(false);
+
+        // Try to capture an empty square
+        puzzle = Array(64).fill('');
+        puzzle[GameModel.NumCols + 1] = 'P';
+        puzzle[GameModel.NumCols * 2 + 2] = '';
+        game.loadPuzzle(puzzle);
+        result = game.validateMove(1, 1, 2, 2);
+        expect(result.status).toBe(false);
+    });
 });

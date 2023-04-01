@@ -23,6 +23,21 @@ function main() {
     */
 
     new GameView(new GameViewModel(new GameModel()));
+
+    /* TODO */
+
+    // Now: Fix pawn
+
+    // Add document.hash support
+    // Fix ViewPort
+    // Add tests for all pieces (including pawn)
+    // Add move counter (and num of moves needed for solution)
+    // Fix favicon
+    // Change puzzles to more varied and interesting ones
+    // Add board themes
+    // Add piece themes
+    // Fix main / gh-pages sync
+    // Publish
 }
 
 main();

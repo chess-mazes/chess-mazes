@@ -109,9 +109,31 @@ class GameModel {
 
         // Check if the piece is a pawn
         if (pieceType === "p") {
-            // Check if the pawn is moving to next row
-            if (endRow !== startRow + 1 && endRow !== startRow - 1) {
-                return ValidationResult.InvalidMovePattern;
+            const isWhite = startColor === PieceColor.White;
+            const isMovingOneRow = isWhite ? endRow === startRow + 1 : endRow === startRow - 1;
+            const isOnStartingRow = isWhite ? startRow === 1 : startRow === 6;
+            const isMovingTwoRowsFromStart = isWhite ? endRow === startRow + 2 : endRow === startRow - 2;
+        
+            if (!isMovingOneRow && !(isOnStartingRow && isMovingTwoRowsFromStart)) {
+                    return ValidationResult.InvalidMovePattern;
+            }
+
+            // Check if the pawn is moving to the same column
+            if (startCol !== endCol) {
+                // Check if the pawn is moving to the adjacent column (capturing)
+                if (Math.abs(startCol - endCol) !== 1) {
+                    return ValidationResult.InvalidMovePattern;
+                }
+
+                // Check if the pawn is capturing an enemy piece
+                if (endColor === PieceColor.EmptySquare) {
+                    return ValidationResult.PawnCapturingEmptySquare;
+                }
+            } else {
+                // Check if the pawn is moving to an empty square
+                if (endColor !== PieceColor.EmptySquare) {
+                    return ValidationResult.BlockedPath;
+                }
             }
         } else if (pieceType == "r") {
             // Check if the rook is moving horizontally or vertically

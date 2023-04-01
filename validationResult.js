@@ -3,6 +3,7 @@ class ValidationResult {
     static OutOfBounds = new ValidationResult(false, "OutOfBounds");
     static FriendlyPiece = new ValidationResult(false, "FriendlyPiece");
     static EmptyStartSquare = new ValidationResult(false, "EmptyStartSquare");
+    static PawnCapturingEmptySquare = new ValidationResult(false, "PawnCapturingEmptySquare");
     static EnemyPiece = new ValidationResult(false, "EnemyPiece");
     static SameSquare = new ValidationResult(false, "SameSquare");
     static BlockedPath = new ValidationResult(false, "BlockedPath");
