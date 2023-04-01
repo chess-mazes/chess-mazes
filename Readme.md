@@ -15,6 +15,4 @@ The puzzles that appear in the game are taken from the book <a href="https://www
 
 The assets (sounds, images) are licensed under Creative Commons Zero (CC0) and are attributed to their respective creators.
 
-The favicon is from <a href="https://tabler-icons.io/">Tabler icons</a> ("crown") and licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
-
 The game implementation is licensed under the <a href="https://opensource.org/license/mit/">MIT license</a>.
