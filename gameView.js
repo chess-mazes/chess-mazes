@@ -6,6 +6,7 @@ class GameView {
         this.gameViewModel = gameViewModel;
         this.draggedPiece = null;
         this.theme = 'theme-default';
+        this.arrows = [];
 
         gameViewModel.subscribe((event, data) => {
             console.log(`Event: ${event} Data: ${data}`);
@@ -21,9 +22,16 @@ class GameView {
             } else if (event === 'PlaySound') {
                 moveSound.currentTime = 0;
                 moveSound.play();
-            } else if (event === 'Check') {
-                this.checkPopup().then(() => this.gameViewModel.loadNextPuzzle());
-            } else if (event === 'WhiteThreatened') {
+            } else if (event === 'PuzzleSolved') {
+                this.puzzleSolvedPopup().then(() => this.gameViewModel.loadNextPuzzle());
+            } else if (event === 'TooManyMoves') {
+                let moveCount = data.moveCount;
+                let maxMoves = data.maxMoves;
+                this.tooManyMovesPopup(moveCount, maxMoves).then(
+                    () => this.gameViewModel.loadCurrentPuzzle()
+                );
+            }
+            else if (event === 'WhiteThreatened') {
                 let threatText = `${pieceNames[data.piece]} at ${rowColToAlgebraic(data.row, data.col)}`;
                 this.threatenedPopup(threatText).then(() => this.gameViewModel.loadCurrentPuzzle());
             } else if (event === 'SolvedPuzzlesChanged') {
@@ -49,6 +57,10 @@ class GameView {
                     element.classList.remove(oldTheme);
                     element.classList.add(this.theme);
                 });
+            } else if (event === 'DrawArrow') {
+                this.drawArrow(...data);
+            } else if (event === 'ShowCheatButton') {
+                document.getElementById('btnCheat').style.display = '';
             }
         });
 
@@ -69,7 +81,21 @@ class GameView {
         });
     }
 
-    checkPopup() {
+    tooManyMovesPopup(moveCount, maxMoves) {
+        return Swal.fire({
+            title: 'Try again!',
+            text: `You have made ${moveCount} moves, but this puzzle can be solved in ${maxMoves}. 👀`,
+            icon: 'error',
+            timerProgressBar: true,
+            confirmButtonText: 'OK',
+            customClass: {
+                popup: 'my-swal'
+            }
+        });
+    }
+
+
+    puzzleSolvedPopup() {
         return Swal.fire({
             title: 'Good job!',
             text: 'You have successfully checked the black king.',
@@ -83,6 +109,14 @@ class GameView {
         });
     }
 
+    drawArrow(startRow, startCol, endRow, endCol, color='blue') {
+        let boardElement = document.getElementById('board');
+        let startSquare = boardElement.querySelector(`[data-row="${startRow}"][data-col="${startCol}"]`);
+        let endSquare = boardElement.querySelector(`[data-row="${endRow}"][data-col="${endCol}"]`);
+
+        this.arrows.push(new LeaderLine(LeaderLine.pointAnchor(startSquare), LeaderLine.pointAnchor(endSquare), {color: color, size: 8, path: 'straight'}));
+    }
+
     setupInputHandlers() {
         // Button click handlers
         document.getElementById('btnPrev').addEventListener('click', () => this.gameViewModel.loadPrevPuzzle());
@@ -91,6 +125,7 @@ class GameView {
         document.getElementById('btnSound').addEventListener('click', () => this.gameViewModel.toggleSound());
         document.getElementById('btnAbout').addEventListener('click', () => this.showAbout());
         document.getElementById('btnNextTheme').addEventListener('click', () => this.gameViewModel.loadNextTheme());
+        document.getElementById('btnCheat').addEventListener('click', () => this.gameViewModel.cheatButtonPressed());
 
         // Board click handler
         document.getElementById('board').addEventListener('click', (event) => {
@@ -103,7 +138,6 @@ class GameView {
         });
 
         /* Board drag and drop handlers */
-
         document.getElementById('board').addEventListener('dragstart', (event) => {
             // check if the target has the class 'piece'
             if (!event.target.classList.contains('piece')) {
@@ -129,6 +163,17 @@ class GameView {
 
             this.draggedPiece = null;
         });
+
+        // Detect when the user types a cheat code ("godsavethequeen")
+        document.addEventListener('keydown', (event) => {
+            // get the pressed key code
+            let key = event.key;
+
+            // If key is alphanumeric, add it to the cheat code
+            if (key.match(/^[a-z0-9]$/i)) {
+                this.gameViewModel.cheatKeyTyped(key);
+            }
+        });
     }
 
     showAbout() {
@@ -147,6 +192,10 @@ class GameView {
         // (Re)draw the board
         const numRows = 8;
         const numCols = 8;
+
+        // Clear arrows
+        this.arrows.forEach(arrow => arrow.remove());
+        this.arrows = [];
 
         let boardElement = document.getElementById('board');
         boardElement.innerHTML = '';

@@ -26,13 +26,17 @@ function main() {
 
     /* TODO */
 
-    // Now: Add move counter (and num of moves needed for solution)
+    // Now: Write puzzle generator
 
+    // Auto generate n-depth puzzles for many pieces and scenarios
     // Add tests for all pieces (including pawn)
     // Change puzzles to more varied and interesting ones
     // Add piece themes
     // Fix main / gh-pages sync
     // Fix ViewPort
+    // Add title screen
+    // Add time attack mode
+    // Streamline UI
     // Publish
 }
 

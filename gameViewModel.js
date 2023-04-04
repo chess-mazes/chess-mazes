@@ -1,6 +1,8 @@
 import puzzles from './assets/puzzles/puzzles.js';
 import loadFromFEN from './fenLoader.js';
 import themes from './themes.js';
+import GameModel from './gameModel.js';
+import solvePuzzle from './solver.js';
 
 class GameViewModel {
     constructor(gameModel) {
@@ -12,6 +14,10 @@ class GameViewModel {
         this._title = 'Chess Mazes';
         this._solvedPuzzles = new Set();
         this._customPuzzle = false;
+        this._solutionLength = null;
+        this._moveCount = 0;
+        this._cheatCode = 'amaze';
+        this._enteredCheatCode = "";
 
         gameModel.subscribe(this._boardChanged.bind(this));
     }
@@ -57,10 +63,12 @@ class GameViewModel {
         let solvedText = this._solvedPuzzles.has(this._curPuzzle + 1) ? ' ✅' : '';
 
         this._gameModel.loadPuzzle(puzzles[this._curPuzzle]);
+        this._solvePuzzle(puzzles[this._curPuzzle]);
         this._setTitle(`Chess Mazes #${this._curPuzzle + 1}${solvedText}`);
         this._customPuzzle = false;
         localStorage.setItem('curPuzzle', this._curPuzzle);
         document.location.hash = this._curPuzzle + 1;
+        this._moveCount = 0;
     }
 
     loadNextPuzzle() {
@@ -93,6 +101,8 @@ class GameViewModel {
     loadFen(fenString) {
         let puzzle = loadFromFEN(fenString);
         this._gameModel.loadPuzzle(puzzle);
+        this._solvePuzzle(puzzle)
+        this._moveCount = 0;
         this._customPuzzle = true;
         this._setTitle('Custom Puzzle');
         document.location.hash = '';
@@ -126,6 +136,8 @@ class GameViewModel {
             return;
         }
 
+        this._moveCount++;
+
         if (this._soundOn) {
             this._notifySubscribers('PlaySound', null);
         }
@@ -144,8 +156,15 @@ class GameViewModel {
         }
 
         if (this._gameModel.validateMove(endRow, endCol, ...blackKingLocation).status === true) {
-            this._notifySubscribers('Check');
-            this._puzzleSolved();
+            if (this._solutionLength != null && this._moveCount > this._solutionLength) {
+                this._notifySubscribers('TooManyMoves', {
+                    moveCount: this._moveCount,
+                    maxMoves: this._solutionLength
+                });
+            } else {
+                this._notifySubscribers('PuzzleSolved', null);
+                this._puzzleSolved();
+            }
         }
     }
 
@@ -169,6 +188,49 @@ class GameViewModel {
     _notifySubscribers(event, data=null) {
         for (let subscriber of this._subscribers) {
             subscriber(event, data);
+        }
+    }
+
+    _solvePuzzle(puzzle, drawArrows=false) {
+        console.log('Solving puzzle...');
+        let startTime = performance.now();
+
+        let result = solvePuzzle(puzzle);
+        if (result == null) {
+            console.log('Could not solve puzzle');
+            this._solutionLength = null;
+        }
+
+        this._solutionLength = result.length - 1;
+        console.log(`Solved puzzle using ${this._solutionLength} moves in ${performance.now() - startTime} ms`);
+
+        if (drawArrows) {
+            // Draw the solution using DrawArrow events
+            let [startRow, startCol] = result[0];
+            for (let i = 1; i < result.length; i++) {
+                let [endRow, endCol] = result[i];
+                this._notifySubscribers('DrawArrow', [startRow, startCol, endRow, endCol]);
+                [startRow, startCol] = [endRow, endCol];
+            }
+        }
+    }
+
+    cheatKeyTyped(key) {
+        this._enteredCheatCode += key;
+        
+        // Slice the entered cheat to the length of the actual cheat code
+        this._enteredCheatCode = this._enteredCheatCode.slice(-this._cheatCode.length);
+        if (this._enteredCheatCode === this._cheatCode) {
+            this._enteredCheatCode = '';
+            this._notifySubscribers('ShowCheatButton', null);
+        }
+    }
+
+    cheatButtonPressed() {
+        if (this._customPuzzle) {
+            this._solvePuzzle(this._gameModel.getBoard(), true);
+        } else {
+            this._solvePuzzle(puzzles[this._curPuzzle], true);
         }
     }
 }
