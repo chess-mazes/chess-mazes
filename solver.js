@@ -30,7 +30,7 @@ function getPossibleMoves(game, row, col) {
     return possibleMoves;
 }
 
-function solve(game, whitePieceLocation, blackKingLocation) {
+function solve(game, whitePieceLocation, blackKingLocation, maxDepth=5) {
     let queue = [{
         game: game,
         whitePieceLocation: whitePieceLocation,
@@ -49,7 +49,7 @@ function solve(game, whitePieceLocation, blackKingLocation) {
             return path;
         }
 
-        if (path.length > 100) {
+        if (path.length > maxDepth) {
             continue;
         }
 

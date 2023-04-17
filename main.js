@@ -26,15 +26,15 @@ function main() {
 
     /* TODO */
 
-    // Now: Write puzzle generator
+    // Now: Write puzzle generator - Fix solver queen bug
 
     // Auto generate n-depth puzzles for many pieces and scenarios
     // Add tests for all pieces (including pawn)
-    // Change puzzles to more varied and interesting ones
     // Add piece themes
     // Fix main / gh-pages sync
     // Fix ViewPort
     // Add title screen
+    // Add tutorial / hints
     // Add time attack mode
     // Streamline UI
     // Publish

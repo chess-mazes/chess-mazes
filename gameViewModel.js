@@ -1,8 +1,8 @@
 import puzzles from './assets/puzzles/puzzles.js';
 import loadFromFEN from './fenLoader.js';
 import themes from './themes.js';
-import GameModel from './gameModel.js';
 import solvePuzzle from './solver.js';
+import { generatePuzzleRandom } from './generator.js';
 
 class GameViewModel {
     constructor(gameModel) {
@@ -30,38 +30,43 @@ class GameViewModel {
         if (localStorage.getItem('soundOn') === 'true') {
             this.toggleSound();
         }
-
+        
         let puzzleNum = null;
         if (document.location.hash) {
             puzzleNum = parseInt(document.location.hash.substring(1));
         }
-
+        
         if (puzzleNum >= 1 && puzzleNum <= puzzles.length) {
             this._curPuzzle = puzzleNum - 1;
         } else if (localStorage.getItem('curPuzzle')) {
             this._curPuzzle = parseInt(localStorage.getItem('curPuzzle'));
         }
-
+        
         if (localStorage.getItem('curTheme')) {
             this._curTheme = parseInt(localStorage.getItem('curTheme'));
             this.loadCurrentTheme();
         }
-
+        
         if (localStorage.getItem('solvedPuzzles')) {
             this._solvedPuzzles = new Set(JSON.parse(localStorage.getItem('solvedPuzzles')));
             this._notifySubscribers('SolvedPuzzlesChanged', this._solvedPuzzles);
         }
-
+        
         this.loadCurrentPuzzle();
 
         if (localStorage.getItem('aboutRead') !== 'true') {
             this._notifySubscribers('ShowAbout', null);
         }
-    }
 
+        let genPuzzle = generatePuzzleRandom(5);
+        if (genPuzzle) {
+            this._gameModel.loadPuzzle(genPuzzle);
+        }
+    }
+    
     loadCurrentPuzzle() {
         let solvedText = this._solvedPuzzles.has(this._curPuzzle + 1) ? ' ✅' : '';
-
+        
         this._gameModel.loadPuzzle(puzzles[this._curPuzzle]);
         this._solvePuzzle(puzzles[this._curPuzzle]);
         this._setTitle(`Chess Mazes #${this._curPuzzle + 1}${solvedText}`);
