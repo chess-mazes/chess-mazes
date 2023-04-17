@@ -1,3 +1,7 @@
+:root {
+  --board-size: 69vh;
+}
+
 body {
   font-family: Montserrat, Tahoma, Arial, sans-serif;
   display: flex;
@@ -13,8 +17,8 @@ body {
 }
 
 #board {
-  width: 800px;
-  height: 800px;
+  width: var(--board-size);
+  height: var(--board-size);
   border: 1px solid black;
   display: flex;
   flex-wrap: wrap;
@@ -23,8 +27,8 @@ body {
 
 .square {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: calc(var(--board-size) / 8);
+  height: calc(var(--board-size) / 8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,4 +198,10 @@ body {
 
 .github-fork-ribbon:before {
   background-color: #000;
+}
+
+@media screen and (max-height: 768px) {
+  :root {
+    --board-size: 60vh;
+  }
 }
