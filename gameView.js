@@ -121,7 +121,7 @@ class GameView {
         // Button click handlers
         document.getElementById('btnPrev').addEventListener('click', () => this.gameViewModel.loadPrevPuzzle());
         document.getElementById('btnNext').addEventListener('click', () => this.gameViewModel.loadNextPuzzle());
-        document.getElementById('btnLoadFen').addEventListener('click', () => this.gameViewModel.loadFen(prompt('Enter FEN string:')));
+        document.getElementById('btnLoadFen').addEventListener('click', () => this.gameViewModel.loadFen(prompt('Enter FEN string.')));
         document.getElementById('btnSound').addEventListener('click', () => this.gameViewModel.toggleSound());
         document.getElementById('btnAbout').addEventListener('click', () => this.showAbout());
         document.getElementById('btnNextTheme').addEventListener('click', () => this.gameViewModel.loadNextTheme());
