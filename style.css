@@ -200,7 +200,7 @@ body.dark-mode {
 
 .solved-container.dark-mode {
   background-color: #708090;
-  color: "white";
+  color: white;
 }
 
 .solved-item {
