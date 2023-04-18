@@ -5,6 +5,13 @@
 body {
   font-family: Montserrat, Tahoma, Arial, sans-serif;
   display: flex;
+  background-color: white;
+  color: black;
+}
+
+body.dark-mode { 
+  background-color: black;
+  color: white;
 }
 
 #page-title {
@@ -23,6 +30,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: 1rem;
+}
+
+#board.dark-mode {
+  border: 1px solid grey;
 }
 
 .square {
@@ -174,12 +185,22 @@ body {
   display: none;
 }
 
+.button.dark-mode {
+  background-color: black;
+  border: 1px solid rgba(256, 256, 256, 0.2);
+}
+
 .solved-container {
   background-color: #e0e0f0;
   border-radius: 25px;
   padding: 10px;
   margin: 10px;
   display: inline-block;
+}
+
+.solved-container.dark-mode {
+  background-color: #708090;
+  color: "white";
 }
 
 .solved-item {

@@ -32,7 +32,7 @@ class GameViewModel {
             this.toggleSound();
         }
 
-        // Apply theme according to localStorage value
+        // Apply themeMode according to localStorage value
         localStorage.getItem('themeMode') === 'dark' ? this.applyThemeMode('dark') : this.applyThemeMode('light');
 
         let puzzleNum = null;
@@ -64,34 +64,9 @@ class GameViewModel {
     }
 
     applyThemeMode(mode) {
-        const body = document.body;
-        const themeModeButton = document.getElementById("btnDarkMode");
-    
-        // Set the text and value of the button based on the mode
-        themeModeButton.innerText = mode === "dark" ? "Light Mode" : "Dark Mode";
-        themeModeButton.value = mode === "dark" ? "light" : "dark";
-    
-        // Apply Dark/Light theme to UI elements:
-        body.style.backgroundColor = mode === "dark" ? "black" : "white";
-        body.style.color = mode === "dark" ? "white" : "black";
-
-        // - Board border
-        document.getElementById("board").style.border = mode === "dark" ? "1px solid grey" : "1px solid black";
-
-        // - Buttons bgColor, color & border
-        const buttons = document.getElementsByClassName("button");
-        Array.from(buttons).forEach((button) => {
-            button.style.backgroundColor = mode == "dark" ? "black" : "#FAFBFC";
-            button.style.border = mode == "dark" ? "1px solid rgba(256, 256, 256, 0.2)" : "1px solid rgba(27, 31, 35, 0.15)";
-        })
-
-        // - Solved puzzles container
-        const solvedContainer = document.getElementById("solved-container");
-        solvedContainer.style.backgroundColor = mode == "dark" ? "#708090" : "#e0e0f0";
-        solvedContainer.style.color = mode == "dark" ? "white" : "black";
-
         this._curThemeMode = mode;
         localStorage.setItem("themeMode", this._curThemeMode);
+        this._notifySubscribers("ChangeThemeMode", mode);
     }
 
     loadCurrentPuzzle() {
