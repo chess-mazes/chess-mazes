@@ -126,6 +126,7 @@ class GameView {
         document.getElementById('btnAbout').addEventListener('click', () => this.showAbout());
         document.getElementById('btnNextTheme').addEventListener('click', () => this.gameViewModel.loadNextTheme());
         document.getElementById('btnCheat').addEventListener('click', () => this.gameViewModel.cheatButtonPressed());
+        document.getElementById('btnDarkMode').addEventListener('click', (event) => this.gameViewModel.applyThemeMode(event.target.value));
 
         // Board click handler
         document.getElementById('board').addEventListener('click', (event) => {
