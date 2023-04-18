@@ -61,6 +61,24 @@ class GameView {
                 this.drawArrow(...data);
             } else if (event === 'ShowCheatButton') {
                 document.getElementById('btnCheat').style.display = '';
+            } else if (event === 'ChangeThemeMode') {
+                const body = document.body;
+                const themeModeButton = document.getElementById("btnDarkMode");
+                const board = document.getElementById("board");
+                const buttons = document.getElementsByClassName("button");
+                const solvedContainer = document.getElementById("solved-container");
+               
+                const isDarkMode = data === "dark";
+
+                themeModeButton.innerText = isDarkMode ? "Light Mode" : "Dark Mode";
+                themeModeButton.value = isDarkMode ? "light" : "dark";
+                body.classList.toggle("dark-mode", isDarkMode);
+                board.classList.toggle("dark-mode", isDarkMode);
+                solvedContainer.classList.toggle("dark-mode", isDarkMode);
+
+                Array.from(buttons).forEach((button) => {
+                button.classList.toggle("dark-mode", isDarkMode);
+                });
             }
         });
 
@@ -126,6 +144,7 @@ class GameView {
         document.getElementById('btnAbout').addEventListener('click', () => this.showAbout());
         document.getElementById('btnNextTheme').addEventListener('click', () => this.gameViewModel.loadNextTheme());
         document.getElementById('btnCheat').addEventListener('click', () => this.gameViewModel.cheatButtonPressed());
+        document.getElementById('btnDarkMode').addEventListener('click', (event) => this.gameViewModel.applyThemeMode(event.target.value));
 
         // Board click handler
         document.getElementById('board').addEventListener('click', (event) => {

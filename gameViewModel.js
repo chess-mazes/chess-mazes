@@ -10,6 +10,7 @@ class GameViewModel {
         this._subscribers = [];
         this._curPuzzle = 0;
         this._curTheme = 0;
+        this._curThemeMode = "light";
         this._soundOn = false;
         this._title = 'Chess Mazes';
         this._solvedPuzzles = new Set();
@@ -30,6 +31,9 @@ class GameViewModel {
         if (localStorage.getItem('soundOn') === 'true') {
             this.toggleSound();
         }
+
+        // Apply themeMode according to localStorage value
+        localStorage.getItem('themeMode') === 'dark' ? this.applyThemeMode('dark') : this.applyThemeMode('light');
 
         let puzzleNum = null;
         if (document.location.hash) {
@@ -57,6 +61,12 @@ class GameViewModel {
         if (localStorage.getItem('aboutRead') !== 'true') {
             this._notifySubscribers('ShowAbout', null);
         }
+    }
+
+    applyThemeMode(mode) {
+        this._curThemeMode = mode;
+        localStorage.setItem("themeMode", this._curThemeMode);
+        this._notifySubscribers("ChangeThemeMode", mode);
     }
 
     loadCurrentPuzzle() {

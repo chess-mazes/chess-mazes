@@ -5,6 +5,13 @@
 body {
   font-family: Montserrat, Tahoma, Arial, sans-serif;
   display: flex;
+  background-color: white;
+  color: black;
+}
+
+body.dark-mode { 
+  background-color: black;
+  color: white;
 }
 
 #page-title {
@@ -25,6 +32,10 @@ body {
   margin: 1rem;
 }
 
+#board.dark-mode {
+  border: 1px solid grey;
+}
+
 .square {
   position: relative;
   width: calc(var(--board-size) / 8);
@@ -32,6 +43,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
 }
 
 .piece {
@@ -123,7 +135,7 @@ body {
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
   box-sizing: border-box;
-  color: #24292E;
+  color: inherit;
   cursor: pointer;
   display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -173,12 +185,22 @@ body {
   display: none;
 }
 
+.button.dark-mode {
+  background-color: black;
+  border: 1px solid rgba(256, 256, 256, 0.2);
+}
+
 .solved-container {
   background-color: #e0e0f0;
   border-radius: 25px;
   padding: 10px;
   margin: 10px;
   display: inline-block;
+}
+
+.solved-container.dark-mode {
+  background-color: #708090;
+  color: white;
 }
 
 .solved-item {
