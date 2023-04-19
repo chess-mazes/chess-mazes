@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { Board } from "./Board";
 import { themeList } from "./themes/themes";
-import { repository } from "@/../package.json";
+import { repository, displayName } from "@/../package.json";
 import "./themes/themes.css";
 import "./App.css";
+import { ActionButtons } from "./ActionButtons";
 
 const App = () => {
   const theme = useRef(themeList[0]).current;
@@ -18,9 +19,11 @@ const App = () => {
       >
         Fork me on GitHub
       </a>
-      <div>
+      <div className="flex flex-col items-center h-screen w-screen overflow-hidden">
+        <h1>{displayName}</h1>
         <Board theme={theme}></Board>
         <p>App view</p>
+        <ActionButtons theme={theme}></ActionButtons>
       </div>
     </>
   );

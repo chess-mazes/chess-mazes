@@ -6,5 +6,5 @@ export interface BoardProps {
 }
 
 export const Board: FC<BoardProps> = ({ theme }) => {
-  return <div className={`theme-${theme}`}>Board</div>;
+  return <div className={`theme-${theme} flex-auto`}>Board</div>;
 };

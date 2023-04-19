@@ -1,3 +1,36 @@
 .github-fork-ribbon:before {
   background-color: #000;
 }
+
+/* 
+tailwind css classes:
+consider using the actual tailwind configuration in the future
+*/
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.h-screen {
+  height: 100vh;
+}
+.w-screen {
+  width: 100vw;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.flex-auto {
+  flex: 1 1 auto;
+}
