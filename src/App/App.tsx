@@ -4,7 +4,7 @@ import { themeList } from "./themes/themes";
 import { repository, displayName } from "@/../package.json";
 import "./themes/themes.css";
 import "./App.css";
-import { ActionButtons } from "./ActionButtons";
+import { ActionButtons } from "./ActionButtons/ActionButtons";
 
 const App = () => {
   const theme = useRef(themeList[0]).current;
