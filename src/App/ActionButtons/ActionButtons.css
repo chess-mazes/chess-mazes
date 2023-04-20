@@ -24,6 +24,8 @@
   vertical-align: middle;
   white-space: nowrap;
   word-wrap: break-word;
+  margin-top: 0.5rem;
+  margin-inline: 0.25rem;
 }
 
 .button:hover {
@@ -81,4 +83,10 @@ consider using the actual tailwind configuration in the future
 }
 .flex-row {
   flex-direction: row;
+}
+.justify-center {
+  justify-content: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }

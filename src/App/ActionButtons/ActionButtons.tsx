@@ -8,7 +8,7 @@ export interface ActionButtonsProps {
 
 export const ActionButtons: FC<ActionButtonsProps> = ({ theme }) => {
   return (
-    <div className={`theme-${theme} flex flex-row`}>
+    <div className={`theme-${theme} flex flex-row justify-center flex-wrap`}>
       <button className="button" id="btnPrev">
         Previous
       </button>
