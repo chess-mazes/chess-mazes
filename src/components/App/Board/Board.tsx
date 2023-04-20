@@ -1,4 +1,6 @@
-import { FC, useRef } from "react";
+import { useForceUpdate } from "@/hooks/useForceUpdate";
+import { GameModel } from "@/lib/model/gameModel";
+import { FC, useCallback } from "react";
 import { BoardState } from "../App";
 import "./Board.css";
 
@@ -12,9 +14,29 @@ export interface BoardProps {
 // 2. "max-h-w-screen"- max-height: 100vw, which makes sure that the flex-auto will not stretch the board div beyond the width of the screen.
 // TODO: maybe it can be done better, but I couldn't make anything else work, so maybe in the future I'll revisit this.
 export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
-  const boardElements = Array.from({ length: 8 }, () =>
-    Array.from({ length: 8 }, () => useRef<HTMLDivElement>(null))
-  );
+  const forceUpdate = useForceUpdate();
+
+  const move = useCallback((board: BoardState, row: number, col: number) => {
+    const game = new GameModel();
+    game.loadPuzzle(board.board);
+    const pieceLoc = game.locateWhitePiece();
+    if (!pieceLoc) return;
+    const [startRow, startCol] = pieceLoc;
+    const moved = game.movePiece(startRow, startCol, row, col);
+    if (moved) {
+      // TODO: play sound
+      const threat = game.findSquareThreat(row, col, true);
+      if (threat) {
+        // TODO: add a "threatened" toast here
+        game.movePiece(row, col, startRow, startCol);
+        return;
+      }
+      board.board = game.getBoard();
+      forceUpdate();
+
+      // TODO: check if the puzzle is solved
+    }
+  }, []);
 
   return (
     <div className="flex flex-col aspect-square max-w-full flex-auto max-h-[100vw] text-black">
@@ -31,7 +53,12 @@ export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
                   className={`aspect-square square w-full h-full  ${
                     (row + col) % 2 === 0 ? "bg-chess-light" : "bg-chess-dark"
                   }`}
-                  ref={boardElements[row][col]}
+                  onClick={() => move(boardState, _row, col)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    move(boardState, _row, col);
+                  }}
+                  onDragOver={(e) => e.preventDefault()}
                 >
                   <Square content={boardState.board[_row * 8 + col]} />
                   {col === 0 && <div className="number-label">{row + 1}</div>}
