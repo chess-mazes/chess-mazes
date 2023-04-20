@@ -1,4 +1,5 @@
 import { puzzles } from "@/lib/puzzles/puzzles";
+import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback } from "react";
 import { Theme, themeList } from "../themes/themes";
 import "./ActionButtons.css";
@@ -22,16 +23,25 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
       return (prev + 1) % puzzles.length;
     });
   }, [setPuzzleNum]);
+
   const loadFenButtonClick = useCallback(() => {}, []);
+
   const soundModeButtonClick = useCallback(() => {}, []);
+
   const nextThemeButtonClick = useCallback(() => {
     setTheme((theme) => {
       const nextThemeIndex = (themeList.indexOf(theme) + 1) % themeList.length;
       return themeList[nextThemeIndex];
     });
   }, [setTheme]);
-  const darkModeButtonClick = useCallback(() => {}, []);
+
+  const { setThemeMode } = usePreferences();
+  const darkModeButtonClick = useCallback(() => {
+    setThemeMode((themeMode) => (themeMode === "dark" ? "light" : "dark"));
+  }, [setThemeMode]);
+
   const cheatButtonClick = useCallback(() => {}, []);
+
   const aboutButtonClick = useCallback(() => {}, []);
   return (
     <div className={`flex flex-row justify-center flex-wrap`}>

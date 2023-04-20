@@ -1,10 +1,9 @@
 .button {
   appearance: none;
-  background-color: #fafbfc;
-  border: 1px solid rgba(27, 31, 35, 0.15);
+  background-color: var(--background1);
+  border: 1px solid var(--background5);
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0,
-    rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-shadow: var(--background5) 0 1px 0, var(--background4) 0 1px 0 inset;
   box-sizing: border-box;
   color: inherit;
   cursor: pointer;
@@ -29,21 +28,21 @@
 }
 
 .button:hover {
-  background-color: #f3f4f6;
+  background-color: var(--background4);
   text-decoration: none;
   transition-duration: 0.1s;
 }
 
 .button:disabled {
-  background-color: #fafbfc;
+  background-color: var(--background2);
   border-color: rgba(27, 31, 35, 0.15);
-  color: #959da5;
+  color: var(--background5);
   cursor: default;
 }
 
 .button:active {
   background-color: #edeff2;
-  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  box-shadow: var(--background4) 0 1px 0 inset;
   transition: none 0s;
 }
 
@@ -60,6 +59,6 @@
 }
 
 .button.dark-mode {
-  background-color: black;
+  background-color: var(--text);
   border: 1px solid rgba(256, 256, 256, 0.2);
 }

@@ -13,6 +13,26 @@ body {
   height: 100vh;
 }
 
-.github-fork-ribbon:before {
-  background-color: #000;
+.theme-mode-dark {
+  --text: #fff;
+  --background1: #000;
+  --background2: #111;
+  --background3: #222;
+  --background4: #333;
+  --background5: #444;
+
+  background-color: var(--background1);
+  color: var(--text);
+}
+
+.theme-mode-light {
+  --text: #000;
+  --background1: #fff;
+  --background2: #eee;
+  --background3: #ddd;
+  --background4: #ccc;
+  --background5: #bbb;
+
+  background-color: var(--background1);
+  color: var(--text);
 }
