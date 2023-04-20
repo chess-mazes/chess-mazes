@@ -59,7 +59,7 @@ const App = () => {
 
   return (
     <div
-      className={`flex flex-col items-center h-screen w-screen overflow-hidden theme-${theme}`}
+      className={`flex flex-col h-screen w-screen overflow-hidden theme-${theme}`}
     >
       <div className="flex flex-row items-center w-full py-2">
         <p className="text-4xl mx-auto ">
@@ -80,11 +80,13 @@ const App = () => {
           GitHub
         </a>
       </div>
-      <Board
-        boardState={boardState}
-        setPuzzleNum={setPuzzleNum}
-        puzzleNum={puzzleNum}
-      />
+      <div className="flex-grow overflow-hidden">
+        <Board
+          boardState={boardState}
+          setPuzzleNum={setPuzzleNum}
+          puzzleNum={puzzleNum}
+        />
+      </div>
       <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
     </div>
   );

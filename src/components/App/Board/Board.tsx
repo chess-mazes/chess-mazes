@@ -86,7 +86,7 @@ export const Board: FC<BoardProps> = ({
   }, [puzzleNum]);
 
   return (
-    <div className="flex flex-col aspect-square max-w-full flex-auto max-h-[100vw] text-black">
+    <div className="flex flex-col aspect-square max-w-full flex-auto max-h-[100%] mx-auto text-black">
       {Array.from({ length: 8 }, (_, _row) => {
         const row = 7 - _row;
         return (
