@@ -49,14 +49,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (puzzleNum < 0 || puzzleNum >= puzzles.length) return;
-    if (boardState.id !== puzzleNum) {
-      boardState.id = puzzleNum;
-      boardState.puzzle = structuredClone(puzzles[puzzleNum]);
-    }
-  }, [puzzleNum]);
-
   return (
     <div
       className={`flex flex-col h-screen w-screen overflow-hidden theme-${theme}`}
