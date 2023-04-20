@@ -15,9 +15,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({ theme, setTheme }) => {
   const soundModeButtonClick = useCallback(() => {}, []);
   const nextThemeButtonClick = useCallback(() => {
     setTheme((theme) => {
-      console.log(theme);
       const nextThemeIndex = (themeList.indexOf(theme) + 1) % themeList.length;
-      console.log(themeList[nextThemeIndex]);
       return themeList[nextThemeIndex];
     });
   }, [setTheme]);

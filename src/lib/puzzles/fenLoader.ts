@@ -1,3 +1,5 @@
+import { Board } from "../types";
+
 const isNumeric = (str: string) => /^\d+$/.test(str);
 const isDigit = (char: string) => isNumeric(char);
 
@@ -21,5 +23,3 @@ export const loadFromFEN = (fenString: string): Board => {
   if (board.length !== 64) throw new Error("Invalid FEN string: " + fenString);
   return board;
 };
-
-export type Board = string[];
