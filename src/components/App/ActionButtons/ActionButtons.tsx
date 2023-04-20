@@ -1,3 +1,4 @@
+import { loadFromFEN } from "@/lib/puzzles/fenLoader";
 import { puzzles } from "@/lib/puzzles/puzzles";
 import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback } from "react";
@@ -24,7 +25,13 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
     });
   }, [setPuzzleNum]);
 
-  const loadFenButtonClick = useCallback(() => {}, []);
+  const loadFenButtonClick = useCallback(() => {
+    // TODO: this can be implemented more elegantly
+    const fen = prompt("Enter FEN:");
+    if (fen === null) return;
+    puzzles.push(loadFromFEN(fen));
+    setPuzzleNum(puzzles.length - 1);
+  }, [puzzles]);
 
   const nextThemeButtonClick = useCallback(() => {
     setTheme((theme) => {
