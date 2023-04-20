@@ -1,0 +1,19 @@
+.square {
+  position: relative;
+  width: 12.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.number-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.letter-label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}

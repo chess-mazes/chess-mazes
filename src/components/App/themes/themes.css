@@ -1,0 +1,16 @@
+.theme-default {
+  --chess-light: #dee3e6;
+  --chess-dark: #8ca2ad;
+}
+.theme-candy {
+  --chess-light: #f9e3e3;
+  --chess-dark: #f9c3c3;
+}
+.theme-wood {
+  --chess-light: #f0d9b5;
+  --chess-dark: #b48863;
+}
+.theme-emerald {
+  --chess-light: #eeeed3;
+  --chess-dark: #759656;
+}
