@@ -20,9 +20,8 @@ const App = () => {
         Fork me on GitHub
       </a>
       <div className="flex flex-col items-center h-screen w-screen overflow-hidden">
-        <h1>{displayName}</h1>
+        <h1 className="py-2 m-0">{displayName}</h1>
         <Board theme={theme}></Board>
-        <p>App view</p>
         <ActionButtons theme={theme}></ActionButtons>
       </div>
     </>

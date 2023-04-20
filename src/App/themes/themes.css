@@ -2,18 +2,22 @@
   --light: #dee3e6;
   --dark: #8ca2ad;
 }
-
 .theme-candy {
   --light: #f9e3e3;
   --dark: #f9c3c3;
 }
-
 .theme-wood {
   --light: #f0d9b5;
   --dark: #b48863;
 }
-
 .theme-emerald {
   --light: #eeeed3;
   --dark: #759656;
+}
+
+.white-square {
+  background-color: var(--dark);
+}
+.black-square {
+  background-color: var(--light);
 }

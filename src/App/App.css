@@ -34,3 +34,9 @@ consider using the actual tailwind configuration in the future
 .flex-auto {
   flex: 1 1 auto;
 }
+.py-2 {
+  padding-block: 0.5rem;
+}
+.m-0 {
+  margin: 0;
+}

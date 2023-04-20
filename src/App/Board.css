@@ -1,0 +1,61 @@
+.square {
+  position: relative;
+  width: 12.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.number-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.letter-label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+/* 
+tailwind css classes:
+consider using the actual tailwind configuration in the future
+*/
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.flex-auto {
+  flex: 1 1 auto;
+}
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+.max-w-full {
+  max-width: 100%;
+}
+.max-h-full {
+  max-height: 100%;
+}
+.max-h-w-screen {
+  max-height: 100vw;
+}
