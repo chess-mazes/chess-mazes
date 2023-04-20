@@ -26,8 +26,6 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
 
   const loadFenButtonClick = useCallback(() => {}, []);
 
-  const soundModeButtonClick = useCallback(() => {}, []);
-
   const nextThemeButtonClick = useCallback(() => {
     setTheme((theme) => {
       const nextThemeIndex = (themeList.indexOf(theme) + 1) % themeList.length;
@@ -35,10 +33,13 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
     });
   }, [setTheme]);
 
-  const { setThemeMode } = usePreferences();
+  const { themeMode, setThemeMode, soundMode, setSoundMode } = usePreferences();
   const darkModeButtonClick = useCallback(() => {
     setThemeMode((themeMode) => (themeMode === "dark" ? "light" : "dark"));
   }, [setThemeMode]);
+  const soundModeButtonClick = useCallback(() => {
+    setSoundMode((soundMode) => !soundMode);
+  }, [setSoundMode]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -55,7 +56,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
         Load FEN
       </button>
       <button className="button" id="btnSound" onClick={soundModeButtonClick}>
-        Sound: Off
+        {soundMode ? "🔊" : "🔇"}
       </button>
       <button
         className="button"
@@ -70,7 +71,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
         value="dark"
         onClick={darkModeButtonClick}
       >
-        Dark Mode
+        {themeMode === "dark" ? "🌞" : "🌙"}
       </button>
       <button
         className="button hidden"
