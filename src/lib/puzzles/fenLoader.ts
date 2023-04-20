@@ -11,7 +11,7 @@ export const loadFromFEN = (fenString: string): Board => {
   for (const line of lines) {
     for (const char of line) {
       if (isDigit(char)) {
-        for (let i = 0; i < char.charCodeAt(0); i++) {
+        for (let i = 0; i < parseInt(char[0]); i++) {
           board.push("");
         }
       } else {

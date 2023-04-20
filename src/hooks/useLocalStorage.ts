@@ -47,12 +47,10 @@ export function useLocalStorage<T>(
     if (onInit) onInit(value);
     return value;
   });
-  const setValue: SetLocalObjectType<T> = (value) => {
+  const setValue: React.Dispatch<React.SetStateAction<T>> = (value) => {
     const valueToStore = value instanceof Function ? value(storedValue) : value;
     setStoredValue(valueToStore);
     storageEntry.current.set(valueToStore);
   };
   return [storedValue, setValue] as const;
 }
-
-export type SetLocalObjectType<T> = (value: T | ((val: T) => T)) => void;

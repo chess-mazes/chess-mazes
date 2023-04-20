@@ -1,16 +1,27 @@
-import { SetLocalObjectType } from "@/hooks/useLocalStorage";
+import { puzzles } from "@/lib/puzzles/puzzles";
 import { FC, useCallback } from "react";
 import { Theme, themeList } from "../themes/themes";
 import "./ActionButtons.css";
 
 export interface ActionButtonsProps {
-  theme: Theme;
-  setTheme: SetLocalObjectType<Theme>;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+  setPuzzleNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const ActionButtons: FC<ActionButtonsProps> = ({ theme, setTheme }) => {
-  const previousButtonClick = useCallback(() => {}, []);
-  const nextButtonClick = useCallback(() => {}, []);
+export const ActionButtons: FC<ActionButtonsProps> = ({
+  setTheme,
+  setPuzzleNum,
+}) => {
+  const previousButtonClick = useCallback(() => {
+    setPuzzleNum((prev) => {
+      return (prev + puzzles.length - 1) % puzzles.length;
+    });
+  }, [setPuzzleNum]);
+  const nextButtonClick = useCallback(() => {
+    setPuzzleNum((prev) => {
+      return (prev + 1) % puzzles.length;
+    });
+  }, [setPuzzleNum]);
   const loadFenButtonClick = useCallback(() => {}, []);
   const soundModeButtonClick = useCallback(() => {}, []);
   const nextThemeButtonClick = useCallback(() => {
