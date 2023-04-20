@@ -17,9 +17,7 @@ export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
   );
 
   return (
-    <div
-      className={`flex flex-col aspect-square max-w-full flex-auto max-h-[100vw] text-black`}
-    >
+    <div className="flex flex-col aspect-square max-w-full flex-auto max-h-[100vw] text-black">
       {Array.from({ length: 8 }, (_, _row) => {
         const row = 7 - _row;
         return (
@@ -57,8 +55,11 @@ export const Square: FC<{ content: string }> = ({ content }) => {
   const player = content.toLowerCase() === content ? "b" : "w";
   return (
     <img
-      className="p-1"
+      className="p-1 aspect-square object-contain"
       src={`./assets/pieceImages/${player}_${content.toLowerCase()}.png`}
+      alt={content}
+      width="100%"
+      height="100%"
     ></img>
   );
 };
