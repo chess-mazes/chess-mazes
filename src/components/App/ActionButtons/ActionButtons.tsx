@@ -63,7 +63,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
         Dark Mode
       </button>
       <button
-        className="button d-none"
+        className="button hidden"
         id="btnCheat"
         onClick={cheatButtonClick}
       >

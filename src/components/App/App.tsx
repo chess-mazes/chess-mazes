@@ -4,8 +4,7 @@ import { puzzles } from "@/lib/puzzles/puzzles";
 import { Board as BoardType } from "@/lib/types";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActionButtons } from "./ActionButtons/ActionButtons";
-import "./App.css";
-import { Board } from "./Board";
+import { Board } from "./Board/Board";
 import { Theme, themeList } from "./themes/themes";
 import "./themes/themes.css";
 
@@ -59,23 +58,29 @@ const App = () => {
   }, [puzzleNum]);
 
   return (
-    <>
-      <a
-        className="github-fork-ribbon"
-        href={repository.url}
-        data-ribbon="Fork me on GitHub"
-        title="Fork me on GitHub"
-      >
-        Fork me on GitHub
-      </a>
-      <div
-        className={`flex flex-col items-center h-screen w-screen overflow-hidden theme-${theme}`}
-      >
-        <h1 className="py-2 m-0">{displayName}</h1>
-        <Board boardState={boardState} setPuzzleNum={setPuzzleNum} />
-        <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
+    <div
+      className={`flex flex-col items-center h-screen w-screen overflow-hidden theme-${theme}`}
+    >
+      <div className="flex flex-row items-center w-full py-2">
+        <p className="text-4xl mx-auto ">{displayName}</p>
+        <a
+          href={repository.url}
+          title="Fork me on GitHub"
+          className="pe-2 absolute text-blue-600 hover:text-blue-400 right-0 hidden sm:block"
+        >
+          Fork me on GitHub
+        </a>
+        <a
+          href={repository.url}
+          title="Fork me on GitHub"
+          className="pe-2 absolute text-blue-600 hover:text-blue-400 right-0 sm:hidden"
+        >
+          GitHub
+        </a>
       </div>
-    </>
+      <Board boardState={boardState} setPuzzleNum={setPuzzleNum} />
+      <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
+    </div>
   );
 };
 

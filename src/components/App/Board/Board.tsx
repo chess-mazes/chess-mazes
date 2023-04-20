@@ -1,5 +1,5 @@
 import { FC, useRef } from "react";
-import { BoardState } from "./App";
+import { BoardState } from "../App";
 import "./Board.css";
 
 export interface BoardProps {
@@ -18,7 +18,7 @@ export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
 
   return (
     <div
-      className={`flex flex-col aspect-square max-w-full flex-auto max-h-w-screen`}
+      className={`flex flex-col aspect-square max-w-full flex-auto max-h-[100vw]`}
     >
       {Array.from({ length: 8 }, (_, _row) => {
         const row = 7 - _row;
@@ -26,20 +26,21 @@ export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
           <div className="flex flex-auto flex-row" key={row}>
             {Array.from({ length: 8 }, (_, col) => (
               <div
-                className="flex flex-auto justify-center items-center"
+                className="flex w-full h-full justify-center items-center"
                 key={col}
               >
                 <div
-                  className={`aspect-square square w-full h-full ${
-                    (row + col) % 2 === 0 ? "white-square" : "black-square"
+                  className={`aspect-square square w-full h-full  ${
+                    (row + col) % 2 === 0 ? "bg-chess-light" : "bg-chess-dark"
                   }`}
                   ref={boardElements[row][col]}
                 >
-                  {/* {boardState.board[_row * 8 + col]} */}
+                  <Square content={boardState.board[_row * 8 + col]} />
                   {col === 0 && <div className="number-label">{row + 1}</div>}
                   {row === 0 && (
                     <div className="letter-label">
-                      {String.fromCharCode(65 + col)}
+                      {String.fromCharCode(97 + col)}
+                      {/* uppercase: {String.fromCharCode(65 + col)} */}
                     </div>
                   )}
                 </div>
@@ -49,5 +50,15 @@ export const Board: FC<BoardProps> = ({ boardState, setPuzzleNum }) => {
         );
       })}
     </div>
+  );
+};
+export const Square: FC<{ content: string }> = ({ content }) => {
+  if (content === "") return <></>;
+  const player = content.toLowerCase() === content ? "b" : "w";
+  return (
+    <img
+      className="p-1"
+      src={`./assets/pieceImages/${player}_${content.toLowerCase()}.png`}
+    ></img>
   );
 };

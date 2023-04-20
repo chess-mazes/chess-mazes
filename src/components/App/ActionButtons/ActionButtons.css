@@ -63,30 +63,3 @@
   background-color: black;
   border: 1px solid rgba(256, 256, 256, 0.2);
 }
-
-/* 
-tailwind css classes:
-consider using the actual tailwind configuration in the future
-*/
-
-.flex-auto {
-  flex: 1 1 auto;
-}
-.d-none {
-  display: none;
-}
-.flex {
-  display: flex;
-}
-.flex-col {
-  flex-direction: column;
-}
-.flex-row {
-  flex-direction: row;
-}
-.justify-center {
-  justify-content: center;
-}
-.flex-wrap {
-  flex-wrap: wrap;
-}

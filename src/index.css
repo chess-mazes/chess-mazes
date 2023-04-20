@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css");
 @import url("https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css");
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
