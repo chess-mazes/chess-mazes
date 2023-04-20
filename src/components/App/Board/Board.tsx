@@ -2,6 +2,7 @@ import { useForceUpdate } from "@/hooks/useForceUpdate";
 import { GameModel } from "@/lib/model/gameModel";
 import { puzzles } from "@/lib/puzzles/puzzles";
 import { pieceNames } from "@/lib/tools/pieceLookup";
+import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { BoardState } from "../App";
 import "./Board.css";
@@ -23,6 +24,9 @@ export const Board: FC<BoardProps> = ({
 }) => {
   const forceUpdate = useForceUpdate();
   const moveCount = useRef(0);
+  const moveSound = useRef(new Audio("/assets/moveSound/move.mp3")).current;
+
+  const { soundMode } = usePreferences();
 
   const move = useCallback(
     (boardS: BoardState, row: number, col: number) => {
@@ -34,7 +38,7 @@ export const Board: FC<BoardProps> = ({
       const oldBoard = structuredClone(boardS.puzzle.board);
       const moved = game.movePiece(startRow, startCol, row, col);
       if (moved) {
-        // TODO: play sound
+        if (soundMode) moveSound.play();
         const threat = game.findSquareThreat(row, col, true);
         if (threat) {
           alert(
