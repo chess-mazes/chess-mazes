@@ -34,9 +34,8 @@ export class GameModel {
     "",
   ];
 
-  private board: Board = [];
   private subscribers: Function[] = [];
-  constructor() {}
+  constructor(public board: Board = []) {}
 
   loadPuzzle(puzzle: Board) {
     let board = JSON.parse(JSON.stringify(puzzle));

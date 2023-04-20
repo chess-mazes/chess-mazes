@@ -1,7 +1,7 @@
 import { displayName, repository } from "@/../package.json";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { puzzles } from "@/lib/puzzles/puzzles";
-import { Board as BoardType } from "@/lib/types";
+import { Puzzle } from "@/lib/types";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActionButtons } from "./ActionButtons/ActionButtons";
 import { Board } from "./Board/Board";
@@ -9,12 +9,12 @@ import { Theme, themeList } from "./themes/themes";
 import "./themes/themes.css";
 
 export type BoardState = {
-  board: BoardType;
+  puzzle: Puzzle;
   id: number;
 };
 
 export const initialBoardState: BoardState = {
-  board: structuredClone(puzzles[0]),
+  puzzle: structuredClone(puzzles[0]),
   id: 0,
 };
 
@@ -30,7 +30,7 @@ const App = () => {
         const newPuzzleNum =
           typeof newNum === "function" ? newNum(prev) : newNum;
         boardState.id = newPuzzleNum;
-        boardState.board = structuredClone(puzzles[newPuzzleNum]);
+        boardState.puzzle = structuredClone(puzzles[newPuzzleNum]);
         document.location.hash = newPuzzleNum.toString();
         return newPuzzleNum;
       });
@@ -53,7 +53,7 @@ const App = () => {
     if (puzzleNum < 0 || puzzleNum >= puzzles.length) return;
     if (boardState.id !== puzzleNum) {
       boardState.id = puzzleNum;
-      boardState.board = structuredClone(puzzles[puzzleNum]);
+      boardState.puzzle = structuredClone(puzzles[puzzleNum]);
     }
   }, [puzzleNum]);
 
@@ -80,7 +80,11 @@ const App = () => {
           GitHub
         </a>
       </div>
-      <Board boardState={boardState} setPuzzleNum={setPuzzleNum} />
+      <Board
+        boardState={boardState}
+        setPuzzleNum={setPuzzleNum}
+        puzzleNum={puzzleNum}
+      />
       <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
     </div>
   );

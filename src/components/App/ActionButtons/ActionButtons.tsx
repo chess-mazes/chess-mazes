@@ -1,5 +1,6 @@
 import { loadFromFEN } from "@/lib/puzzles/fenLoader";
 import { puzzles } from "@/lib/puzzles/puzzles";
+import { solvePuzzle } from "@/lib/tools/solver";
 import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback } from "react";
 import { Theme, themeList } from "../themes/themes";
@@ -29,7 +30,11 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
     // TODO: this can be implemented more elegantly
     const fen = prompt("Enter FEN:");
     if (fen === null) return;
-    puzzles.push(loadFromFEN(fen));
+    const board = loadFromFEN(fen);
+    puzzles.push({
+      board,
+      solutionMoves: solvePuzzle(board)?.length ?? 0,
+    });
     setPuzzleNum(puzzles.length - 1);
   }, [puzzles]);
 

@@ -1,4 +1,4 @@
-export const pieceNames = {
+export const pieceNames: { [k: string]: string } = {
   p: "Pawn",
   r: "Rook",
   n: "Knight",
