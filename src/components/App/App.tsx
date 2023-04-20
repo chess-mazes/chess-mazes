@@ -62,7 +62,9 @@ const App = () => {
       className={`flex flex-col items-center h-screen w-screen overflow-hidden theme-${theme}`}
     >
       <div className="flex flex-row items-center w-full py-2">
-        <p className="text-4xl mx-auto ">{displayName}</p>
+        <p className="text-4xl mx-auto ">
+          {displayName} #{puzzleNum}
+        </p>
         <a
           href={repository.url}
           title="Fork me on GitHub"
