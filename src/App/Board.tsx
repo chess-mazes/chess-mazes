@@ -1,19 +1,16 @@
 import { FC } from "react";
-import { Theme } from "./themes/themes";
 import "./Board.css";
 
-export interface BoardProps {
-  theme: Theme;
-}
+export interface BoardProps {}
 
 // In order to make the board div square at all times, while making sure it is the biggest it can be without overflow, I used two tricks:
 // 1. "aspect-square"- aspect-ratio: 1/1, which makes sure the board's width is always equal to its height.
 // 2. "max-h-w-screen"- max-height: 100vw, which makes sure that the flex-auto will not stretch the board div beyond the width of the screen.
 // TODO: maybe it can be done better, but I couldn't make anything else work, so maybe in the future I'll revisit this.
-export const Board: FC<BoardProps> = ({ theme }) => {
+export const Board: FC<BoardProps> = ({}) => {
   return (
     <div
-      className={`theme-${theme} flex flex-col aspect-square max-w-full flex-auto max-h-w-screen`}
+      className={`flex flex-col aspect-square max-w-full flex-auto max-h-w-screen`}
     >
       {Array.from({ length: 8 }, (_, row) => (
         <div className="flex flex-auto flex-row" key={row}>

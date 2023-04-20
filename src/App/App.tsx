@@ -1,13 +1,13 @@
-import { useRef } from "react";
-import { Board } from "./Board";
-import { themeList } from "./themes/themes";
-import { repository, displayName } from "@/../package.json";
-import "./themes/themes.css";
-import "./App.css";
+import { displayName, repository } from "@/../package.json";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ActionButtons } from "./ActionButtons/ActionButtons";
+import "./App.css";
+import { Board } from "./Board";
+import { Theme, themeList } from "./themes/themes";
+import "./themes/themes.css";
 
 const App = () => {
-  const theme = useRef(themeList[0]).current;
+  const [theme, setTheme] = useLocalStorage<Theme>("app-theme", themeList[0]);
 
   return (
     <>
@@ -19,10 +19,12 @@ const App = () => {
       >
         Fork me on GitHub
       </a>
-      <div className="flex flex-col items-center h-screen w-screen overflow-hidden">
+      <div
+        className={`flex flex-col items-center h-screen w-screen overflow-hidden theme-${theme}`}
+      >
         <h1 className="py-2 m-0">{displayName}</h1>
-        <Board theme={theme}></Board>
-        <ActionButtons theme={theme}></ActionButtons>
+        <Board />
+        <ActionButtons theme={theme} setTheme={setTheme} />
       </div>
     </>
   );
