@@ -78,7 +78,7 @@ export const Board: FC<BoardProps> = ({
         }
       }
     },
-    [puzzleNum]
+    [puzzleNum, forceUpdate, setPuzzleNum, soundMode]
   );
 
   useEffect(() => {
