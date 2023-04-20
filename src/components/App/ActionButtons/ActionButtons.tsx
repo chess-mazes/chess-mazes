@@ -5,7 +5,9 @@ import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback } from "react";
 import { Theme, themeList } from "../themes/themes";
 import "./ActionButtons.css";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { About } from "@/components/About";
 export interface ActionButtonsProps {
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
   setPuzzleNum: React.Dispatch<React.SetStateAction<number>>;
@@ -55,7 +57,14 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
 
   const cheatButtonClick = useCallback(() => {}, []);
 
-  const aboutButtonClick = useCallback(() => {}, []);
+  const aboutButtonClick = useCallback(() => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      width: "100%",
+      title: <About />,
+      didOpen: () => {},
+    });
+  }, []);
   return (
     <div className={`flex flex-row justify-center flex-wrap`}>
       <button className="button" id="btnPrevious" onClick={previousButtonClick}>
