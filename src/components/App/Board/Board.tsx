@@ -6,6 +6,7 @@ import { usePreferences } from "@/providers/preferencesProvider";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { BoardState } from "../App";
 import "./Board.css";
+import Swal from "sweetalert2";
 
 export interface BoardProps {
     boardState: BoardState;
@@ -42,13 +43,13 @@ export const Board: FC<BoardProps> = ({
                 if (soundMode) moveSound.play();
                 const threat = game.findSquareThreat(row, col, true);
                 if (threat) {
-                    alert(
-                        "You can't move there, it's threatened by " +
-                            pieceNames[threat.piece] +
-                            " at " +
-                            String.fromCharCode(65 + threat.col) +
-                            (8 - threat.row)
-                    );
+                    Swal.fire({
+                        title: "Try again!",
+                        text: `You are threatened by ${pieceNames[threat.piece]} at ${String.fromCharCode(65 + threat.col)}${8 - threat.row}.`,
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+
                     // undo the move
                     boardS.puzzle.board = oldBoard;
                     game.board = oldBoard;
@@ -62,13 +63,12 @@ export const Board: FC<BoardProps> = ({
                 if (!kingLoc) return;
                 if (game.validateMove(row, col, ...kingLoc).status) {
                     if (moveCount.current > boardS.puzzle.solutionMoves) {
-                        alert(
-                            "You solved the puzzle, but it took you " +
-                                moveCount.current +
-                                " moves, while the best  solution takes " +
-                                boardS.puzzle.solutionMoves +
-                                " moves."
-                        );
+                        Swal.fire({
+                            title: "Try again!",
+                            text: `You have made ${moveCount.current} moves, but this puzzle can be solved in ${boardS.puzzle.solutionMoves}. 👀`,
+                            icon: "error",
+                        });
+
                         boardS.puzzle.board = structuredClone(
                             puzzles[puzzleNum].board
                         );
@@ -76,7 +76,15 @@ export const Board: FC<BoardProps> = ({
                         forceUpdate();
                         return;
                     }
-                    alert("You solved the puzzle!");
+
+                    Swal.fire({
+                        title: "Good Job!",
+                        text: `You have successfully checked the black king.`,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        timerProgressBar: true,
+                        timer: 2000,
+                    });
                     setPuzzleNum((prev) => prev + 1);
                 }
             }
