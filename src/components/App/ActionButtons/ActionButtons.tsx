@@ -63,7 +63,6 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
     const aboutButtonClick = useCallback(() => {
         const MySwal = withReactContent(Swal);
         MySwal.fire({
-            width: "40vw",
             title: "About",
             html: ReactDOMServer.renderToStaticMarkup(<About />),
             confirmButtonText: "Got it!",
