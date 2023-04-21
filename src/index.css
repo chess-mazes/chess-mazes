@@ -36,3 +36,12 @@ body {
   background-color: var(--background1);
   color: var(--text);
 }
+
+.github-fork-ribbon:before {
+  background-color: #000;
+}
+
+.about-link {
+  text-decoration: underline;
+  color: #2563eb;
+}
