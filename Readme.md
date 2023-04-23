@@ -3,7 +3,7 @@ Thank you for investing your time in contributing to our project! Any contributi
 
 Access links:
 - Stable (`main` - vanilla JavaScript) - [eternaleclipse.github.io/chess-mazes/](https://eternaleclipse.github.io/chess-mazes/ "https://eternaleclipse.github.io/chess-mazes/")
-- Development (`dev` - React-based) - [https://chess-mazes.vercel.app/](https://chess-mazes-9sp4i3z4z-dvirberlo.vercel.app/#5 "https://chess-mazes-9sp4i3z4z-dvirberlo.vercel.app/#5")
+- Development (`dev` - React-based) - [https://chess-mazes.vercel.app/](https://chess-mazes.vercel.app/ "https://chess-mazes.vercel.app/")
 
 Getting started:
 
