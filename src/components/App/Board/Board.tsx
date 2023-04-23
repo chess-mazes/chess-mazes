@@ -49,11 +49,10 @@ export const Board: FC<BoardProps> = ({
                         icon: "error",
                         confirmButtonText: "OK",
                     });
+                    boardS.puzzle.board = structuredClone(
+                        puzzles[puzzleNum].board
+                    );
 
-                    // undo the move
-                    boardS.puzzle.board = oldBoard;
-                    game.board = oldBoard;
-                    return;
                 }
                 moveCount.current++;
                 forceUpdate();
