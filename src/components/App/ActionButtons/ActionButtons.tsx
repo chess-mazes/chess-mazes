@@ -92,6 +92,8 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
                 className="button"
                 id="btnSound"
                 onClick={soundModeButtonClick}
+                title="Sound on/off"
+
             >
                 {soundMode ? "🔊" : "🔇"}
             </button>
@@ -99,6 +101,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
                 className="button"
                 id="btnNextTheme"
                 onClick={nextThemeButtonClick}
+                title="Change theme"
             >
                 🎨
             </button>
@@ -107,6 +110,8 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
                 id="btnDarkMode"
                 value="dark"
                 onClick={darkModeButtonClick}
+                title="Dark/Light mode"
+
             >
                 {themeMode === "dark" ? "🌞" : "🌙"}
             </button>
@@ -117,7 +122,10 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
             >
                 ✨
             </button>
-            <button className="button" id="btnAbout" onClick={aboutButtonClick}>
+            <button className="button" id="btnAbout" onClick={aboutButtonClick} 
+                            title="About"
+
+            >
                 ?
             </button>
         </div>
