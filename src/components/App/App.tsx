@@ -55,7 +55,7 @@ const App = () => {
         >
             <div className="flex flex-row items-center w-full py-2">
                 <p className="font-bold text-4xl mx-auto p-3">
-                    {displayName} #{puzzleNum}
+                    {displayName} #{puzzleNum+1}
                 </p>
                 <a
                     className="github-fork-ribbon black right-top"
