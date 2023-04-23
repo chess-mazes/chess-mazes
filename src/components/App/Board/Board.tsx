@@ -50,10 +50,12 @@ export const Board: FC<BoardProps> = ({
                         confirmButtonText: "OK",
                     });
 
-                    // undo the move
-                    boardS.puzzle.board = oldBoard;
-                    game.board = oldBoard;
-                    return;
+                    // reset the board
+                    boardS.puzzle.board = structuredClone(
+                        puzzles[puzzleNum].board
+                    );
+                    moveCount.current = 0;
+                    forceUpdate();
                 }
                 moveCount.current++;
                 forceUpdate();
@@ -85,6 +87,7 @@ export const Board: FC<BoardProps> = ({
                         timerProgressBar: true,
                         timer: 2000,
                     });
+
                     setPuzzleNum((prev) => prev + 1);
                 }
             }
