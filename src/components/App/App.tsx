@@ -48,19 +48,12 @@ const App = () => {
           {displayName} #{puzzleNum + 1}
         </p>
         <a
-          className="github-fork-ribbon black right-top"
+          className="github-fork-ribbon black right-top hidden md:block"
           href="https://github.com/eternaleclipse/chess-mazes"
           data-ribbon="Fork me on GitHub"
           title="Fork me on GitHub"
         >
           Fork me on GitHub
-        </a>
-        <a
-          href={repository.url}
-          title="Fork me on GitHub"
-          className="pe-2 absolute text-blue-600 hover:text-blue-400 right-0 sm:hidden"
-        >
-          GitHub
         </a>
       </div>
       <div className="flex-grow overflow-hidden">
