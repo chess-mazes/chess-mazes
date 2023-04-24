@@ -82,7 +82,7 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
             timer: 2000,
           });
 
-          setPuzzleNum((prev) => prev + 1);
+          setPuzzleNum((prev) => (prev + 1) % puzzles.length);
         }
       }
     },
