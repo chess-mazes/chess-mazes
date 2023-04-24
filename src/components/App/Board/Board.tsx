@@ -96,11 +96,11 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
   useEffect(() => {
     if (themeMode === 'dark') {
       setBorderStyle(
-        'flex flex-col aspect-square max-w-full flex-auto max-h-[100%] mx-auto text-black border border-grey'
+        'flex flex-col aspect-square max-w-full max-h-[100vw] mx-auto text-black border border-grey'
       );
     } else {
       setBorderStyle(
-        'flex flex-col aspect-square max-w-full flex-auto max-h-[100%] mx-auto text-black border border-black'
+        'flex flex-col aspect-square max-w-full max-h-[100vw] mx-auto text-black border border-black'
       );
     }
   }, [themeMode]);

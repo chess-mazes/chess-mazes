@@ -56,7 +56,7 @@ const App = () => {
           Fork me on GitHub
         </a>
       </div>
-      <div className="flex-grow overflow-hidden">
+      <div className="flex flex-grow">
         <Board boardState={boardState} setPuzzleNum={setPuzzleNum} puzzleNum={puzzleNum} />
       </div>
       <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
