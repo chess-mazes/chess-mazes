@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import {useRef, useState} from 'react';
 
 export function loadFromLocalStorage<T>(key: string, initialValue: T) {
-  if (typeof window === "undefined") return initialValue;
+  if (typeof window === 'undefined') return initialValue;
 
   try {
     const item = window.localStorage.getItem(key);
@@ -15,7 +15,7 @@ export function loadFromLocalStorage<T>(key: string, initialValue: T) {
 
 export function setLocalStorage<T>(key: string, valueToStore: T) {
   try {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     }
   } catch (error) {
@@ -36,11 +36,7 @@ export class StorageEntry<T> {
   }
 }
 
-export function useLocalStorage<T>(
-  key: string,
-  initValue: T,
-  onInit?: (value: T) => void
-) {
+export function useLocalStorage<T>(key: string, initValue: T, onInit?: (value: T) => void) {
   const storageEntry = useRef(new StorageEntry<T>(key, initValue));
   const [storedValue, setStoredValue] = useState<T>(() => {
     const value = storageEntry.current.get();

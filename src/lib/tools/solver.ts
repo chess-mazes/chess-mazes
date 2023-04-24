@@ -1,5 +1,5 @@
-import { GameModel } from "../model/gameModel";
-import { Board, Move } from "../types";
+import {GameModel} from '../model/gameModel';
+import {Board, Move} from '../types';
 
 function filterVisitedMoves(moves: Move[], path: Move[]) {
   return moves.filter((move) => {
@@ -31,11 +31,7 @@ function getPossibleMoves(game: GameModel, row: number, col: number): Move[] {
   return possibleMoves;
 }
 
-function solve(
-  game: GameModel,
-  whitePieceLocation: Move,
-  blackKingLocation: Move
-) {
+function solve(game: GameModel, whitePieceLocation: Move, blackKingLocation: Move) {
   let queue = [
     {
       game: game,
@@ -52,10 +48,7 @@ function solve(
     let path = current.path;
 
     let [blackRow, blackCol] = blackKingLocation;
-    if (
-      currentGame.validateMove(whiteRow, whiteCol, blackRow, blackCol)
-        .status === true
-    ) {
+    if (currentGame.validateMove(whiteRow, whiteCol, blackRow, blackCol).status === true) {
       return path;
     }
 
@@ -90,12 +83,12 @@ export function solvePuzzle(puzzle: Board) {
 
   let whitePieceLocation = game.locateWhitePiece();
   if (whitePieceLocation == null) {
-    throw new Error("Could not locate white piece");
+    throw new Error('Could not locate white piece');
   }
 
   let blackKingLocation = game.locateBlackKing();
   if (blackKingLocation == null) {
-    throw new Error("Could not locate black king");
+    throw new Error('Could not locate black king');
   }
 
   return solve(game, whitePieceLocation, blackKingLocation);

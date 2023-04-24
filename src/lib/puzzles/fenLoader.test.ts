@@ -1,22 +1,22 @@
-import { loadFromFEN } from "./fenLoader";
+import {loadFromFEN} from './fenLoader';
 
-describe("fenLoader", () => {
-  test("empty string should thorw error", () => {
+describe('fenLoader', () => {
+  test('empty string should thorw error', () => {
     expect(() => {
-      loadFromFEN("");
+      loadFromFEN('');
     }).toThrow();
   });
 
-  test("should thorw error if not has 8 lines", () => {
+  test('should thorw error if not has 8 lines', () => {
     expect(() => {
-      loadFromFEN("///");
-    }).toThrowError("Invalid FEN string: ///");
+      loadFromFEN('///');
+    }).toThrowError('Invalid FEN string: ///');
   });
 
-  test("output must have 64 length", () => {
-    const input = "7k/8/7B/8/8/8/8/";
+  test('output must have 64 length', () => {
+    const input = '7k/8/7B/8/8/8/8/';
     expect(() => {
-      expect(loadFromFEN(input))
+      expect(loadFromFEN(input));
     }).toThrowError(`Invalid FEN string: ${input}`);
   });
 });
