@@ -28,12 +28,10 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
 
   const move = useCallback(
     (boardS: BoardState, row: number, col: number) => {
-      // TODO: replace alert with a toast
       const game = new GameModel(boardS.puzzle.board);
       const pieceLoc = game.locateWhitePiece();
       if (!pieceLoc) return;
       const [startRow, startCol] = pieceLoc;
-      const oldBoard = structuredClone(boardS.puzzle.board);
       const moved = game.movePiece(startRow, startCol, row, col);
       if (moved) {
         if (soundMode) moveSound.play();
@@ -52,7 +50,9 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
           boardS.puzzle.board = structuredClone(puzzles[puzzleNum].board);
           moveCount.current = 0;
           forceUpdate();
+          return;
         }
+
         moveCount.current++;
         forceUpdate();
 
