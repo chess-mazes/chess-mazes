@@ -1,4 +1,4 @@
-import { PieceColor } from "./gameModel";
+import {PieceColor} from './gameModel';
 
 export class Threat {
   constructor(

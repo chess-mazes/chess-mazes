@@ -1,1 +1,1 @@
-import { solvePuzzle } from "./solver";
+import {solvePuzzle} from './solver';
