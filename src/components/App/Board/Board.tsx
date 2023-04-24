@@ -33,6 +33,7 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
       if (!pieceLoc) return;
       const [startRow, startCol] = pieceLoc;
       const moved = game.movePiece(startRow, startCol, row, col);
+      forceUpdate();
       if (moved) {
         if (soundMode) moveSound.play();
         const threat = game.findSquareThreat(row, col, true);
@@ -44,17 +45,17 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
             )}${8 - threat.row}.`,
             icon: 'error',
             confirmButtonText: 'OK',
+            // when closed, reset the board:
+            didClose: () => {
+              boardS.puzzle.board = structuredClone(puzzles[puzzleNum].board);
+              moveCount.current = 0;
+              forceUpdate();
+            },
           });
-
-          // reset the board
-          boardS.puzzle.board = structuredClone(puzzles[puzzleNum].board);
-          moveCount.current = 0;
-          forceUpdate();
           return;
         }
 
         moveCount.current++;
-        forceUpdate();
 
         // check if the puzzle is solved
         const kingLoc = game.locateBlackKing();
