@@ -44,7 +44,7 @@ const App = () => {
   return (
     <div className={`flex flex-col h-screen w-screen overflow-hidden theme-${theme}`}>
       <div className="flex flex-row items-center w-full py-2">
-        <p className="font-bold text-4xl mx-auto p-3">
+        <p className="font-bold text-4xl mx-auto p-3 puzzle-title">
           {displayName} #{puzzleNum + 1}
         </p>
         <a
