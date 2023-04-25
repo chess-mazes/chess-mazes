@@ -7,6 +7,7 @@ import {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {BoardState} from '../App';
 import './Board.css';
 import Swal from 'sweetalert2';
+import {useSolvedPuzzles} from '@/providers/solvedPuzzlesProvider';
 
 export interface BoardProps {
   boardState: BoardState;
@@ -24,6 +25,7 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
   const moveSound = useRef(new Audio('/assets/moveSound/move.mp3')).current;
 
   const {soundMode, themeMode} = usePreferences();
+  const {solvedList, setSolvedList} = useSolvedPuzzles();
   const [borderStyle, setBorderStyle] = useState('');
 
   const move = useCallback(
@@ -72,7 +74,7 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
             forceUpdate();
             return;
           }
-
+          if (!solvedList.includes(puzzleNum)) setSolvedList((prev) => [...prev, puzzleNum]);
           Swal.fire({
             title: 'Good Job!',
             text: `You have successfully checked the black king.`,

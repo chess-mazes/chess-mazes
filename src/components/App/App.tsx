@@ -7,6 +7,8 @@ import {ActionButtons} from './ActionButtons/ActionButtons';
 import {Board} from './Board/Board';
 import {Theme, themeList} from './themes/themes';
 import './themes/themes.css';
+import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
+import {SolvedPuzzlesProvider} from '@/providers/solvedPuzzlesProvider';
 
 export type BoardState = {
   puzzle: Puzzle;
@@ -42,25 +44,28 @@ const App = () => {
   }, []);
 
   return (
-    <div className={`flex flex-col h-screen w-screen overflow-hidden theme-${theme}`}>
-      <div className="flex flex-row items-center w-full py-2">
-        <p className="font-bold text-4xl mx-auto p-3 puzzle-title">
-          {displayName} #{puzzleNum + 1}
-        </p>
-        <a
-          className="github-fork-ribbon black right-top hidden md:block"
-          href="https://github.com/eternaleclipse/chess-mazes"
-          data-ribbon="Fork me on GitHub"
-          title="Fork me on GitHub"
-        >
-          Fork me on GitHub
-        </a>
+    <SolvedPuzzlesProvider>
+      <div className={`flex flex-col h-screen w-screen overflow-hidden theme-${theme}`}>
+        <div className="flex flex-row items-center w-full py-2">
+          <p className="font-bold text-4xl mx-auto p-3 puzzle-title">
+            {displayName} #{puzzleNum + 1}
+          </p>
+          <a
+            className="github-fork-ribbon black right-top hidden md:block"
+            href="https://github.com/eternaleclipse/chess-mazes"
+            data-ribbon="Fork me on GitHub"
+            title="Fork me on GitHub"
+          >
+            Fork me on GitHub
+          </a>
+        </div>
+        <div className="flex-grow overflow-hidden">
+          <Board boardState={boardState} setPuzzleNum={setPuzzleNum} puzzleNum={puzzleNum} />
+        </div>
+        <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
+        <SolvedPuzzles />
       </div>
-      <div className="flex-grow overflow-hidden">
-        <Board boardState={boardState} setPuzzleNum={setPuzzleNum} puzzleNum={puzzleNum} />
-      </div>
-      <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
-    </div>
+    </SolvedPuzzlesProvider>
   );
 };
 

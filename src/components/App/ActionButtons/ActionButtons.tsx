@@ -65,7 +65,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({setTheme, setPuzzleNum}) 
     });
   }, []);
   return (
-    <div className={`flex flex-row justify-center flex-wrap my-10`}>
+    <div className={`flex flex-row justify-center flex-wrap my-3`}>
       <button className="button" id="btnPrevious" onClick={previousButtonClick}>
         Previous
       </button>
