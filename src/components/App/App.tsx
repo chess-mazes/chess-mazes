@@ -60,9 +60,9 @@ const App = () => {
         <Board boardState={boardState} setPuzzleNum={setPuzzleNum} puzzleNum={puzzleNum} />
       </div>
       <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
-      <div class="vercel-banner-container flex justify-center">
+      <div className="vercel-banner-container flex justify-center">
         <a href="https://vercel.com?utm_source=chess-mazes&utm_campaign=oss">
-          <img class="vercel-banner" src="https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg" alt="Powered by Vercel" />
+          <img className="vercel-banner" src="https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg" alt="Powered by Vercel" />
         </a>
       </div>
     </div>
