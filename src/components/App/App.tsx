@@ -49,7 +49,7 @@ const App = () => {
         </p>
         <a
           className="github-fork-ribbon black right-top hidden md:block"
-          href="https://github.com/eternaleclipse/chess-mazes"
+          href="https://github.com/chess-mazes/chess-mazes"
           data-ribbon="Fork me on GitHub"
           title="Fork me on GitHub"
         >

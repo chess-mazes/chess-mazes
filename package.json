@@ -7,10 +7,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eternaleclipse/chess-mazes"
+    "url": "https://github.com/chess-mazes/chess-mazes"
   },
   "bugs": {
-    "url": "https://github.com/eternaleclipse/chess-mazes/issues"
+    "url": "https://github.com/chess-mazes/chess-mazes/issues"
   },
   "type": "module",
   "scripts": {

@@ -4,6 +4,7 @@
 
 The game is based on the book ["Chess Mazes"](https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232) (2004) by Bruce Alberston.
 
+
 ## ♟️ How to Play
 
 The game is hosted at [chess-mazes.github.io/chess-mazes](https://chess-mazes.github.io/chess-mazes).
@@ -25,3 +26,5 @@ The puzzles that appear in the game are taken from the book ["Chess Mazes"](http
 The assets (sounds, images) are licensed under Creative Commons Zero (CC0) and are attributed to their respective creators.
 
 The game implementation is licensed under the [MIT license](https://opensource.org/license/mit/).
+
+![](https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg)
