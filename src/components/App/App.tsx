@@ -7,6 +7,8 @@ import {ActionButtons} from './ActionButtons/ActionButtons';
 import {Board} from './Board/Board';
 import {Theme, themeList} from './themes/themes';
 import './themes/themes.css';
+import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
+import {SolvedPuzzlesProvider} from '@/providers/solvedPuzzlesProvider';
 
 export type BoardState = {
   puzzle: Puzzle;
