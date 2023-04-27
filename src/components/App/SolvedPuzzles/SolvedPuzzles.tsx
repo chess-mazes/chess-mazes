@@ -5,12 +5,12 @@ export interface SolvedPuzzlesProps {}
 
 export const SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
   const {solvedList} = useSolvedPuzzles();
-  if (solvedList.length === 0) return null;
 
   return (
     <div className="flex flex-col items-center py-1 px-3 rounded-3xl mx-auto bg-background3 my-1">
       <div className="flex flex-row justify-center items-center flex-wrap p-1">
         <p className="font-bold text-md mx-2">Solved:</p>
+        {solvedList.length === 0 && <p className="text-md mx-2">None</p>}
         {solvedList.map((puzzle, index) => {
           return (
             <div
