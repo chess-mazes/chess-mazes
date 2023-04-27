@@ -74,7 +74,10 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
             forceUpdate();
             return;
           }
-          if (!solvedList.includes(puzzleNum)) setSolvedList((prev) => [...prev, puzzleNum]);
+          setSolvedList((prev) => {
+            prev[puzzleNum] = puzzleNum;
+            return prev;
+          });
           Swal.fire({
             title: 'Good Job!',
             text: `You have successfully checked the black king.`,

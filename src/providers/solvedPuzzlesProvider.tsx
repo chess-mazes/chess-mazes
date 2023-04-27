@@ -28,7 +28,7 @@ export const SolvedPuzzlesProvider: React.FC<{
         setSolvedList,
       }}
     >
-      <div className={`theme-mode-${solvedList}`}>{children}</div>
+      {children}
     </SolvedPuzzlesContext.Provider>
   );
 };
