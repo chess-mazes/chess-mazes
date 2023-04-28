@@ -33,6 +33,7 @@ const App = () => {
       boardState.id = newPuzzleNum;
       boardState.puzzle = structuredClone(puzzles[newPuzzleNum]);
       document.location.hash = newPuzzleNum.toString();
+      localStorage.setItem('puzzleNum', newPuzzleNum.toString());
       return newPuzzleNum;
     });
   }, []);
@@ -41,6 +42,12 @@ const App = () => {
     const hashPuzzleNum = parseInt(document.location.hash.slice(1));
     if (hashPuzzleNum !== puzzleNum && hashPuzzleNum >= 0 && hashPuzzleNum < puzzles.length) {
       setPuzzleNum(hashPuzzleNum);
+    } else {
+      // Check localStorage for a saved puzzleNum
+      const savedPuzzleNum = parseInt(localStorage.getItem('puzzleNum') ?? '-1');
+      if (savedPuzzleNum !== puzzleNum && savedPuzzleNum >= 0 && savedPuzzleNum < puzzles.length) {
+        setPuzzleNum(savedPuzzleNum);
+      }
     }
   }, []);
 
