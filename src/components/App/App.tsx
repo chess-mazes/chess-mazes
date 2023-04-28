@@ -32,7 +32,7 @@ const App = () => {
       const newPuzzleNum = typeof newNum === 'function' ? newNum(prev) : newNum;
       boardState.id = newPuzzleNum;
       boardState.puzzle = structuredClone(puzzles[newPuzzleNum]);
-      document.location.hash = newPuzzleNum.toString();
+      document.location.hash = (newPuzzleNum + 1).toString();
       return newPuzzleNum;
     });
   }, []);
