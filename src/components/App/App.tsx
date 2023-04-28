@@ -66,13 +66,15 @@ const App = () => {
         <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
         <SolvedPuzzles />
         <div className="vercel-banner-container flex justify-center">
-          <a href="https://vercel.com?utm_source=chess-mazes&utm_campaign=oss">
-            <img
-              className="vercel-banner"
-              src="https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg"
-              alt="Powered by Vercel"
-            />
-          </a>
+          <div className="vercel-btn">
+            <a href="https://vercel.com?utm_source=chess-mazes&utm_campaign=oss">
+              <img
+                className="vercel-banner"
+                src="https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg"
+                alt="Powered by Vercel"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </SolvedPuzzlesProvider>
