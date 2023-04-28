@@ -1,5 +1,4 @@
-import {GameModel} from '../model/gameModel';
-import {Board, Move} from '../types';
+import {Board, GameModel, Move} from '@/models/gameModel';
 
 function filterVisitedMoves(moves: Move[], path: Move[]) {
   return moves.filter((move) => {

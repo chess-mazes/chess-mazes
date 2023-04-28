@@ -1,4 +1,4 @@
-import {Board} from '../types';
+import {Board} from './gameModel';
 
 export function isValidMove(
   board: Board,
