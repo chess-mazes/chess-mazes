@@ -66,7 +66,7 @@ const App = () => {
         <ActionButtons setTheme={setTheme} setPuzzleNum={setPuzzleNum} />
         <SolvedPuzzles />
         <div className="vercel-banner-container flex justify-center">
-          <div className="vercel-btn">
+          <div className="w-36 mt-2">
             <a href="https://vercel.com?utm_source=chess-mazes&utm_campaign=oss">
               <img
                 className="vercel-banner"
