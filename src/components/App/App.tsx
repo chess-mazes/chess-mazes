@@ -38,7 +38,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const hashPuzzleNum = parseInt(document.location.hash.slice(1));
+    const hashPuzzleNum = parseInt(document.location.hash.slice(1)) - 1;
     if (hashPuzzleNum !== puzzleNum && hashPuzzleNum >= 0 && hashPuzzleNum < puzzles.length) {
       setPuzzleNum(hashPuzzleNum);
     }
