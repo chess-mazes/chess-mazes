@@ -1,11 +1,11 @@
 import {displayName} from '@/../package.json';
-import {useGameViewModel} from '@/services/GameViewModel';
+import {useGameViewModel} from '@/services/gameViewModel';
+import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 import {ActionButtons} from './ActionButtons/ActionButtons';
 import {Board} from './Board/Board';
 import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
 import {boardColorClass} from './boardColors/boardColors';
 import './boardColors/boardColors.css';
-import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 
 const App = () => {
   const {boardColors, puzzleId: puzzleNum, isSolved} = useGameViewModel();

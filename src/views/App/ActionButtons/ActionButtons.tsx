@@ -1,4 +1,4 @@
-import {useGameViewModel} from '@/services/GameViewModel';
+import {useGameViewModel} from '@/services/gameViewModel';
 import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 import {About} from '@/views/About';
 import {FC, useCallback} from 'react';

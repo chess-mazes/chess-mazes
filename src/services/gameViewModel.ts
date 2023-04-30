@@ -41,7 +41,7 @@ export class GameViewModel extends ViewModel {
   };
 
   public isSolved = (puzzleNum: number = this.puzzleId) => {
-    return puzzleNum in this.solvedPuzzles;
+    return this.solvedPuzzles[puzzleNum] === puzzleNum;
   };
   private setSolved = (puzzleNum: number, notify = false) => {
     this.solvedPuzzles[puzzleNum] = puzzleNum;

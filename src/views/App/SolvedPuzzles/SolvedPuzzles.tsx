@@ -1,4 +1,4 @@
-import {useGameViewModel} from '@/services/GameViewModel';
+import {useGameViewModel} from '@/services/gameViewModel';
 import {FC} from 'react';
 
 export interface SolvedPuzzlesProps {}

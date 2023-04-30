@@ -1,5 +1,5 @@
 import {pieceNames} from '@/models/pieceNames';
-import {useGameViewModel} from '@/services/GameViewModel';
+import {useGameViewModel} from '@/services/gameViewModel';
 import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 import {FC, useCallback, useEffect} from 'react';
 import Swal from 'sweetalert2';
