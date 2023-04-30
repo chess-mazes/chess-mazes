@@ -1,6 +1,6 @@
 import {pieceNames} from '@/models/pieceNames';
-import {usePreferences} from '@/providers/preferencesProvider';
 import {useGameViewModel} from '@/services/GameViewModel';
+import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 import {FC, useCallback, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import './Board.css';
@@ -20,7 +20,7 @@ export const Board: FC = ({}) => {
     onSolvedMsgClosed,
     bestSolution,
   } = useGameViewModel();
-  const {soundMode} = usePreferences();
+  const {soundMode} = usePreferencesViewModel();
 
   const onMove = useCallback(
     (row: number, col: number) => {

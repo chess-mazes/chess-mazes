@@ -1,5 +1,5 @@
-import {usePreferences} from '@/providers/preferencesProvider';
 import {useGameViewModel} from '@/services/GameViewModel';
+import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 import {About} from '@/views/About';
 import {FC, useCallback} from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -8,14 +8,8 @@ import withReactContent from 'sweetalert2-react-content';
 import './ActionButtons.css';
 
 export const ActionButtons: FC = ({}) => {
-  const {
-    bestSolution,
-    nextPuzzle,
-    previousPuzzle: prevPuzzle,
-    cycleBoardColors: nextBoardColors,
-    loadFen,
-  } = useGameViewModel();
-  const {themeMode, setThemeMode, soundMode, setSoundMode} = usePreferences();
+  const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = useGameViewModel();
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = usePreferencesViewModel();
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -24,11 +18,12 @@ export const ActionButtons: FC = ({}) => {
   }, [loadFen]);
 
   const darkModeButtonClick = useCallback(() => {
-    setThemeMode((themeMode) => (themeMode === 'dark' ? 'light' : 'dark'));
-  }, [setThemeMode]);
+    toggleThemeMode();
+  }, [toggleThemeMode]);
+
   const soundModeButtonClick = useCallback(() => {
-    setSoundMode((soundMode) => !soundMode);
-  }, [setSoundMode]);
+    toggleSoundMode();
+  }, [toggleSoundMode]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -44,7 +39,7 @@ export const ActionButtons: FC = ({}) => {
 
   return (
     <div className={`flex flex-row justify-center flex-wrap my-3`}>
-      <button className="button" id="btnPrevious" onClick={() => prevPuzzle()}>
+      <button className="button" id="btnPrevious" onClick={() => previousPuzzle()}>
         Previous
       </button>
       <button className="button" id="btnNext" onClick={() => nextPuzzle()}>
@@ -56,7 +51,7 @@ export const ActionButtons: FC = ({}) => {
       <button className="button" id="btnSound" onClick={soundModeButtonClick} title="Sound on/off">
         {soundMode ? '🔊' : '🔇'}
       </button>
-      <button className="button" id="btnNextTheme" onClick={nextBoardColors} title="Change theme">
+      <button className="button" id="btnNextTheme" onClick={cycleBoardColors} title="Change theme">
         🎨
       </button>
       <button

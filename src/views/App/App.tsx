@@ -5,13 +5,17 @@ import {Board} from './Board/Board';
 import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
 import {boardColorClass} from './boardColors/boardColors';
 import './boardColors/boardColors.css';
+import {usePreferencesViewModel} from '@/services/preferencesViewModel';
 
 const App = () => {
   const {boardColors, puzzleId: puzzleNum, isSolved} = useGameViewModel();
+  const {themeMode} = usePreferencesViewModel();
 
   return (
     <div
-      className={`flex flex-col h-screen w-screen overflow-hidden ${boardColorClass(boardColors)}`}
+      className={`flex flex-col h-screen w-screen overflow-hidden ${boardColorClass(
+        boardColors
+      )} theme-mode-${themeMode}`}
     >
       <div className="flex flex-row items-center w-full py-2">
         <p className="font-bold text-4xl mx-auto p-3 puzzle-title">

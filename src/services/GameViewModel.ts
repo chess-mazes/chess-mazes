@@ -1,10 +1,10 @@
-import {StorageEntry} from '@/hooks/useLocalStorage';
 import {ViewModel, useViewModel} from '@/hooks/useViewModel';
 import {Board, GameModel, Move, Puzzle} from '@/models/gameModel';
 import {Threat} from '@/models/threat';
 import {loadFromFEN} from '@/services/fenLoader';
 import {puzzles} from '@/services/puzzles';
 import {solvePuzzle} from '@/services/solver';
+import {StorageEntry} from '@/services/storageEntry';
 import {BoardColors, colorsList} from '@/views/App/boardColors/boardColors';
 type MoveCheck = ['valid'] | ['invalid'] | ['threat', Threat] | ['tooLong'] | ['solved'];
 
