@@ -1,4 +1,4 @@
-import { pieceImages, moveSound, aboutHtml } from './assets.js';
+import { pieceImages, moveSound, aboutHtml, buzzerSound } from './assets.js';
 import { pieceNames, rowColToAlgebraic } from './pieceLookup.js';
 
 class GameView {
@@ -34,6 +34,7 @@ class GameView {
             else if (event === 'WhiteThreatened') {
                 let threatText = `${pieceNames[data.piece]} at ${rowColToAlgebraic(data.row, data.col)}`;
                 this.threatenedPopup(threatText).then(() => this.gameViewModel.loadCurrentPuzzle());
+                buzzerSound.play();
             } else if (event === 'SolvedPuzzlesChanged') {
                 let solvedContainer = document.getElementById('solved-container');
                 solvedContainer.innerHTML = 'Solved';

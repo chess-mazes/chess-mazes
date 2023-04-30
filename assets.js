@@ -14,6 +14,7 @@ const pieceImages = {
 };
 
 const moveSound = new Audio('./assets/moveSound/move.mp3');
+const buzzerSound = new Audio('./assets/buzzerSound/buzzerSound.wav');
 
 const aboutHtml = `
 <b>Chess Mazes</b> is a puzzle game that helps you visualize chess moves and avoid hanging pieces.
@@ -37,4 +38,4 @@ The game implementation is licensed under the <a href="https://opensource.org/li
 See <i>ReadMe.md</i> for more details.
 `
 
-export { pieceImages, moveSound, aboutHtml};
+export { pieceImages, moveSound, aboutHtml, buzzerSound};
