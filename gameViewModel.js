@@ -3,6 +3,7 @@ import loadFromFEN from './fenLoader.js';
 import themes from './themes.js';
 import GameModel from './gameModel.js';
 import solvePuzzle from './solver.js';
+import { buffer } from 'stream/consumers';
 
 class GameViewModel {
     constructor(gameModel) {
@@ -21,8 +22,10 @@ class GameViewModel {
         this._enteredCheatCode = "";
 
         gameModel.subscribe(this._boardChanged.bind(this));
-        this._playlist = ['./music/Strobotone-Medieval-Theme01.mp3', './music/Strobotone-Medieval-Theme02.mp3']
-        this._currentSong = 0
+        this._playlist = ['./music/Strobotone-Medieval-Theme01.mp3', './music/Strobotone-Medieval-Theme02.mp3'];
+        this._currentSong = 0;
+        // this._audioContext = new AudioContext();
+        // this._sourceNode = audioContext.createBufferSource();
     }
 
     subscribe(callback) {
@@ -132,16 +135,44 @@ class GameViewModel {
 
         if(this._soundOn){
             this.soundIsOn(this._currentSong)
+            // this.loadSong(playlist[currentSongIndex])
         }
     }
-    soundIsOn(currentSong){
-        while(currentSong < this._playlist.length){
-            let audio = new Audio(this._playlist[currentSong])
-            audio.play()
-            currentSong += 1
-        }
-        soundIsOn(0)
-    }
+    // loadSong(url){
+    //     let request = new XMLHttpRequest();
+    //     request.open('GET',url,true);
+    //     request.responseType = 'arraybuffer';
+
+    //     request.onload = ()=>{
+    //         this._audioContext.decodeAudioData(request.response,(buffer)=>{
+    //             this._sourceNode.buffer = buffer;
+    //             this.playSong();
+    //         })
+    //     }
+    //     request.send();
+    // }
+
+    // playSong(){
+    //     this._sourceNode.start(0);
+    //     this._sourceNode.onended = ()=>{
+    //         this._currentSong+=1
+    //         if(this._currentSong >= this._playlist.length){
+    //             this._currentSong = 0 
+    //         }
+    //         this.loadSong(this._playlist[this._currentSong])
+    //     }
+    // }
+    // soundIsOn(currentSong){
+    //     audioPlay = setInterval(()=>{
+
+    //     },1)
+    //     while(currentSong < this._playlist.length){
+    //         let audio = new Audio(this._playlist[currentSong])
+    //         audio.play()
+    //         currentSong += 1
+    //     }
+    //     soundIsOn(0)
+    // }
     // playlistOn(audio){
         
     //     // audio.currentTime = 0;
