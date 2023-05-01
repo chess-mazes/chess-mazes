@@ -131,15 +131,17 @@ class GameViewModel {
         this._notifySubscribers('SoundToggled', this._soundOn);
 
         if(this._soundOn){
-            while(this._currentSong < this._playlist.length){
-                let audio = new Audio(this._playlist[this._currentSong])
-                audio.play()
-                this._currentSong += 1
-            }
-            this._currentSong = 0
+            this.soundIsOn(this._currentSong)
         }
     }
-    
+    soundIsOn(currentSong){
+        while(currentSong < this._playlist.length){
+            let audio = new Audio(this._playlist[currentSong])
+            audio.play()
+            currentSong += 1
+        }
+        soundIsOn(0)
+    }
     // playlistOn(audio){
         
     //     // audio.currentTime = 0;
@@ -170,9 +172,9 @@ class GameViewModel {
     //     // Play the song
     //     audio.play();
     // }
-    stopMusic(){
+    // stopMusic(){
 
-    }
+    // }
 
     handleSquareClick(row, col) {
         let whitePieceLocation = this._gameModel.locateWhitePiece();
