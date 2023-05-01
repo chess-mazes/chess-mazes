@@ -21,6 +21,8 @@ class GameViewModel {
         this._enteredCheatCode = "";
 
         gameModel.subscribe(this._boardChanged.bind(this));
+        this._playlist = ['./music/Strobotone-Medieval-Theme01.mp3', './music/Strobotone-Medieval-Theme02.mp3']
+        this._currentSong = 0
     }
 
     subscribe(callback) {
@@ -122,10 +124,54 @@ class GameViewModel {
         localStorage.setItem('aboutRead', status);
     }
 
+
     toggleSound() {
         this._soundOn = !this._soundOn;
         localStorage.setItem('soundOn', this._soundOn);
         this._notifySubscribers('SoundToggled', this._soundOn);
+
+        if(this._soundOn){
+            while(this._currentSong < this._playlist.length){
+                let audio = new Audio(this._playlist[this._currentSong])
+                audio.play()
+                this._currentSong += 1
+            }
+            this._currentSong = 0
+        }
+    }
+    
+    // playlistOn(audio){
+        
+    //     // audio.currentTime = 0;
+    //     // audio.play()
+    //     audioPlay = setInterval(function() {
+    //         // Get the value of what second the song is at
+    //         let audioTime = Math.round(audio.currentTime);
+    //         // We get songs all the time
+    //         let audioLength = Math.round(audio.duration)
+    //         // Assign a width to an element at time
+    //         time.style.width = (audioTime * 100) / audioLength + '%';
+    //         // Compare what second the track is now and how long in total
+    //         // And check that the treck variable is less than four
+    //         if (audioTime == audioLength && this._correntSong < this._playlist.length) {
+    //             this._correntSong++; // then Increase the variable 
+    //             switchTreck(this._correntSong); // change track
+    //         // Otherwise we check the same, but the treck variable is greater than or equal to four
+    //         } else if (audioTime == audioLength && this._correntSong == this._playlist.length) {
+    //             this._correntSong = 0; // then we assign treck to zero
+    //             switchTreck(this._correntSong); //Change track
+    //         }
+    //     }, 10)
+    // }
+    // switchTreck(numTreck) {
+    //     let audio = new Audio(this._playlist[numTreck])
+    //     // Assign a song time of zero
+    //     audio.currentTime = 0;
+    //     // Play the song
+    //     audio.play();
+    // }
+    stopMusic(){
+
     }
 
     handleSquareClick(row, col) {
