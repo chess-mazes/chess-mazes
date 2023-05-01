@@ -135,8 +135,15 @@ class GameViewModel {
 
         if(this._soundOn){
             this.soundIsOn(this._currentSong)
-            // this.loadSong(playlist[currentSongIndex])
         }
+    }
+    soundIsOn(currentSong){
+        while(currentSong < this._playlist.length){
+            let audio = new Audio(this._playlist[currentSong])
+            audio.play()
+            currentSong += 1
+        }
+        soundIsOn(0)
     }
     // loadSong(url){
     //     let request = new XMLHttpRequest();
