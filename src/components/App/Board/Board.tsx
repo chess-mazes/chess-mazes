@@ -150,9 +150,10 @@ export const Board: FC<BoardProps> = ({boardState, setPuzzleNum, puzzleNum}) => 
 export const Square: FC<{content: string}> = ({content}) => {
   if (content === '') return <></>;
   const player = content.toLowerCase() === content ? 'b' : 'w';
+  const isWhite = player === 'w';
   return (
     <img
-      className="p-1 aspect-square object-contain"
+      className={`p-1 aspect-square object-contain ${isWhite ? 'white' : ''}`}
       src={`./assets/pieceImages/${player}_${content.toLowerCase()}.png`}
       alt={content}
       width="90%"
