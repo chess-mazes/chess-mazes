@@ -3,7 +3,6 @@ import loadFromFEN from './fenLoader.js';
 import themes from './themes.js';
 import GameModel from './gameModel.js';
 import solvePuzzle from './solver.js';
-import { buffer } from 'stream/consumers';
 
 class GameViewModel {
     constructor(gameModel) {
@@ -22,10 +21,9 @@ class GameViewModel {
         this._enteredCheatCode = "";
 
         gameModel.subscribe(this._boardChanged.bind(this));
-        this._playlist = ['./music/Strobotone-Medieval-Theme01.mp3', './music/Strobotone-Medieval-Theme02.mp3'];
-        this._currentSong = 0;
-        // this._audioContext = new AudioContext();
-        // this._sourceNode = audioContext.createBufferSource();
+        this._playlist = ['./music/Strobotone-Medieval-Theme01.mp3', './music/Strobotone-Medieval-Theme02.mp3']
+        this._currentSong = 0
+        this._audio = false
     }
 
     subscribe(callback) {
@@ -128,51 +126,16 @@ class GameViewModel {
     }
 
 
-    toggleSound() {
-        this._soundOn = !this._soundOn;
-        localStorage.setItem('soundOn', this._soundOn);
-        this._notifySubscribers('SoundToggled', this._soundOn);
+    // toggleSound() {
+    //     this._soundOn = !this._soundOn;
+    //     localStorage.setItem('soundOn', this._soundOn);
+    //     this._notifySubscribers('SoundToggled', this._soundOn);
 
-        if(this._soundOn){
-            this.soundIsOn(this._currentSong)
-        }
-    }
-    soundIsOn(currentSong){
-        while(currentSong < this._playlist.length){
-            let audio = new Audio(this._playlist[currentSong])
-            audio.play()
-            currentSong += 1
-        }
-        soundIsOn(0)
-    }
-    // loadSong(url){
-    //     let request = new XMLHttpRequest();
-    //     request.open('GET',url,true);
-    //     request.responseType = 'arraybuffer';
-
-    //     request.onload = ()=>{
-    //         this._audioContext.decodeAudioData(request.response,(buffer)=>{
-    //             this._sourceNode.buffer = buffer;
-    //             this.playSong();
-    //         })
-    //     }
-    //     request.send();
-    // }
-
-    // playSong(){
-    //     this._sourceNode.start(0);
-    //     this._sourceNode.onended = ()=>{
-    //         this._currentSong+=1
-    //         if(this._currentSong >= this._playlist.length){
-    //             this._currentSong = 0 
-    //         }
-    //         this.loadSong(this._playlist[this._currentSong])
+    //     if(this._soundOn){
+    //         this.soundIsOn(this._currentSong)
     //     }
     // }
     // soundIsOn(currentSong){
-    //     audioPlay = setInterval(()=>{
-
-    //     },1)
     //     while(currentSong < this._playlist.length){
     //         let audio = new Audio(this._playlist[currentSong])
     //         audio.play()
@@ -180,39 +143,34 @@ class GameViewModel {
     //     }
     //     soundIsOn(0)
     // }
-    // playlistOn(audio){
-        
-    //     // audio.currentTime = 0;
-    //     // audio.play()
-    //     audioPlay = setInterval(function() {
-    //         // Get the value of what second the song is at
-    //         let audioTime = Math.round(audio.currentTime);
-    //         // We get songs all the time
-    //         let audioLength = Math.round(audio.duration)
-    //         // Assign a width to an element at time
-    //         time.style.width = (audioTime * 100) / audioLength + '%';
-    //         // Compare what second the track is now and how long in total
-    //         // And check that the treck variable is less than four
-    //         if (audioTime == audioLength && this._correntSong < this._playlist.length) {
-    //             this._correntSong++; // then Increase the variable 
-    //             switchTreck(this._correntSong); // change track
-    //         // Otherwise we check the same, but the treck variable is greater than or equal to four
-    //         } else if (audioTime == audioLength && this._correntSong == this._playlist.length) {
-    //             this._correntSong = 0; // then we assign treck to zero
-    //             switchTreck(this._correntSong); //Change track
-    //         }
-    //     }, 10)
-    // }
-    // switchTreck(numTreck) {
-    //     let audio = new Audio(this._playlist[numTreck])
-    //     // Assign a song time of zero
-    //     audio.currentTime = 0;
-    //     // Play the song
-    //     audio.play();
-    // }
-    // stopMusic(){
 
-    // }
+    toggleSound() {
+        this._soundOn = !this._soundOn;
+        localStorage.setItem('soundOn', this._soundOn);
+        this._notifySubscribers('SoundToggled', this._soundOn);
+
+        if(this._soundOn){
+            if (this._audio) {
+                this._audio.pause();
+            }
+            console.log("start");
+            this._currentSong = 0;
+            this.playNext()
+        }
+    }
+
+    playNext() { 
+        if (this._currentSong < this._playlist.length) { 
+          this._audio = new Audio(this._playlist[this._currentSong]); 
+          this._audio.addEventListener("ended", this.playNext); 
+          this._audio.play(); 
+          console.log(`playing ${this._playlist[this._currentSong]}`); 
+          this._currentSong += 1; 
+        } else { 
+            this._currentSong = 0
+            this.playNext()
+        } 
+      }  
 
     handleSquareClick(row, col) {
         let whitePieceLocation = this._gameModel.locateWhitePiece();
