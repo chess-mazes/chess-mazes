@@ -1,0 +1,39 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css');
+@import url('https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  font-family: Montserrat, Tahoma, Arial, sans-serif;
+}
+
+.theme-mode-dark {
+  --text: #fff;
+  --background1: #000;
+  --background2: #111;
+  --background3: #222;
+  --background4: #333;
+  --background5: #444;
+
+  background-color: var(--background1);
+  color: var(--text);
+}
+
+.theme-mode-light {
+  --text: #000;
+  --background1: #fff;
+  --background2: #eee;
+  --background3: #ddd;
+  --background4: #ccc;
+  --background5: #bbb;
+
+  background-color: var(--background1);
+  color: var(--text);
+}

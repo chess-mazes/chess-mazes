@@ -1,1 +1,0 @@
-import solvePuzzle from "./solver";
