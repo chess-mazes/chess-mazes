@@ -125,25 +125,6 @@ class GameViewModel {
         localStorage.setItem('aboutRead', status);
     }
 
-
-    // toggleSound() {
-    //     this._soundOn = !this._soundOn;
-    //     localStorage.setItem('soundOn', this._soundOn);
-    //     this._notifySubscribers('SoundToggled', this._soundOn);
-
-    //     if(this._soundOn){
-    //         this.soundIsOn(this._currentSong)
-    //     }
-    // }
-    // soundIsOn(currentSong){
-    //     while(currentSong < this._playlist.length){
-    //         let audio = new Audio(this._playlist[currentSong])
-    //         audio.play()
-    //         currentSong += 1
-    //     }
-    //     soundIsOn(0)
-    // }
-
     toggleSound() {
         this._soundOn = !this._soundOn;
         localStorage.setItem('soundOn', this._soundOn);
