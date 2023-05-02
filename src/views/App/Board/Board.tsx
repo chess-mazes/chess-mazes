@@ -5,8 +5,6 @@ import {observer} from 'mobx-react';
 import {FC, useCallback, useEffect} from 'react';
 import Swal from 'sweetalert2';
 
-import './Board.css';
-
 export const moveSound = new Audio('./assets/moveSound/move.mp3');
 
 export const Board: FC = observer(({}) => {
@@ -83,7 +81,7 @@ export const Board: FC = observer(({}) => {
             {Array.from({length: 8}, (_, col) => (
               <div className="flex w-full h-full justify-center items-center" key={col}>
                 <div
-                  className={`aspect-square square w-full h-full  ${
+                  className={`aspect-square w-full h-full relative flex justify-center items-center ${
                     (row + col) % 2 === 0 ? 'bg-chess-dark' : 'bg-chess-light'
                   }`}
                   onClick={() => onMove(_row, col)}
@@ -94,9 +92,9 @@ export const Board: FC = observer(({}) => {
                   onDragOver={(e) => e.preventDefault()}
                 >
                   <Square content={board[_row * 8 + col]} />
-                  {col === 0 && <div className="number-label">{row + 1}</div>}
+                  {col === 0 && <div className="absolute left-0 top-0 z-10">{row + 1}</div>}
                   {row === 0 && (
-                    <div className="letter-label">
+                    <div className="absolute right-0 bottom-0 z-10">
                       {String.fromCharCode(97 + col)}
                       {/* uppercase: {String.fromCharCode(65 + col)} */}
                     </div>
@@ -117,7 +115,7 @@ export const Square: FC<{content: string}> = ({content}) => {
   const isWhite = player === 'w';
   return (
     <img
-      className={`p-1 aspect-square object-contain ${isWhite ? 'white' : ''}`}
+      className={`p-1 aspect-square object-contain ${isWhite ? 'animate-chess-move' : ''}`}
       src={`./assets/pieceImages/${player}_${content.toLowerCase()}.png`}
       alt={content}
       width="90%"
