@@ -23,7 +23,7 @@ You can run the project locally with the following commands:
 ```
 git clone https://github.com/chess-mazes/chess-mazes
 cd chess-mazes
-git checkout develop # Checkout the develop branch
+git checkout prod # Checkout the develop branch
 npm install # Install prerequisites
 npm run dev # Start the server
 ```
