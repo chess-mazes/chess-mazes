@@ -14,16 +14,18 @@ export const _SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
         {solvedPuzzles.length === 0 ? (
           <p className="text-md mx-2">None</p>
         ) : (
-          solvedPuzzles.map((puzzleId, index) => {
-            return (
-              <div
-                className="bg-background4 rounded-full w-7 h-7 m-1 flex items-center justify-center cursor-default hover:bg-background5"
-                key={puzzleId}
-              >
-                {puzzleId + 1}
-              </div>
-            );
-          })
+          solvedPuzzles
+            .filter((id) => id !== null && id !== undefined)
+            .map((puzzleId, index) => {
+              return (
+                <div
+                  className="bg-background4 rounded-full w-7 h-7 m-1 flex items-center justify-center cursor-default hover:bg-background5"
+                  key={puzzleId}
+                >
+                  {puzzleId + 1}
+                </div>
+              );
+            })
         )}
       </div>
     </div>
