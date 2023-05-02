@@ -1,13 +1,15 @@
 import {pieceNames} from '@/models/pieceNames';
-import {useGameViewModel} from '@/services/gameViewModel';
-import {usePreferencesViewModel} from '@/services/preferencesViewModel';
+import {gameViewModel} from '@/services/gameViewModel';
+import {preferencesViewModel} from '@/services/preferencesViewModel';
+import {observer} from 'mobx-react';
 import {FC, useCallback, useEffect} from 'react';
 import Swal from 'sweetalert2';
+
 import './Board.css';
 
 export const moveSound = new Audio('./assets/moveSound/move.mp3');
 
-export const Board: FC = ({}) => {
+export const _Board: FC = ({}) => {
   const {
     board,
     moveCount,
@@ -19,8 +21,8 @@ export const Board: FC = ({}) => {
     onLongSolutionMsgClosed,
     onSolvedMsgClosed,
     bestSolution,
-  } = useGameViewModel();
-  const {soundMode} = usePreferencesViewModel();
+  } = gameViewModel;
+  const {soundMode} = preferencesViewModel;
 
   const onMove = useCallback(
     (row: number, col: number) => {
@@ -108,6 +110,8 @@ export const Board: FC = ({}) => {
     </div>
   );
 };
+
+export const Board = observer(_Board);
 
 export const Square: FC<{content: string}> = ({content}) => {
   if (content === '') return <></>;

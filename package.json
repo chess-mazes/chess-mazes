@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "leader-line": "^1.0.7",
+    "mobx": "^6.9.0",
+    "mobx-react": "^7.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sweetalert2": "^11.4.8",

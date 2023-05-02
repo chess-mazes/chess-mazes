@@ -1,10 +1,11 @@
-import {useGameViewModel} from '@/services/gameViewModel';
+import {gameViewModel} from '@/services/gameViewModel';
+import {observer} from 'mobx-react';
 import {FC} from 'react';
 
 export interface SolvedPuzzlesProps {}
 
-export const SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
-  const {solvedPuzzles} = useGameViewModel();
+export const _SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
+  const {solvedPuzzles} = gameViewModel;
 
   return (
     <div className="flex flex-col items-center py-1 px-3 rounded-3xl mx-auto bg-background3 my-1">
@@ -14,7 +15,6 @@ export const SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
           <p className="text-md mx-2">None</p>
         ) : (
           solvedPuzzles.map((puzzleId, index) => {
-            if (puzzleId === null) return null;
             return (
               <div
                 className="bg-background4 rounded-full w-7 h-7 m-1 flex items-center justify-center cursor-default hover:bg-background5"
@@ -29,3 +29,5 @@ export const SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
     </div>
   );
 };
+
+export const SolvedPuzzles = observer(_SolvedPuzzles);

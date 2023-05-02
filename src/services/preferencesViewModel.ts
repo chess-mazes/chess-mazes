@@ -1,15 +1,14 @@
-import {ViewModel, useViewModel} from '@/hooks/useViewModel';
 import {StorageEntry} from '@/services/storageEntry';
+import {makeAutoObservable} from 'mobx';
 
 export type ThemeMode = 'light' | 'dark';
 
-export class PreferencesViewModel extends ViewModel {
+export class PreferencesViewModel {
   private themeModeStorage = new StorageEntry<ThemeMode>('theme', 'light');
   public themeMode: ThemeMode;
   public toggleThemeMode = () => {
     const newTheme = this.themeMode === 'light' ? 'dark' : 'light';
     this.themeMode = newTheme;
-    this.notifyListeners();
     this.themeModeStorage.set(newTheme);
   };
 
@@ -18,17 +17,14 @@ export class PreferencesViewModel extends ViewModel {
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
     this.soundMode = newSoundMode;
-    this.notifyListeners();
     this.soundModeStorage.set(newSoundMode);
   };
 
   constructor() {
-    super();
+    makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
     this.soundMode = this.soundModeStorage.get();
   }
 }
 
 export const preferencesViewModel = new PreferencesViewModel();
-
-export const usePreferencesViewModel = () => useViewModel(preferencesViewModel);

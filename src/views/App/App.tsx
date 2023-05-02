@@ -1,15 +1,17 @@
 import {displayName} from '@/../package.json';
-import {useGameViewModel} from '@/services/gameViewModel';
-import {usePreferencesViewModel} from '@/services/preferencesViewModel';
+import {gameViewModel} from '@/services/gameViewModel';
+import {preferencesViewModel} from '@/services/preferencesViewModel';
+import {observer} from 'mobx-react';
 import {ActionButtons} from './ActionButtons/ActionButtons';
 import {Board} from './Board/Board';
 import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
 import {boardColorClass} from './boardColors/boardColors';
+
 import './boardColors/boardColors.css';
 
-const App = () => {
-  const {boardColors, puzzleId: puzzleNum, isSolved} = useGameViewModel();
-  const {themeMode} = usePreferencesViewModel();
+const _App = () => {
+  const {boardColors, puzzleId: puzzleNum, isSolved} = gameViewModel;
+  const {themeMode} = preferencesViewModel;
 
   return (
     <div
@@ -50,4 +52,5 @@ const App = () => {
   );
 };
 
+const App = observer(_App);
 export default App;

@@ -1,15 +1,17 @@
-import {useGameViewModel} from '@/services/gameViewModel';
-import {usePreferencesViewModel} from '@/services/preferencesViewModel';
+import {gameViewModel} from '@/services/gameViewModel';
+import {preferencesViewModel} from '@/services/preferencesViewModel';
 import {About} from '@/views/About';
 import {FC, useCallback} from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import {observer} from 'mobx-react';
+
 import './ActionButtons.css';
 
-export const ActionButtons: FC = ({}) => {
-  const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = useGameViewModel();
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = usePreferencesViewModel();
+export const _ActionButtons: FC = ({}) => {
+  const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = preferencesViewModel;
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -72,3 +74,5 @@ export const ActionButtons: FC = ({}) => {
     </div>
   );
 };
+
+export const ActionButtons = observer(_ActionButtons);

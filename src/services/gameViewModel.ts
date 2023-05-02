@@ -1,4 +1,3 @@
-import {ViewModel, useViewModel} from '@/hooks/useViewModel';
 import {Board, GameModel, Move, Puzzle} from '@/models/gameModel';
 import {Threat} from '@/models/threat';
 import {loadFromFEN} from '@/services/fenLoader';
@@ -6,9 +5,10 @@ import {puzzles} from '@/services/puzzles';
 import {solvePuzzle} from '@/services/solver';
 import {StorageEntry} from '@/services/storageEntry';
 import {BoardColors, colorsList} from '@/views/App/boardColors/boardColors';
+import {makeAutoObservable} from 'mobx';
 type MoveCheck = ['valid'] | ['invalid'] | ['threat', Threat] | ['tooLong'] | ['solved'];
 
-export class GameViewModel extends ViewModel {
+export class GameViewModel {
   // ! Note: for destructuring to work, all methods must be arrow functions
   // (with class methods, `this` is not bound to the class instance)
   private readonly gameModel: GameModel;
@@ -32,7 +32,6 @@ export class GameViewModel extends ViewModel {
   public setBoardColors = (colors: React.SetStateAction<typeof this.boardColors>) => {
     const newBoardColors = colors instanceof Function ? colors(this.boardColors) : colors;
     this.boardColors = newBoardColors;
-    this.notifyListeners();
     this.schemeStorage.set(newBoardColors);
   };
   public cycleBoardColors = () => {
@@ -43,24 +42,22 @@ export class GameViewModel extends ViewModel {
   public isSolved = (puzzleNum: number = this.puzzleId) => {
     return this.solvedPuzzles[puzzleNum] === puzzleNum;
   };
-  private setSolved = (puzzleNum: number, notify = false) => {
+  private setSolved = (puzzleNum: number) => {
     this.solvedPuzzles[puzzleNum] = puzzleNum;
-    if (notify) this.notifyListeners();
     this.solvedStorage.set(this.solvedPuzzles);
   };
 
-  private switchBoardTo = (num: React.SetStateAction<number>, notify = true) => {
+  private switchBoardTo = (num: React.SetStateAction<number>) => {
     this.puzzleId = num instanceof Function ? num(this.puzzleId) : num;
-    this.switchBoard(notify);
+    this.switchBoard();
   };
 
-  private switchBoard = (notify = false) => {
+  private switchBoard = () => {
     const newPuzzle = puzzles[this.puzzleId];
     this.board = structuredClone(newPuzzle.board);
     this.gameModel.board = this.board;
     this.bestSolution = newPuzzle.bestSolution;
     this.moveCount = 0;
-    if (notify) this.notifyListeners();
 
     document.location.hash = (this.puzzleId + 1).toString();
     // Generating best solutions dynamically, on client:
@@ -82,23 +79,22 @@ export class GameViewModel extends ViewModel {
     this.switchBoardTo(puzzles.length - 1);
   };
 
-  public nextPuzzle = (notify = true) => {
-    this.switchBoardTo((num) => (num + 1) % puzzles.length, notify);
+  public nextPuzzle = () => {
+    this.switchBoardTo((num) => (num + 1) % puzzles.length);
   };
-  public previousPuzzle = (notify = true) => {
-    this.switchBoardTo((num) => (num - 1 + puzzles.length) % puzzles.length, notify);
-  };
-
-  public resetBoard = (notify = true) => {
-    this.switchBoard(notify);
+  public previousPuzzle = () => {
+    this.switchBoardTo((num) => (num - 1 + puzzles.length) % puzzles.length);
   };
 
-  private setStatus = (moveCheck: MoveCheck = ['invalid'], notify = false) => {
+  public resetBoard = () => {
+    this.switchBoard();
+  };
+
+  private setStatus = (moveCheck: MoveCheck = ['invalid']) => {
     const [status, threat] = moveCheck;
     this.threatStatus = threat;
     this.longSolutionStatus = status === 'tooLong';
     this.solvedStatus = status === 'solved';
-    if (notify) this.notifyListeners();
   };
 
   public move = (...move: Move): boolean => {
@@ -108,10 +104,9 @@ export class GameViewModel extends ViewModel {
       return false;
     }
     const checkResult = this.checkMove(...moveFrom, ...move);
-    this.setStatus(checkResult, false);
+    this.setStatus(checkResult);
     const [status, threat] = checkResult;
     if (status !== 'invalid') this.moveCount++;
-    this.notifyListeners();
     return status !== 'invalid';
   };
 
@@ -144,21 +139,21 @@ export class GameViewModel extends ViewModel {
   };
 
   public onThreatMsgClosed = () => {
-    this.setStatus(undefined, false);
-    this.resetBoard(true);
+    this.setStatus(undefined);
+    this.resetBoard();
   };
   public onLongSolutionMsgClosed = () => {
-    this.setStatus(undefined, false);
-    this.resetBoard(true);
+    this.setStatus(undefined);
+    this.resetBoard();
   };
   public onSolvedMsgClosed = () => {
-    this.setStatus(undefined, false);
-    this.setSolved(this.puzzleId, false);
-    this.nextPuzzle(true);
+    this.setStatus(undefined);
+    this.setSolved(this.puzzleId);
+    this.nextPuzzle();
   };
 
   constructor() {
-    super();
+    makeAutoObservable(this);
     this.boardColors = this.schemeStorage.get();
     this.solvedPuzzles = this.solvedStorage.get();
 
@@ -166,10 +161,8 @@ export class GameViewModel extends ViewModel {
     if (hashPuzzleNum !== this.puzzleId && hashPuzzleNum in puzzles) this.puzzleId = hashPuzzleNum;
 
     this.gameModel = new GameModel();
-    this.switchBoard(false);
+    this.switchBoard();
   }
 }
 
 export const gameViewModel = new GameViewModel();
-
-export const useGameViewModel = () => useViewModel(gameViewModel);
