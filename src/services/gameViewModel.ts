@@ -12,7 +12,7 @@ export class GameViewModel extends ViewModel {
   // ! Note: for destructuring to work, all methods must be arrow functions
   // (with class methods, `this` is not bound to the class instance)
   private readonly gameModel: GameModel;
-  public board: Board;
+  public board: Board = [];
   public bestSolution: Puzzle['bestSolution'];
 
   private schemeStorage = new StorageEntry<typeof this.boardColors>('boardColorScheme', 'default');
@@ -62,7 +62,7 @@ export class GameViewModel extends ViewModel {
     this.moveCount = 0;
     if (notify) this.notifyListeners();
 
-    document.location.hash = this.puzzleId.toString();
+    document.location.hash = (this.puzzleId + 1).toString();
     // Generating best solutions dynamically, on client:
     // TODO: if we have a static puzzle list, we can pre-generate best solutions
     // TODO: is it OK to notifyListeners(rerender) before updating bestSolution?
@@ -162,15 +162,11 @@ export class GameViewModel extends ViewModel {
     this.boardColors = this.schemeStorage.get();
     this.solvedPuzzles = this.solvedStorage.get();
 
-    const hashPuzzleNum = parseInt(document.location.hash.slice(1));
+    const hashPuzzleNum = parseInt(document.location.hash.slice(1)) - 1;
     if (hashPuzzleNum !== this.puzzleId && hashPuzzleNum in puzzles) this.puzzleId = hashPuzzleNum;
 
-    const newPuzzle = puzzles[this.puzzleId];
-    this.board = structuredClone(newPuzzle.board);
-    this.gameModel = new GameModel(this.board);
-
-    newPuzzle.bestSolution = solvePuzzle(newPuzzle.board);
-    this.bestSolution = newPuzzle.bestSolution;
+    this.gameModel = new GameModel();
+    this.switchBoard(false);
   }
 }
 
