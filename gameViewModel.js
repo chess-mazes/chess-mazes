@@ -156,6 +156,10 @@ class GameViewModel {
             console.log("start");
             this._currentSong = 0;
             this.playNext(this._playlist.length)
+        }else{
+            if (this._audio) {
+                this._audio.pause();
+            }
         }
     }
 
@@ -163,7 +167,8 @@ class GameViewModel {
         // console.log(this._playlist.length)
         if (this._currentSong < length) { 
           this._audio = new Audio(this._playlist[this._currentSong]); 
-          this._audio.addEventListener("ended", this.playNext); 
+          this._audio.addEventListener("ended", ()=>{
+            this.playNext(length)}); 
           this._audio.play(); 
           console.log(`playing ${this._playlist[this._currentSong]}`); 
           this._currentSong += 1; 
