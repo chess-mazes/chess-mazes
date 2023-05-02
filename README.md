@@ -8,8 +8,7 @@ The game is based on the book ["Chess Mazes"](https://www.amazon.com/Chess-Mazes
 
 The game is hosted at:
 
-- Develop (React, Typescript) - [https://chess-mazes.vercel.app](https://chess-mazes.vercel.app)
-- Stable (Vanilla JS) - [https://chess-mazes.github.io/chess-mazes](https://chess-mazes.github.io/chess-mazes)
+[https://chess-mazes.vercel.app](https://chess-mazes.vercel.app)
 
 Either drag and drop the pieces to move them, or click a target square to move the selected piece to it. The goal is to check the black king without having your pieces threatened.
 
