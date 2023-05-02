@@ -9,7 +9,7 @@ import './Board.css';
 
 export const moveSound = new Audio('./assets/moveSound/move.mp3');
 
-export const _Board: FC = ({}) => {
+export const Board: FC = observer(({}) => {
   const {
     board,
     moveCount,
@@ -109,9 +109,7 @@ export const _Board: FC = ({}) => {
       })}
     </div>
   );
-};
-
-export const Board = observer(_Board);
+});
 
 export const Square: FC<{content: string}> = ({content}) => {
   if (content === '') return <></>;

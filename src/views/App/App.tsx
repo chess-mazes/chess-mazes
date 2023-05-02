@@ -9,7 +9,7 @@ import {boardColorClass} from './boardColors/boardColors';
 
 import './boardColors/boardColors.css';
 
-const _App = () => {
+const App = observer(() => {
   const {boardColors, puzzleId: puzzleNum, isSolved} = gameViewModel;
   const {themeMode} = preferencesViewModel;
 
@@ -50,7 +50,6 @@ const _App = () => {
       </div>
     </div>
   );
-};
+});
 
-const App = observer(_App);
 export default App;

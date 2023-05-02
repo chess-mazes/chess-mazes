@@ -9,7 +9,7 @@ import {observer} from 'mobx-react';
 
 import './ActionButtons.css';
 
-export const _ActionButtons: FC = ({}) => {
+export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
   const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = preferencesViewModel;
 
@@ -73,6 +73,4 @@ export const _ActionButtons: FC = ({}) => {
       </button>
     </div>
   );
-};
-
-export const ActionButtons = observer(_ActionButtons);
+});

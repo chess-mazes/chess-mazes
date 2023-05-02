@@ -4,7 +4,7 @@ import {FC} from 'react';
 
 export interface SolvedPuzzlesProps {}
 
-export const _SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
+export const SolvedPuzzles: FC<SolvedPuzzlesProps> = observer(({}) => {
   const {solvedPuzzles} = gameViewModel;
 
   return (
@@ -30,6 +30,4 @@ export const _SolvedPuzzles: FC<SolvedPuzzlesProps> = ({}) => {
       </div>
     </div>
   );
-};
-
-export const SolvedPuzzles = observer(_SolvedPuzzles);
+});
