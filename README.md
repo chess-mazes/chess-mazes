@@ -4,10 +4,10 @@
 
 The game is based on the book ["Chess Mazes"](https://www.amazon.com/Chess-Mazes-Kind-Puzzle-Everyone/dp/1888690232) (2004) by Bruce Alberston.
 
-
 ## ♟️ How to Play
 
 The game is hosted at:
+
 - Develop (React, Typescript) - [https://chess-mazes.vercel.app](https://chess-mazes.vercel.app)
 - Stable (Vanilla JS) - [https://chess-mazes.github.io/chess-mazes](https://chess-mazes.github.io/chess-mazes)
 
@@ -17,10 +17,10 @@ Either drag and drop the pieces to move them, or click a target square to move t
 
 You can load custom puzzles by entering a [FEN string](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation) in the "Load FEN" dialog. If you have access to the original book, you can convert puzzles to FEN strings using tools such as [ChessVision.ai](https://chessvision.ai/).
 
-
 ## 💿 Installing and running locally
 
 You can run the project locally with the following commands:
+
 ```
 git clone https://github.com/chess-mazes/chess-mazes
 cd chess-mazes
@@ -30,11 +30,12 @@ npm run dev # Start the server
 ```
 
 ### Using Docker
+
 To build and use the docker image, in the `chess-mazes` directory, run:
+
 ```
 docker-compose up
 ```
-
 
 ## 🤝 Contributing
 
