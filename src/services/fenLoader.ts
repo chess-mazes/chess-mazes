@@ -1,4 +1,4 @@
-import {Board} from '../types';
+import {Board} from '@/models/gameModel';
 
 const isNumeric = (str: string) => /^\d+$/.test(str);
 const isDigit = (char: string) => isNumeric(char);
