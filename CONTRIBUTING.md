@@ -1,11 +1,10 @@
 # Contributing to Chess Mazes
 
-Thank you for investing your time in contributing to our project! Any contribution you make will be reflected on either one of Chess Mazes deployment sites, as per your PR; however we currently focus on **transforming the project from vanilla JS to React**!
+Thank you for investing your time in contributing to our project! Any contribution you make will be reflected on either one of Chess Mazes deployment sites, as per your PR.
 
 ## Live Deployments:
 
-- Stable (`main` - vanilla JavaScript) - [chess-mazes.github.io/chess-mazes](https://chess-mazes.github.io/chess-mazes).
-- Development (`dev` - React-based) - [chess-mazes.vercel.app](https://chess-mazes.vercel.app)
+- Production (`prod` branch) - [chess-mazes.vercel.app](https://chess-mazes.vercel.app)
 
 ## Contributing
 
@@ -18,11 +17,12 @@ Thank you for investing your time in contributing to our project! Any contributi
 
 1. Fork the repo
 
-1. Clone the repo and checkout the `dev` branch (replace `<your-username>` with your GitHub username):
+1. Clone the repo and checkout the `main` branch (replace `<your-username>` with your GitHub username):
 
    ```sh
    git clone https://github.com/<your-username>/chess-mazes.git
    cd chess-mazes
+   git checkout main
    ```
 
 1. Install NPM packages
