@@ -1,6 +1,8 @@
 import {StorageEntry} from '@/services/storageEntry';
 import {makeAutoObservable} from 'mobx';
-
+// import {} from '../music/Strobotone-Medieval-Theme01.mp3'
+import audioFile1 from "../assets/Strobotone-Medieval-Theme01.mp3"
+import audioFile2 from "../assets/Strobotone-Medieval-Theme02.mp3"
 export type ThemeMode = 'light' | 'dark';
 
 export class PreferencesViewModel {
@@ -22,9 +24,9 @@ export class PreferencesViewModel {
 
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
   public soundMode: boolean;
-  public playlist = ['../music/Strobotone-Medieval-Theme01.mp3', '../music/Strobotone-Medieval-Theme02.mp3']
+  public playlist = [audioFile1, audioFile2]
   public currentSong = 0
-  public audio:HTMLAudioElement;
+  public audio:HTMLAudioElement | undefined;
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
     this.soundMode = newSoundMode;
@@ -46,10 +48,22 @@ export class PreferencesViewModel {
   public playNext = (length:number)=> { 
     // console.log(this._playlist.length)
     if (this.currentSong < length) { 
-      this.audio = new Audio(require(this.playlist[this.currentSong])); 
+      this.audio = new Audio(this.playlist[this.currentSong]); 
       this.audio.addEventListener("ended", ()=>{
         this.playNext(length)}); 
-      this.audio.play(); 
+      // this.audio.play(); 
+      let playPromise = this.audio.play();
+
+      // In browsers that don’t yet support this functionality,
+      // playPromise won’t be defined.
+      if (playPromise !== undefined) {
+        playPromise.then(function() {
+          // Automatic playback started!
+        }).catch(function(error) {
+          // Automatic playback failed.
+          // Show a UI element to let the user manually start playback.
+        });
+      }
       console.log(`playing ${this.playlist[this.currentSong]}`); 
       this.currentSong += 1; 
     } else { 
