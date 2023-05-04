@@ -1,11 +1,12 @@
 import {Board, GameModel, Move, Puzzle} from '@/models/gameModel';
 import {Threat} from '@/models/threat';
 import {loadFromFEN} from '@/services/fenLoader';
-import {puzzles} from '@/services/puzzles';
+import {puzzles, userPuzzle} from '@/services/puzzles';
 import {solvePuzzle} from '@/services/solver';
 import {StorageEntry} from '@/services/storageEntry';
 import {BoardColors, colorsList} from '@/views/App/boardColors/boardColors';
 import {makeAutoObservable} from 'mobx';
+
 type MoveCheck = ['valid'] | ['invalid'] | ['threat', Threat] | ['tooLong'] | ['solved'];
 
 export class GameViewModel {
@@ -13,7 +14,7 @@ export class GameViewModel {
   // (with class methods, `this` is not bound to the class instance)
   private readonly gameModel: GameModel;
   public board: Board = [];
-  public bestSolution: Puzzle['bestSolution'];
+  public bestSolution: Puzzle['bestSolution'] = null;
 
   private schemeStorage = new StorageEntry<typeof this.boardColors>('boardColorScheme', 'default');
   public boardColors: BoardColors;
@@ -22,6 +23,7 @@ export class GameViewModel {
   public solvedPuzzles = new Array<number>();
 
   public puzzleId = 0;
+  public isUserPuzzle = false;
 
   public moveCount = 0;
 
@@ -53,36 +55,31 @@ export class GameViewModel {
   };
 
   private switchBoard = () => {
-    const newPuzzle = puzzles[this.puzzleId];
-    this.board = structuredClone(newPuzzle.board);
+    this.moveCount = 0;
+    console.log(this.isUserPuzzle);
+    const newPuzzle = this.isUserPuzzle ? userPuzzle : puzzles[this.puzzleId];
+    const newBoard = loadFromFEN(newPuzzle.FEN);
+    this.board = newBoard;
     this.gameModel.board = this.board;
     this.bestSolution = newPuzzle.bestSolution;
-    this.moveCount = 0;
 
     document.location.hash = (this.puzzleId + 1).toString();
-    // Generating best solutions dynamically, on client:
-    // TODO: if we have a static puzzle list, we can pre-generate best solutions
-    // TODO: is it OK to notifyListeners(rerender) before updating bestSolution?
-    if (newPuzzle.bestSolution === undefined) {
-      newPuzzle.bestSolution = solvePuzzle(newPuzzle.board);
-      this.bestSolution = newPuzzle.bestSolution;
-    }
   };
 
   public loadFen = (fen: string) => {
-    // TODO: this can be implemented more elegantly
+    this.isUserPuzzle = true;
     const board = loadFromFEN(fen);
-    puzzles.push({
-      board,
-      bestSolution: solvePuzzle(board),
-    });
-    this.switchBoardTo(puzzles.length - 1);
+    userPuzzle.FEN = fen;
+    userPuzzle.bestSolution = solvePuzzle(board);
+    this.switchBoard();
   };
 
   public nextPuzzle = () => {
+    this.isUserPuzzle = false;
     this.switchBoardTo((num) => (num + 1) % puzzles.length);
   };
   public previousPuzzle = () => {
+    this.isUserPuzzle = false;
     this.switchBoardTo((num) => (num - 1 + puzzles.length) % puzzles.length);
   };
 

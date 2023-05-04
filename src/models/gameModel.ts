@@ -2,7 +2,10 @@ import {Threat} from './threat';
 import {ValidationResult} from './validationResult';
 
 export type Board = string[];
-export type Puzzle = {board: Board; bestSolution: Move[] | undefined | null};
+export type Puzzle = {
+  FEN: string;
+  bestSolution: Move[] | null;
+};
 export type Move = [row: number, col: number];
 
 export class PieceColor {
