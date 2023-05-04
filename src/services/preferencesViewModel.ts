@@ -1,6 +1,5 @@
 import {StorageEntry} from '@/services/storageEntry';
 import {makeAutoObservable} from 'mobx';
-// import {} from '../music/Strobotone-Medieval-Theme01.mp3'
 import audioFile1 from "../assets/Strobotone-Medieval-Theme01.mp3"
 import audioFile2 from "../assets/Strobotone-Medieval-Theme02.mp3"
 export type ThemeMode = 'light' | 'dark';
@@ -46,22 +45,15 @@ export class PreferencesViewModel {
     }
   };
   public playNext = (length:number)=> { 
-    // console.log(this._playlist.length)
     if (this.currentSong < length) { 
       this.audio = new Audio(this.playlist[this.currentSong]); 
       this.audio.addEventListener("ended", ()=>{
-        this.playNext(length)}); 
-      // this.audio.play(); 
+        this.playNext(length)});  
       let playPromise = this.audio.play();
 
-      // In browsers that don’t yet support this functionality,
-      // playPromise won’t be defined.
       if (playPromise !== undefined) {
         playPromise.then(function() {
-          // Automatic playback started!
         }).catch(function(error) {
-          // Automatic playback failed.
-          // Show a UI element to let the user manually start playback.
         });
       }
       console.log(`playing ${this.playlist[this.currentSong]}`); 
