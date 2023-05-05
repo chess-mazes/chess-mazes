@@ -21,7 +21,7 @@ const App = observer(() => {
     >
       <div className="flex flex-row items-center w-full py-2">
         <p className="font-bold text-4xl mx-auto p-3 font-sans">
-          {displayName} {isUserPuzzle ? '' : '#' + puzzleNum + 1}{' '}
+          {displayName} {isUserPuzzle ? '' : '#' + (puzzleNum + 1)}{' '}
           {!isUserPuzzle && isSolved(puzzleNum) ? '✅' : ''}
         </p>
         <a
