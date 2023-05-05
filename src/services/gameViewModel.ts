@@ -56,7 +56,6 @@ export class GameViewModel {
 
   private switchBoard = () => {
     this.moveCount = 0;
-    console.log(this.isUserPuzzle);
     const newPuzzle = this.isUserPuzzle ? userPuzzle : puzzles[this.puzzleId];
     const newBoard = loadFromFEN(newPuzzle.FEN);
     this.board = newBoard;
