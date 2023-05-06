@@ -8,6 +8,7 @@ import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
 import {boardColorClass} from './boardColors/boardColors';
 
 import './boardColors/boardColors.css';
+import { BgMusic } from './BgMusic/BgMusic';
 
 const App = observer(() => {
   const {boardColors, puzzleId: puzzleNum, isSolved} = gameViewModel;
@@ -36,6 +37,7 @@ const App = observer(() => {
         <Board />
       </div>
       <ActionButtons />
+      <BgMusic />
       <SolvedPuzzles />
       <div className="mb-4 flex justify-center">
         <div className="w-36 mt-2">

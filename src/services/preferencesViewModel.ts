@@ -30,36 +30,36 @@ export class PreferencesViewModel {
     this.soundMode = newSoundMode;
     this.soundModeStorage.set(newSoundMode);
 
-    if (this.audio) {
-      this.audio.pause();
-    } 
-    if (this.soundMode) {
-      this.currentSong = 0;
-      this.playNext(playlist.length);
-    } 
+    // if (this.audio) {
+    //   this.audio.pause();
+    // } 
+    // if (this.soundMode) {
+    //   this.currentSong = 0;
+    //   this.playNext(playlist.length);
+    // } 
   };
 
-  public playNext = (length: number) => {
-    if (this.currentSong < length) {
-      this.audio = new Audio(playlist[this.currentSong]);
-      this.audio.addEventListener('ended', () => {
-        this.playNext(length);
-      });
-      let playPromise = this.audio.play();
+  // public playNext = (length: number) => {
+  //   if (this.currentSong < length) {
+  //     this.audio = new Audio(playlist[this.currentSong]);
+  //     this.audio.addEventListener('ended', () => {
+  //       this.playNext(length);
+  //     });
+  //     let playPromise = this.audio.play();
 
-      if (playPromise !== undefined) {
-        playPromise.then(function () {}).catch(function (error) {
-          error = 'the song is not available'
-          console.log(error)
-          return
-        });
-      }
-      this.currentSong += 1;
-    } else {
-      this.currentSong = 0;
-      this.playNext(length);
-    }
-  };
+  //     if (playPromise !== undefined) {
+  //       playPromise.then(function () {}).catch(function (error) {
+  //         error = 'the song is not available'
+  //         console.log(error)
+  //         return
+  //       });
+  //     }
+  //     this.currentSong += 1;
+  //   } else {
+  //     this.currentSong = 0;
+  //     this.playNext(length);
+  //   }
+  // };
   constructor() {
     makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
