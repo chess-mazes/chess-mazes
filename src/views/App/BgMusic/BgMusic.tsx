@@ -7,16 +7,16 @@ export const BgMusic = ()=> {
     let {currentSong, audio} = preferencesViewModel
     
     const state = {
-        play:true,
-        pause:false
+        play:false,
+        pause:true
     }
 
-    useEffect(()=>{
-        if(soundMode){
-            console.log(`here1 play=${state.play}`)
-            playCurrent()
-        }
-    },[])
+    // useEffect(()=>{
+    //     if(soundMode){
+    //         console.log(`here1 play=${state.play}`)
+    //         playCurrent()
+    //     }
+    // },[])
 
     const playCurrent = ()=>{
         audio = new Audio(playlist[currentSong]);
@@ -36,9 +36,11 @@ export const BgMusic = ()=> {
     };
 
     const handleClick = ()=>{
+        
         console.log('clicked')
         console.log(audio)
         currentSong = 0;
+        
         if (state.play) {
             if(audio){
                 audio.pause(); 
@@ -49,6 +51,7 @@ export const BgMusic = ()=> {
         }
         state.play = !state.play
         state.pause = !state.pause
+        // setButtonStatus(!buttonStatus)
     }
     const playNext = (length: number) => {
         if (currentSong < length) {
@@ -58,9 +61,10 @@ export const BgMusic = ()=> {
           playNext(length);
         }
       };
+    
     return (
     <div>
-      <button onClick={handleClick}>play music</button>
+        <button onClick={handleClick}>music</button>
     </div>
   )
 }
