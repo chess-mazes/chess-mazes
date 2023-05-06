@@ -1,7 +1,6 @@
 import {StorageEntry} from '@/services/storageEntry';
 import {makeAutoObservable} from 'mobx';
-import audioFile1 from "../assets/Strobotone-Medieval-Theme01.mp3"
-import audioFile2 from "../assets/Strobotone-Medieval-Theme02.mp3"
+import playlist from '@/views/App/musicAssets';
 export type ThemeMode = 'light' | 'dark';
 
 export class PreferencesViewModel {
@@ -23,46 +22,44 @@ export class PreferencesViewModel {
 
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
   public soundMode: boolean;
-  public playlist = [audioFile1, audioFile2]
-  public currentSong = 0
-  public audio:HTMLAudioElement | undefined;
+
+  public currentSong = 0;
+  public audio: HTMLAudioElement | undefined;
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
     this.soundMode = newSoundMode;
     this.soundModeStorage.set(newSoundMode);
 
-    if(this.soundMode){
-        if (this.audio) {
-            this.audio.pause();
-        }
-        console.log("start");
-        this.currentSong = 0;
-        this.playNext(this.playlist.length)
-    }else{
-        if (this.audio) {
-            this.audio.pause();
-        }
-    }
+    if (this.audio) {
+      this.audio.pause();
+    } 
+    if (this.soundMode) {
+      this.currentSong = 0;
+      this.playNext(playlist.length);
+    } 
   };
-  public playNext = (length:number)=> { 
-    if (this.currentSong < length) { 
-      this.audio = new Audio(this.playlist[this.currentSong]); 
-      this.audio.addEventListener("ended", ()=>{
-        this.playNext(length)});  
+
+  public playNext = (length: number) => {
+    if (this.currentSong < length) {
+      this.audio = new Audio(playlist[this.currentSong]);
+      this.audio.addEventListener('ended', () => {
+        this.playNext(length);
+      });
       let playPromise = this.audio.play();
 
       if (playPromise !== undefined) {
-        playPromise.then(function() {
-        }).catch(function(error) {
+        playPromise.then(function () {}).catch(function (error) {
+          error = 'the song is not available'
+          console.log(error)
+          return
         });
       }
-      console.log(`playing ${this.playlist[this.currentSong]}`); 
-      this.currentSong += 1; 
-    } else { 
-        this.currentSong = 0
-        this.playNext(length)
-    } 
-  }
+      this.currentSong += 1;
+    } else {
+      this.currentSong = 0;
+      this.playNext(length);
+    }
+  };
   constructor() {
     makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
