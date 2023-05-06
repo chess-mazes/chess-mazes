@@ -1,6 +1,6 @@
 import { preferencesViewModel } from '@/services/preferencesViewModel';
 import playlist from '../musicAssets';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export const BgMusic = ()=> {
     const {soundMode} = preferencesViewModel;
@@ -23,7 +23,6 @@ export const BgMusic = ()=> {
         }
         state.play = !state.play
         state.pause = !state.pause
-        console.log('end handleClick')
     }
 
     const getCurr = ()=>{
@@ -36,14 +35,12 @@ export const BgMusic = ()=> {
         }
     }
     const playcurrent = ()=>{
-        console.log('enter playcurrent')
         audio = new Audio(playlist[getCurr()]);
         audio.addEventListener("ended", () => {
             playcurrent
         });
         
         let playPromise = audio.play();
-        console.log(`play ${playlist[currentSong]}`)
         if (playPromise !== undefined) {
             playPromise.catch(function (error) {
             error = 'the next song is not available'
