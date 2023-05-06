@@ -24,6 +24,11 @@ export class PreferencesViewModel {
 
   public currentSong = 0;
   public audio: HTMLAudioElement | undefined;
+  public state = {
+    play:false,
+    pause:true
+  }
+
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
     this.soundMode = newSoundMode;
