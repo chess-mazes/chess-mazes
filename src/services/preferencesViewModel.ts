@@ -22,12 +22,13 @@ export class PreferencesViewModel {
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
   public soundMode: boolean;
 
-  public currentSong = 0;
-  public audio: HTMLAudioElement | undefined;
-  public state = {
-    play:false,
-    pause:true
-  }
+  public isPlay: boolean;
+
+  //is play- TODO
+  // public state = {
+  //   play:false,
+  //   pause:true
+  // }
 
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
@@ -39,6 +40,7 @@ export class PreferencesViewModel {
     makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
     this.soundMode = this.soundModeStorage.get();
+    this.isPlay = false;
 
     if (window.matchMedia)
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
