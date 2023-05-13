@@ -4,6 +4,7 @@ import { FC, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 
 export let audio: HTMLAudioElement | undefined
+export let firstAudio: HTMLAudioElement | undefined
 
 export const BgMusic: FC = observer(({})=>{
     const {soundMode} = preferencesViewModel;
@@ -22,11 +23,22 @@ export const BgMusic: FC = observer(({})=>{
     //TODO: CSS to the button
     //TODO: next button
     const effectRun = useRef(true)
+    // let isPlayBGmusic = false
 
     useEffect(()=>{
         if(effectRun.current === true){
             if(soundMode){
-                handleClick()
+                firstAudio = new Audio(playlist[getCurr()]);
+                firstAudio.addEventListener("ended", () => {
+                    playcurrent
+                });
+                let playPromise = firstAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function (error:Error) {
+                    'the next song is not available'
+                    console.log('the next song is not available', error)
+                    });
+                } 
             }
         }
         return ()=>{
@@ -36,13 +48,26 @@ export const BgMusic: FC = observer(({})=>{
 
     const handleClick = ()=>{
         currentSong = 0;
-        if (isPlay && audio) {
-            audio.pause(); 
-          } 
-        else{
-           playcurrent();
+        console.log(`isPlay=${isPlay} audio=${audio}`)
+        // if(isPlayBGmusic){
+        //     isPlay = true
+        // }
+        if(firstAudio){
+            firstAudio.pause();
+            firstAudio = undefined
         }
-        isPlay = !isPlay
+        else{
+            if (isPlay && audio) {
+                console.log('press pause')
+                audio.pause(); 
+            } 
+            else{
+            playcurrent();
+            }
+            isPlay = !isPlay
+            console.log(`isPlay=${isPlay}`)  
+        }
+        
     }
 
     const getCurr = ()=>{
@@ -55,6 +80,8 @@ export const BgMusic: FC = observer(({})=>{
         }
     }
     const playcurrent = ()=>{
+        console.log('playcurrent')
+        console.log(`isPlay=${isPlay}`)
         audio = new Audio(playlist[getCurr()]);
         audio.addEventListener("ended", () => {
             playcurrent
@@ -70,7 +97,9 @@ export const BgMusic: FC = observer(({})=>{
     
     return (
     <div>
-        <button onClick={handleClick}>play music</button>
+        <button className="button" id="btnBgMusic" onClick={handleClick} title="Play">
+        Play/Pause
+        </button>
     </div>
   )
 });

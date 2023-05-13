@@ -12,6 +12,7 @@ import './ActionButtons.css';
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
   const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = preferencesViewModel;
+  
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
