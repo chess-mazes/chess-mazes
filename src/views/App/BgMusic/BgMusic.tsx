@@ -9,17 +9,7 @@ export let firstAudio: HTMLAudioElement | undefined
 export const BgMusic: FC = observer(({})=>{
     const {soundMode} = preferencesViewModel;
     let {isPlay} = preferencesViewModel
-    let currentSong = 0
-    
-    //TODO: when soundmode change -> change the volume to 100/0 but the song continue
-    // useEffect(()=>{
-    //     console.log(`soundMode change to ${soundMode}`)
-    //     if(soundMode){
-    //         handleClick()
-    //     }
-    // },[soundMode])
-
-    //TODO: music play only when the soundmode in true
+    let currentSong = -1
     const effectRun = useRef(true)
 
     useEffect(()=>{
@@ -44,15 +34,13 @@ export const BgMusic: FC = observer(({})=>{
     },[])
 
     const playPauseClick = ()=>{
-        currentSong = 0;
-        console.log(`isPlay=${isPlay} audio=${audio}`)
+        currentSong = -1;
         if(firstAudio){
             firstAudio.pause();
             firstAudio = undefined
         }
         else{
             if (isPlay && audio) {
-                console.log('press pause')
                 audio.pause();
                 isPlay = !isPlay 
             } 
@@ -60,23 +48,19 @@ export const BgMusic: FC = observer(({})=>{
                 playcurrent();
                 isPlay = !isPlay
             }
-            console.log(`isPlay=${isPlay}`)  
         }
     }
 
     const getCurr = ()=>{
-        if (currentSong < length) {
+        if (currentSong < playlist.length-1) {
             currentSong+=1
-            return currentSong-1
         }else{
             currentSong=0
-            return currentSong
         }
+        return currentSong
     }
-    const playcurrent = ()=>{
-        console.log('playcurrent')
-        console.log(`isPlay=${isPlay}`)
-        audio = new Audio(playlist[getCurr()]);
+    const playcurrent = (_currentSong = getCurr())=>{
+        audio = new Audio(playlist[_currentSong]);
         audio.addEventListener("ended", () => {
             playcurrent
         });
@@ -89,9 +73,12 @@ export const BgMusic: FC = observer(({})=>{
         } 
     }
     
-    //TODO 
     const NextClick = ()=>{
-
+        if(isPlay){
+            audio?.pause()
+            firstAudio?.pause()
+            playcurrent()
+        }
     }
 
     return (
