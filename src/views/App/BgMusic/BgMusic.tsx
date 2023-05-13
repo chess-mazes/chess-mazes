@@ -21,7 +21,7 @@ export const BgMusic: FC = observer(({})=>{
     //TODO: music play only when the soundmode in true
     //TODO: CSS to the button
     //TODO: next button
-    
+
     console.log('render')
     useEffect(()=>{
         console.log(`only when render the page`)
