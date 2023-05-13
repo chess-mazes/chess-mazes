@@ -53,12 +53,13 @@ export const BgMusic: FC = observer(({})=>{
         else{
             if (isPlay && audio) {
                 console.log('press pause')
-                audio.pause(); 
+                audio.pause();
+                isPlay = !isPlay 
             } 
-            else{
-            playcurrent();
+            else if(soundMode){
+                playcurrent();
+                isPlay = !isPlay
             }
-            isPlay = !isPlay
             console.log(`isPlay=${isPlay}`)  
         }
     }
