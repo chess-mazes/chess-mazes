@@ -20,10 +20,7 @@ export const BgMusic: FC = observer(({})=>{
     // },[soundMode])
 
     //TODO: music play only when the soundmode in true
-    //TODO: CSS to the button
-    //TODO: next button
     const effectRun = useRef(true)
-    // let isPlayBGmusic = false
 
     useEffect(()=>{
         if(effectRun.current === true){
@@ -46,12 +43,9 @@ export const BgMusic: FC = observer(({})=>{
         }
     },[])
 
-    const handleClick = ()=>{
+    const playPauseClick = ()=>{
         currentSong = 0;
         console.log(`isPlay=${isPlay} audio=${audio}`)
-        // if(isPlayBGmusic){
-        //     isPlay = true
-        // }
         if(firstAudio){
             firstAudio.pause();
             firstAudio = undefined
@@ -67,7 +61,6 @@ export const BgMusic: FC = observer(({})=>{
             isPlay = !isPlay
             console.log(`isPlay=${isPlay}`)  
         }
-        
     }
 
     const getCurr = ()=>{
@@ -95,10 +88,18 @@ export const BgMusic: FC = observer(({})=>{
         } 
     }
     
+    //TODO 
+    const NextClick = ()=>{
+
+    }
+
     return (
-    <div>
-        <button className="button" id="btnBgMusic" onClick={handleClick} title="Play">
+    <div className={`flex flex-row justify-center flex-wrap my-3`}>
+        <button className="button" id="btPlayMusic" onClick={playPauseClick} title="Play">
         Play/Pause
+        </button>
+        <button className="button" id="btnNextMusic" onClick={NextClick} title="Next">
+        Next
         </button>
     </div>
   )
