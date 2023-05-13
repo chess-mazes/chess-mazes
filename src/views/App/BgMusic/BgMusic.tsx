@@ -1,6 +1,6 @@
 import { preferencesViewModel } from '@/services/preferencesViewModel';
 import playlist from '../musicAssets';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 
 export let audio: HTMLAudioElement | undefined
@@ -21,12 +21,16 @@ export const BgMusic: FC = observer(({})=>{
     //TODO: music play only when the soundmode in true
     //TODO: CSS to the button
     //TODO: next button
+    const effectRun = useRef(true)
 
-    console.log('render')
     useEffect(()=>{
-        console.log(`only when render the page`)
-        if(soundMode){
-            handleClick()
+        if(effectRun.current === true){
+            if(soundMode){
+                handleClick()
+            }
+        }
+        return ()=>{
+            effectRun.current = false
         }
     },[])
 
@@ -51,13 +55,11 @@ export const BgMusic: FC = observer(({})=>{
         }
     }
     const playcurrent = ()=>{
-        console.log('here')
         audio = new Audio(playlist[getCurr()]);
         audio.addEventListener("ended", () => {
             playcurrent
         });
         let playPromise = audio.play();
-        console.log('play')
         if (playPromise !== undefined) {
             playPromise.catch(function (error:Error) {
             'the next song is not available'
