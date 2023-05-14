@@ -37,3 +37,24 @@ body {
   background-color: var(--background1);
   color: var(--text);
 }
+
+.char-disable {
+  cursor: pointer;
+  animation: animate 1.2s infinite;
+}
+.char-enable {
+  cursor: pointer;
+  background-color: #363636;
+}
+
+@keyframes animate {
+  0% {
+    background-color: #363636;
+  }
+  50% {
+    background-color: #ffe6c7;
+  }
+  100% {
+    background-color: #363636;
+  }
+}

@@ -1,18 +1,17 @@
 import {Threat} from './threat';
 import {ValidationResult} from './validationResult';
-
+const b:any[] = []
 export type Board = string[];
 export type Puzzle = {board: Board; bestSolution: Move[] | undefined | null};
 export type Move = [row: number, col: number];
-
 export class PieceColor {
   static White = new PieceColor('White');
   static Black = new PieceColor('Black');
   static EmptySquare = new PieceColor('EmptySquare');
 
   constructor(public color: string) {}
-
-  toString() {
+  
+  toString() {    
     return `PieceColor { color: ${this.color} }`;
   }
 }
@@ -22,20 +21,20 @@ export class GameModel {
   static NumRows = 8;
   static NumCols = 8;
   static ValidPieces = ['K', 'Q', 'R', 'B', 'N', 'P', 'k', 'q', 'r', 'b', 'n', 'p', ''];
-
   private subscribers: Function[] = [];
   constructor(public board: Board = []) {}
 
   loadPuzzle(puzzle: Board) {
+    
     let board = JSON.parse(JSON.stringify(puzzle));
-
     // Check if the puzzle is valid
     if (board.length !== GameModel.NumRows * GameModel.NumCols) {
       throw new Error('Invalid puzzle length');
     }
 
     for (let piece of board) {
-      if (!GameModel.ValidPieces.includes(piece)) {
+      
+      if (!GameModel.ValidPieces.includes(piece)) {        
         throw new Error('Invalid piece in puzzle');
       }
     }
@@ -46,12 +45,12 @@ export class GameModel {
 
   movePiece(startRow: number, startCol: number, endRow: number, endCol: number) {
     // Check if the move is valid
-    if (!this.validateMove(startRow, startCol, endRow, endCol, false).status) {
+    if (!this.validateMove(startRow, startCol, endRow, endCol, false).status) {      
       return false;
     }
 
-    let piece = this.board[startRow * 8 + startCol];
-    this.board[endRow * 8 + endCol] = piece;
+    let piece = this.board[startRow * 8 + startCol];    
+    this.board[endRow * 8 + endCol] = piece;    
     this.board[startRow * 8 + startCol] = '';
     this.notifySubscribers(); // Notify subscribers that the board has changed
 
@@ -64,7 +63,9 @@ export class GameModel {
     endRow: number,
     endCol: number,
     blackToMove = false
-  ) {
+  )
+
+   {
     // Check if the move is within the bounds of the board
     if (
       startRow < 0 ||
@@ -81,11 +82,13 @@ export class GameModel {
 
     // Check if the start and end squares are the same
     if (startRow === endRow && startCol === endCol) {
+
       return ValidationResult.SameSquare;
     }
 
     // Check if the start square is empty
-    if (this.board[startRow * 8 + startCol] === '') {
+    if (this.board[startRow * 8 + startCol] === '')
+    {
       return ValidationResult.EmptyStartSquare;
     }
 
@@ -102,7 +105,7 @@ export class GameModel {
       return ValidationResult.EnemyPiece;
     }
 
-    if (startColor === endColor) {
+    if (startColor === endColor) {      
       return ValidationResult.FriendlyPiece;
     }
 
@@ -159,7 +162,7 @@ export class GameModel {
       }
     } else if (pieceType == 'b') {
       // Check if the bishop is moving diagonally
-      if (Math.abs(startRow - endRow) !== Math.abs(startCol - endCol)) {
+      if (Math.abs(startRow - endRow) !== Math.abs(startCol - endCol)) {      
         return ValidationResult.InvalidMovePattern;
       }
     } else if (pieceType == 'q') {
@@ -240,7 +243,7 @@ export class GameModel {
     for (let i = 0; i < this.board.length; i++) {
       let row = Math.floor(i / 8);
       let col = i % 8;
-
+      
       if (this.getPieceColor(row, col) === PieceColor.White) {
         return [row, col];
       }
@@ -263,6 +266,7 @@ export class GameModel {
   }
 
   getBoard() {
+    
     return JSON.parse(JSON.stringify(this.board));
   }
 

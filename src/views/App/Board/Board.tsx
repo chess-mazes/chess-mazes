@@ -12,6 +12,8 @@ export const Board: FC = observer(({}) => {
     board,
     moveCount,
     move,
+    pieceClick,
+    showGuides,
     threatStatus,
     longSolutionStatus,
     solvedStatus,
@@ -29,6 +31,9 @@ export const Board: FC = observer(({}) => {
     },
     [soundMode]
   );
+  const onPieceClick = useCallback((row: number, col: number) => {
+    pieceClick(row, col);
+  }, []);
 
   useEffect(() => {
     if (threatStatus) {
@@ -56,7 +61,7 @@ export const Board: FC = observer(({}) => {
       });
   }, [longSolutionStatus, moveCount, bestSolution, onLongSolutionMsgClosed]);
   useEffect(() => {
-    if (solvedStatus)
+    if (solvedStatus) {
       Swal.fire({
         title: 'Good Job!',
         text: `You have successfully checked the black king.`,
@@ -66,6 +71,7 @@ export const Board: FC = observer(({}) => {
         timer: 2000,
         didClose: onSolvedMsgClosed,
       });
+    }
   }, [solvedStatus, onSolvedMsgClosed]);
 
   // In order to make the board div square at all times, while making sure it is the biggest it can be without overflow, I used two tricks:
@@ -78,30 +84,35 @@ export const Board: FC = observer(({}) => {
         const row = 7 - _row;
         return (
           <div className="flex flex-auto flex-row" key={row}>
-            {Array.from({length: 8}, (_, col) => (
-              <div className="flex w-full h-full justify-center items-center" key={col}>
-                <div
-                  className={`aspect-square w-full h-full relative flex justify-center items-center ${
-                    (row + col) % 2 === 0 ? 'bg-chess-dark' : 'bg-chess-light'
-                  }`}
-                  onClick={() => onMove(_row, col)}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    onMove(_row, col);
-                  }}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <Square content={board[_row * 8 + col]} />
-                  {col === 0 && <div className="absolute left-0 top-0 z-10">{row + 1}</div>}
-                  {row === 0 && (
-                    <div className="absolute right-0 bottom-0 z-10">
-                      {String.fromCharCode(97 + col)}
-                      {/* uppercase: {String.fromCharCode(65 + col)} */}
-                    </div>
-                  )}
+            {Array.from({length: 8}, (_, col) => {
+              return (
+                <div className="flex w-full h-full justify-center items-center" key={col}>
+                  <div
+                    className={`aspect-square w-full h-full relative flex justify-center items-center ${
+                      (row + col) % 2 === 0 ? 'bg-chess-dark' : 'bg-chess-light'
+                    }`}
+                    onClick={() => {
+                      onMove(_row, col);
+                      onPieceClick(_row, col); // added
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      onMove(_row, col);
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <Square content={board[_row * 8 + col]} showGuides={showGuides} />
+                    {col === 0 && <div className="absolute left-0 top-0 z-10">{row + 1}</div>}
+                    {row === 0 && (
+                      <div className="absolute right-0 bottom-0 z-10">
+                        {String.fromCharCode(97 + col)}
+                        {/* uppercase: {String.fromCharCode(65 + col)} */}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         );
       })}
@@ -109,13 +120,15 @@ export const Board: FC = observer(({}) => {
   );
 });
 
-export const Square: FC<{content: string}> = ({content}) => {
+export const Square: FC<{content: string; showGuides: boolean}> = ({content, showGuides}) => {
   if (content === '') return <></>;
   const player = content.toLowerCase() === content ? 'b' : 'w';
   const isWhite = player === 'w';
   return (
     <img
-      className={`p-1 aspect-square object-contain ${isWhite ? 'animate-chess-move' : ''}`}
+      className={`p-1 aspect-square object-contain ${
+        player === 'w' ? (showGuides ? 'char-enable' : 'char-disable') : null
+      } ${isWhite ? 'animate-chess-move' : ''}`}
       src={`./assets/pieceImages/${player}_${content.toLowerCase()}.png`}
       alt={content}
       width="90%"
