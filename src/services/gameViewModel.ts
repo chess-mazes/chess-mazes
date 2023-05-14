@@ -28,7 +28,7 @@ export class GameViewModel {
   public threatStatus: Threat | null | undefined = undefined;
   public longSolutionStatus: boolean = false;
   public solvedStatus: boolean = false;
-
+  public showGuides: boolean = false;
   public setBoardColors = (colors: React.SetStateAction<typeof this.boardColors>) => {
     const newBoardColors = colors instanceof Function ? colors(this.boardColors) : colors;
     this.boardColors = newBoardColors;
@@ -95,21 +95,34 @@ export class GameViewModel {
     this.threatStatus = threat;
     this.longSolutionStatus = status === 'tooLong';
     this.solvedStatus = status === 'solved';
+    this.showGuides = false
+
   };
 
   public move = (...move: Move): boolean => {
     const moveFrom = this.gameModel.locateWhitePiece();
     if (!moveFrom) {
-      console.error('Could not locate white piece');
       return false;
     }
     const checkResult = this.checkMove(...moveFrom, ...move);
+    
     this.setStatus(checkResult);
     const [status, threat] = checkResult;
     if (status !== 'invalid') this.moveCount++;
     return status !== 'invalid';
   };
+  public pieceClick = (row: number, col: number) => {
+    const whitePieceLocation = this.gameModel.locateWhitePiece();
+    if (!whitePieceLocation) {
+      console.error('Could not locate white piece');
+      return;
+    }
 
+    const [targetRow, targetCol] = whitePieceLocation;
+    if (row == targetRow && col == targetCol) {
+      this.showGuides = true;
+    }
+  }
   private checkMove = (
     fromRow: number,
     fromCol: number,
@@ -117,7 +130,8 @@ export class GameViewModel {
     toCol: number
   ): MoveCheck => {
     const moved = this.gameModel.movePiece(fromRow, fromCol, toRow, toCol);
-    if (!moved) return ['invalid'];
+    if (!moved) {
+      return ['invalid'];};
     const threat = this.gameModel.findSquareThreat(toRow, toCol, true);
     if (threat) {
       return ['threat', threat];

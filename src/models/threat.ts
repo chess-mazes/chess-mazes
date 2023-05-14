@@ -8,7 +8,7 @@ export class Threat {
     public col: number
   ) {}
 
-  toString() {
+  toString() {    
     return `Threat { piece: ${this.piece}, pieceColor: ${this.pieceColor}, row: ${this.row}, col: ${this.col} }`;
   }
 }
