@@ -1,53 +1,24 @@
 import { preferencesViewModel } from '@/services/preferencesViewModel';
 import playlist from '../musicAssets';
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import { observer } from 'mobx-react';
 
 export let audio: HTMLAudioElement | undefined
-export let firstAudio: HTMLAudioElement | undefined
 
 export const BgMusic: FC = observer(({})=>{
     const {soundMode} = preferencesViewModel;
     let {isPlay} = preferencesViewModel
     let currentSong = -1
-    const effectRun = useRef(true)
-
-    useEffect(()=>{
-        if(effectRun.current === true){
-            if(soundMode){
-                firstAudio = new Audio(playlist[getCurr()]);
-                firstAudio.addEventListener("ended", () => {
-                    playcurrent
-                });
-                let playPromise = firstAudio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(function (error:Error) {
-                    'the next song is not available'
-                    console.log('the next song is not available', error)
-                    });
-                } 
-            }
-        }
-        return ()=>{
-            effectRun.current = false
-        }
-    },[])
 
     const playPauseClick = ()=>{
         currentSong = -1;
-        if(firstAudio){
-            firstAudio.pause();
-            firstAudio = undefined
-        }
-        else{
-            if (isPlay && audio) {
-                audio.pause();
-                isPlay = !isPlay 
-            } 
-            else if(soundMode){
-                playcurrent();
-                isPlay = !isPlay
-            }
+        if (isPlay && audio) {
+            audio.pause();
+            isPlay = !isPlay 
+        } 
+        else if(soundMode){
+            playcurrent();
+            isPlay = !isPlay
         }
     }
 
@@ -76,7 +47,6 @@ export const BgMusic: FC = observer(({})=>{
     const NextClick = ()=>{
         if(isPlay){
             audio?.pause()
-            firstAudio?.pause()
             playcurrent()
         }
     }
