@@ -11,7 +11,7 @@ import './ActionButtons.css';
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = preferencesViewModel;
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, musicMode, toggleMusicMode, toggleStopMusic, togglePauseMusic} = preferencesViewModel;
   
 
   const loadFenButtonClick = useCallback(() => {
@@ -27,6 +27,18 @@ export const ActionButtons: FC = observer(({}) => {
   const soundModeButtonClick = useCallback(() => {
     toggleSoundMode();
   }, [toggleSoundMode]);
+
+  const musicModeButtonClick = useCallback(() => {
+    toggleMusicMode();
+  }, [toggleMusicMode]);
+
+  const stopMusicButtonClick = useCallback(() => {
+    toggleStopMusic();
+  }, [toggleStopMusic]);
+
+  const pauseMusicButtonClick = useCallback(() => {
+    togglePauseMusic();
+  }, [togglePauseMusic]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -53,6 +65,20 @@ export const ActionButtons: FC = observer(({}) => {
       </button>
       <button className="button" id="btnSound" onClick={soundModeButtonClick} title="Sound on/off">
         {soundMode ? '🔊' : '🔇'}
+      </button>
+      <button className="button" id="btnMusic" onClick={musicModeButtonClick} title="Music on/off">
+          {musicMode ?
+            '🎵'
+            :
+            <>
+              <button className="button" id="btnStopMusic" onClick={stopMusicButtonClick} title="Stop Music">
+                  ⏹️
+              </button>
+              <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
+                  ⏸️
+              </button>
+            </>
+          }
       </button>
       <button className="button" id="btnNextTheme" onClick={cycleBoardColors} title="Change theme">
         🎨

@@ -1,12 +1,12 @@
 import { preferencesViewModel } from '@/services/preferencesViewModel';
 import playlist from '../musicAssets';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import { observer } from 'mobx-react';
 
 export let audio: HTMLAudioElement | undefined
 
 export const BgMusic: FC = observer(({})=>{
-    const {soundMode} = preferencesViewModel;
+    // const {soundMode} = preferencesViewModel;
     let {isMusicPlaying: isPlay} = preferencesViewModel
     let currentSong = -1
 
@@ -17,10 +17,10 @@ export const BgMusic: FC = observer(({})=>{
             audio.removeEventListener("ended", ()=>playcurrent())
             isPlay = !isPlay 
         } 
-        else if(soundMode){
+        // else if(soundMode){
             playcurrent();
             isPlay = !isPlay
-        }
+        // }
     }
 
     const getCurr = ()=>{

@@ -20,7 +20,9 @@ export class PreferencesViewModel {
   };
 
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
+  private musicModeStorage = new StorageEntry<boolean>('musicMode', true);
   public soundMode: boolean;
+  public musicMode: boolean;
 
   public isMusicPlaying: boolean;
 
@@ -30,11 +32,18 @@ export class PreferencesViewModel {
     this.soundModeStorage.set(newSoundMode);
   };
 
+  public toggleMusicMode = () => {
+    const newMusicMode = !this.musicMode;
+    this.musicMode = newMusicMode;
+    this.musicModeStorage.set(newMusicMode);
+  };
+
   constructor() {
     makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
     this.soundMode = this.soundModeStorage.get();
     this.isMusicPlaying = false;
+    this.musicMode = this.musicModeStorage.get();
 
     if (window.matchMedia)
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
