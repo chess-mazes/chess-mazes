@@ -25,11 +25,11 @@ export const ActionButtons: FC = observer(({}) => {
     console.log('musicMode:', musicMode);
     if (musicMode) {
       currentSong = -1;
-      playCurrentSong();
+      playNextSong();
     } else {
       currentSong = -1;
       audio.pause();
-      audio.removeEventListener('ended', playCurrentSongListener);
+      audio.removeEventListener('ended', playNextSongListener);
     }
   };
 
@@ -42,20 +42,20 @@ export const ActionButtons: FC = observer(({}) => {
     return currentSong;
   };
 
-  const playCurrentSongListener = (ev: Event) => {
-    playCurrentSong();
+  const playNextSongListener = (ev: Event) => {
+    playNextSong();
   };
 
-  const playCurrentSong = (_currentSong = getCurrSong()) => {
+  const playNextSong = (_currentSong = getCurrSong()) => {
     audio.src = playlist[_currentSong];
-    audio.addEventListener('ended', playCurrentSongListener);
+    audio.addEventListener('ended', playNextSongListener);
     audio.play();
   };
 
   const nextMusicButtonClick = () => {
     if (musicMode) {
       audio.pause();
-      playCurrentSong();
+      playNextSong();
     }
   };
 
