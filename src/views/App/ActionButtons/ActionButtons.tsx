@@ -10,7 +10,7 @@ import playlist from '../musicAssets';
 
 import './ActionButtons.css';
 
-export let audio: HTMLAudioElement | undefined
+export let audio = new Audio(playlist[0])
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
@@ -24,15 +24,15 @@ export const ActionButtons: FC = observer(({}) => {
     console.log('musicMode:', musicMode)
     if(musicMode){
       currentSong = -1; 
-      playcurrent();
+      playCurrentSong();
     }else{
       currentSong = -1;
-      audio?.pause()
-      audio?.removeEventListener("ended", ()=>playcurrent())
+      audio.pause()
+      audio.removeEventListener("ended", playCurrentSongListener)
     }
   }
 
-  const getCurr = ()=>{
+  const getCurrSong = ()=>{
     if (currentSong < playlist.length-1) {
         currentSong+=1
     }else{
@@ -41,16 +41,20 @@ export const ActionButtons: FC = observer(({}) => {
     return currentSong
   }
 
-  const playcurrent = (_currentSong = getCurr())=>{
-      audio = new Audio(playlist[_currentSong]);
-      audio.addEventListener("ended", ()=>playcurrent());
-      audio.play()
+  const playCurrentSongListener = (ev:Event)=>{
+      playCurrentSong()
+  }
+ 
+  const playCurrentSong = (_currentSong = getCurrSong())=>{
+    audio.src = playlist[_currentSong]
+    audio.addEventListener("ended", playCurrentSongListener);
+    audio.play()
   }
 
   const nextMusicButtonClick = ()=>{
     if(musicMode){
-      audio?.pause()
-      playcurrent()
+      audio.pause()
+      playCurrentSong()
     }
   }
 
