@@ -21,8 +21,6 @@ export const ActionButtons: FC = observer(({}) => {
   let currentSong = -1;
 
   const playMusicClicked = () => {
-    console.log('playMusicClicked');
-    console.log('musicMode:', musicMode);
     if (musicMode) {
       currentSong = -1;
       playNextSong();
