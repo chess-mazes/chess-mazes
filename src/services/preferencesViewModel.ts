@@ -1,5 +1,4 @@
 import {StorageEntry} from '@/services/storageEntry';
-import { BgMusic } from '@/views/App/BgMusic/BgMusic';
 import {makeAutoObservable} from 'mobx';
 export type ThemeMode = 'light' | 'dark';
 
@@ -22,9 +21,10 @@ export class PreferencesViewModel {
 
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
   private musicModeStorage = new StorageEntry<boolean>('musicMode', true);
+  private stopMusicModeStorage = new StorageEntry<boolean>('stopMusicMode', false);
   public soundMode: boolean;
   public musicMode: boolean;
-
+  public stopMusicMode: boolean;
   public isMusicPlaying: boolean;
 
   public toggleSoundMode = () => {
@@ -39,12 +39,19 @@ export class PreferencesViewModel {
     this.musicModeStorage.set(newMusicMode);
   };
 
+  public toggleStopMusic = () => {
+    const newStopMusicMode = !this.stopMusicMode;
+    this.stopMusicMode = newStopMusicMode;
+    this.stopMusicModeStorage.set(newStopMusicMode);
+  };
+
   constructor() {
     makeAutoObservable(this);
     this.themeMode = this.themeModeStorage.get();
     this.soundMode = this.soundModeStorage.get();
     this.isMusicPlaying = false;
     this.musicMode = this.musicModeStorage.get();
+    this.stopMusicMode = this.stopMusicModeStorage.get();
 
     if (window.matchMedia)
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
