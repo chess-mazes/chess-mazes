@@ -14,10 +14,9 @@ export let audio: HTMLAudioElement | undefined
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, toggleStopMusic} = preferencesViewModel;
-  
-  ////////
-  const {stopMusicMode, musicMode} = preferencesViewModel
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode} = preferencesViewModel;
+
+  const {musicMode} = preferencesViewModel
   let currentSong = -1
   
   const playMusicClicked = () => {
@@ -26,14 +25,9 @@ export const ActionButtons: FC = observer(({}) => {
     if(musicMode){
       currentSong = -1; 
       playcurrent();
-    }
-  }
-
-  const stopMusicClicked = () => {
-    if(stopMusicMode){
-      console.log('stop')
+    }else{
       currentSong = -1;
-      audio?.pause();
+      audio?.pause()
       audio?.removeEventListener("ended", ()=>playcurrent())
     }
   }
@@ -54,11 +48,11 @@ export const ActionButtons: FC = observer(({}) => {
   }
 
   const nextMusicButtonClick = ()=>{
+    if(musicMode){
       audio?.pause()
       playcurrent()
+    }
   }
-
-  /////////
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -77,22 +71,11 @@ export const ActionButtons: FC = observer(({}) => {
   const musicModeButtonClick = useCallback(() => {
     toggleMusicMode();
   }, [toggleMusicMode]);
-
-  const stopMusicButtonClick = useCallback(() => {
-    console.log('stopMusicButtonClick')
-    toggleStopMusic();
-  }, [toggleStopMusic]);
   
   useEffect(()=>{
     playMusicClicked();
-    stopMusicClicked();
-  },[musicMode,stopMusicMode])
+  },[musicMode])
 
-  useEffect(()=>{
-    playMusicClicked();
-    stopMusicClicked();
-  },[])
-  
   const cheatButtonClick = useCallback(() => {}, []);
 
   const aboutButtonClick = useCallback(() => {
@@ -119,23 +102,6 @@ export const ActionButtons: FC = observer(({}) => {
       <button className="button" id="btnSound" onClick={soundModeButtonClick} title="Sound on/off">
         {soundMode ? '🔊' : '🔇'}
       </button>
-      <button className="button" id="btnMusic" onClick={musicModeButtonClick} title="Music on/off">
-          {musicMode ?
-            <>
-              <button className="button" id="btnStopMusic" onClick={stopMusicButtonClick} title="Stop Music">
-                  ⏹️
-              </button>
-              {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
-                  ⏸️
-              </button> */}
-              <button className="button" id="btnNextMusic" onClick={nextMusicButtonClick} title="Next Song">
-                  ⏭️
-              </button>
-            </>
-            :
-            '🎵'
-          }
-      </button>
       <button className="button" id="btnNextTheme" onClick={cycleBoardColors} title="Change theme">
         🎨
       </button>
@@ -150,6 +116,17 @@ export const ActionButtons: FC = observer(({}) => {
       </button>
       <button className="button hidden" id="btnCheat" onClick={cheatButtonClick}>
         ✨
+      </button>
+      <button className="button">
+        <button className="button" id="btnMusic" onClick={musicModeButtonClick} title="Music on/off">
+          🎵   
+        </button>
+        {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
+            ⏸️
+        </button> */}
+        <button className="button" id="btnNextMusic" onClick={nextMusicButtonClick} title="Next Song">
+            ⏭️
+        </button>
       </button>
       <button className="button" id="btnAbout" onClick={aboutButtonClick} title="About">
         ?

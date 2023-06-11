@@ -24,7 +24,6 @@ export class PreferencesViewModel {
   private stopMusicModeStorage = new StorageEntry<boolean>('stopMusicMode', true);
   public soundMode: boolean;
   public musicMode: boolean;
-  public stopMusicMode: boolean;
 
   public toggleSoundMode = () => {
     const newSoundMode = !this.soundMode;
@@ -36,13 +35,6 @@ export class PreferencesViewModel {
     const newMusicMode = !this.musicMode;
     this.musicMode = newMusicMode;
     this.musicModeStorage.set(newMusicMode);
-    this.toggleStopMusic();
-  };
-
-  public toggleStopMusic = () => {
-    const newStopMusicMode = !this.musicMode;
-    this.stopMusicMode = newStopMusicMode;
-    this.stopMusicModeStorage.set(newStopMusicMode);
   };
 
   constructor() {
@@ -50,7 +42,6 @@ export class PreferencesViewModel {
     this.themeMode = this.themeModeStorage.get();
     this.soundMode = this.soundModeStorage.get();
     this.musicMode = this.musicModeStorage.get();
-    this.stopMusicMode = this.stopMusicModeStorage.get();
 
     if (window.matchMedia)
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
