@@ -1,7 +1,7 @@
 import {gameViewModel} from '@/services/gameViewModel';
 import {preferencesViewModel} from '@/services/preferencesViewModel';
 import {About} from '@/views/About';
-import {FC, useCallback} from 'react';
+import {FC, useCallback, useEffect} from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -17,29 +17,25 @@ export const ActionButtons: FC = observer(({}) => {
   const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, toggleStopMusic} = preferencesViewModel;
   
   ////////
-  let {isMusicPlaying, musicMode} = preferencesViewModel
+  const {stopMusicMode, musicMode} = preferencesViewModel
   let currentSong = -1
   
   const playMusicClicked = () => {
-      console.log('playMusicClicked')
-      currentSong = -1;
-      if (isMusicPlaying && audio) {
-          audio.pause();
-          audio.removeEventListener("ended", ()=>playcurrent())
-          isMusicPlaying = !isMusicPlaying 
-      } 
-      // else if(soundMode){
-          playcurrent();
-          isMusicPlaying = !isMusicPlaying
-      // }
+    console.log('playMusicClicked')
+    console.log('musicMode:', musicMode)
+    if(musicMode){
+      currentSong = -1; 
+      playcurrent();
+    }
   }
 
   const stopMusicClicked = () => {
-    console.log('stop')
-    currentSong = -1;
-    audio?.pause();
-    audio?.removeEventListener("ended", ()=>playcurrent())
-    isMusicPlaying = !isMusicPlaying 
+    if(stopMusicMode){
+      console.log('stop')
+      currentSong = -1;
+      audio?.pause();
+      audio?.removeEventListener("ended", ()=>playcurrent())
+    }
   }
 
   const getCurr = ()=>{
@@ -50,6 +46,7 @@ export const ActionButtons: FC = observer(({}) => {
     }
     return currentSong
   }
+
   const playcurrent = (_currentSong = getCurr())=>{
       audio = new Audio(playlist[_currentSong]);
       audio.addEventListener("ended", ()=>playcurrent());
@@ -57,10 +54,8 @@ export const ActionButtons: FC = observer(({}) => {
   }
 
   const nextMusicButtonClick = ()=>{
-      if(isMusicPlaying){
-          audio?.pause()
-          playcurrent()
-      }
+      audio?.pause()
+      playcurrent()
   }
 
   /////////
@@ -81,15 +76,23 @@ export const ActionButtons: FC = observer(({}) => {
 
   const musicModeButtonClick = useCallback(() => {
     toggleMusicMode();
-    playMusicClicked();
   }, [toggleMusicMode]);
 
   const stopMusicButtonClick = useCallback(() => {
     console.log('stopMusicButtonClick')
     toggleStopMusic();
+  }, [toggleStopMusic]);
+  
+  useEffect(()=>{
+    playMusicClicked();
     stopMusicClicked();
-  }, [toggleMusicMode]);
+  },[musicMode,stopMusicMode])
 
+  useEffect(()=>{
+    playMusicClicked();
+    stopMusicClicked();
+  },[])
+  
   const cheatButtonClick = useCallback(() => {}, []);
 
   const aboutButtonClick = useCallback(() => {
