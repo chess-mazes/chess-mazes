@@ -6,13 +6,56 @@ import ReactDOMServer from 'react-dom/server';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import {observer} from 'mobx-react';
+import playlist from '../musicAssets';
 
 import './ActionButtons.css';
+
+export let audio: HTMLAudioElement | undefined
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
   const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, musicMode, toggleMusicMode, toggleStopMusic, togglePauseMusic} = preferencesViewModel;
   
+  ////////
+  let {isMusicPlaying} = preferencesViewModel
+  let currentSong = -1
+  
+  const playMusicClicked = () => {
+      console.log('1')
+      currentSong = -1;
+      if (isMusicPlaying && audio) {
+          audio.pause();
+          audio.removeEventListener("ended", ()=>playcurrent())
+          isMusicPlaying = !isMusicPlaying 
+      } 
+      // else if(soundMode){
+          playcurrent();
+          isMusicPlaying = !isMusicPlaying
+      // }
+  }
+
+  const getCurr = ()=>{
+    if (currentSong < playlist.length-1) {
+        currentSong+=1
+    }else{
+        currentSong=0
+    }
+    return currentSong
+  }
+  const playcurrent = (_currentSong = getCurr())=>{
+      audio = new Audio(playlist[_currentSong]);
+      audio.addEventListener("ended", ()=>playcurrent());
+      audio.play()
+  }
+
+  const NextClick = ()=>{
+      if(isMusicPlaying){
+          audio?.pause()
+          playcurrent()
+      }
+  }
+
+  /////////
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -30,6 +73,7 @@ export const ActionButtons: FC = observer(({}) => {
 
   const musicModeButtonClick = useCallback(() => {
     toggleMusicMode();
+    playMusicClicked();
   }, [toggleMusicMode]);
 
   const stopMusicButtonClick = useCallback(() => {

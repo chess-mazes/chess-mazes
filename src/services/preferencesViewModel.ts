@@ -1,9 +1,10 @@
 import {StorageEntry} from '@/services/storageEntry';
+import { BgMusic } from '@/views/App/BgMusic/BgMusic';
 import {makeAutoObservable} from 'mobx';
 export type ThemeMode = 'light' | 'dark';
 
 export class PreferencesViewModel {
-  private themeModeStorage = new StorageEntry<ThemeMode>(
+    private themeModeStorage = new StorageEntry<ThemeMode>(
     'theme',
     window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'

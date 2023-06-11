@@ -37,7 +37,6 @@ const App = observer(() => {
         <Board />
       </div>
       <ActionButtons />
-      <BgMusic />
       <SolvedPuzzles />
       <div className="mb-4 flex justify-center">
         <div className="w-36 mt-2">
