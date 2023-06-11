@@ -10,53 +10,54 @@ import playlist from '../musicAssets';
 
 import './ActionButtons.css';
 
-export let audio = new Audio(playlist[0])
+export let audio = new Audio(playlist[0]);
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode} = preferencesViewModel;
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode} =
+    preferencesViewModel;
 
-  const {musicMode} = preferencesViewModel
-  let currentSong = -1
-  
+  const {musicMode} = preferencesViewModel;
+  let currentSong = -1;
+
   const playMusicClicked = () => {
-    console.log('playMusicClicked')
-    console.log('musicMode:', musicMode)
-    if(musicMode){
-      currentSong = -1; 
-      playCurrentSong();
-    }else{
+    console.log('playMusicClicked');
+    console.log('musicMode:', musicMode);
+    if (musicMode) {
       currentSong = -1;
-      audio.pause()
-      audio.removeEventListener("ended", playCurrentSongListener)
+      playCurrentSong();
+    } else {
+      currentSong = -1;
+      audio.pause();
+      audio.removeEventListener('ended', playCurrentSongListener);
     }
-  }
+  };
 
-  const getCurrSong = ()=>{
-    if (currentSong < playlist.length-1) {
-        currentSong+=1
-    }else{
-        currentSong=0
+  const getCurrSong = () => {
+    if (currentSong < playlist.length - 1) {
+      currentSong += 1;
+    } else {
+      currentSong = 0;
     }
-    return currentSong
-  }
+    return currentSong;
+  };
 
-  const playCurrentSongListener = (ev:Event)=>{
-      playCurrentSong()
-  }
- 
-  const playCurrentSong = (_currentSong = getCurrSong())=>{
-    audio.src = playlist[_currentSong]
-    audio.addEventListener("ended", playCurrentSongListener);
-    audio.play()
-  }
+  const playCurrentSongListener = (ev: Event) => {
+    playCurrentSong();
+  };
 
-  const nextMusicButtonClick = ()=>{
-    if(musicMode){
-      audio.pause()
-      playCurrentSong()
+  const playCurrentSong = (_currentSong = getCurrSong()) => {
+    audio.src = playlist[_currentSong];
+    audio.addEventListener('ended', playCurrentSongListener);
+    audio.play();
+  };
+
+  const nextMusicButtonClick = () => {
+    if (musicMode) {
+      audio.pause();
+      playCurrentSong();
     }
-  }
+  };
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -75,10 +76,10 @@ export const ActionButtons: FC = observer(({}) => {
   const musicModeButtonClick = useCallback(() => {
     toggleMusicMode();
   }, [toggleMusicMode]);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     playMusicClicked();
-  },[musicMode])
+  }, [musicMode]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -122,14 +123,24 @@ export const ActionButtons: FC = observer(({}) => {
         ✨
       </button>
       <button className="button">
-        <button className="button" id="btnMusic" onClick={musicModeButtonClick} title="Music on/off">
-          🎵   
+        <button
+          className="button"
+          id="btnMusic"
+          onClick={musicModeButtonClick}
+          title="Music on/off"
+        >
+          🎵
         </button>
         {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
             ⏸️
         </button> */}
-        <button className="button" id="btnNextMusic" onClick={nextMusicButtonClick} title="Next Song">
-            ⏭️
+        <button
+          className="button"
+          id="btnNextMusic"
+          onClick={nextMusicButtonClick}
+          title="Next Song"
+        >
+          ⏭️
         </button>
       </button>
       <button className="button" id="btnAbout" onClick={aboutButtonClick} title="About">
