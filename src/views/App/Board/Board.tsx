@@ -68,12 +68,11 @@ export const Board: FC = observer(({}) => {
       });
   }, [solvedStatus, onSolvedMsgClosed]);
 
-  // In order to make the board div square at all times, while making sure it is the biggest it can be without overflow, I used two tricks:
-  // 1. "aspect-square"- aspect-ratio: 1/1, which makes sure the board's width is always equal to its height.
-  // 2. "max-h-full"- max-height: 100vw, which makes sure that the flex-auto will not stretch the board div beyond the width of the screen.
+  // In order to make the board div square at all times, while making sure it is the biggest it can be without overflow, Considering the title and button elements:
+  // we use css container metrics of cqmin (see index.css .board-container and .board-square) which make height and width 100cqmin
   // TODO: maybe it can be done better, but I couldn't make anything else work, so maybe in the future I'll revisit this.
   return (
-    <div className="flex flex-col aspect-square max-w-full flex-auto max-h-full mx-auto text-black border-text">
+    <div className="flex flex-col mx-auto text-black border-text board-square">
       {Array.from({length: 8}, (_, _row) => {
         const row = 7 - _row;
         return (

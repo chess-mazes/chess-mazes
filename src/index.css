@@ -37,3 +37,11 @@ body {
   background-color: var(--background1);
   color: var(--text);
 }
+
+.board-container {
+  container-type: size;
+}
+.board-square {
+  width: 100cqmin;
+  height: 100cqmin;
+}

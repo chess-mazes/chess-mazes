@@ -32,7 +32,7 @@ const App = observer(() => {
           Fork me on GitHub
         </a>
       </div>
-      <div className="flex-grow overflow-hidden">
+      <div className="flex-grow overflow-hidden board-container">
         <Board />
       </div>
       <ActionButtons />
