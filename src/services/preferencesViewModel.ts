@@ -20,7 +20,7 @@ export class PreferencesViewModel {
   };
 
   private soundModeStorage = new StorageEntry<boolean>('soundMode', true);
-  private musicModeStorage = new StorageEntry<boolean>('musicMode', true);
+  private musicModeStorage = new StorageEntry<boolean>('musicMode', false);
   private stopMusicModeStorage = new StorageEntry<boolean>('stopMusicMode', true);
   public soundMode: boolean;
   public musicMode: boolean;

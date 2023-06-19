@@ -14,44 +14,34 @@ export let audio = new Audio(playlist[0]);
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode} =
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, musicMode: musicModeChanged} =
     preferencesViewModel;
 
-  const {musicMode} = preferencesViewModel;
   let currentSong = -1;
 
   const playMusicClicked = () => {
-    if (musicMode) {
-      currentSong = -1;
+    currentSong = -1;
+    if (musicModeChanged) {
       playNextSong();
     } else {
-      currentSong = -1;
       audio.pause();
       audio.removeEventListener('ended', playNextSongListener);
     }
-  };
-
-  const getCurrSong = () => {
-    if (currentSong < playlist.length - 1) {
-      currentSong += 1;
-    } else {
-      currentSong = 0;
-    }
-    return currentSong;
   };
 
   const playNextSongListener = (ev: Event) => {
     playNextSong();
   };
 
-  const playNextSong = (_currentSong = getCurrSong()) => {
-    audio.src = playlist[_currentSong];
+  const playNextSong = () => {
+    currentSong = (currentSong+1)%playlist.length
+    audio.src = playlist[currentSong];
     audio.addEventListener('ended', playNextSongListener);
     audio.play();
   };
 
   const nextMusicButtonClick = () => {
-    if (musicMode) {
+    if (musicModeChanged) {
       audio.pause();
       playNextSong();
     }
@@ -77,7 +67,7 @@ export const ActionButtons: FC = observer(({}) => {
 
   useEffect(() => {
     playMusicClicked();
-  }, [musicMode]);
+  }, [musicModeChanged]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -120,26 +110,24 @@ export const ActionButtons: FC = observer(({}) => {
       <button className="button hidden" id="btnCheat" onClick={cheatButtonClick}>
         ✨
       </button>
-      <button className="button">
-        <button
-          className="button"
-          id="btnMusic"
-          onClick={musicModeButtonClick}
-          title="Music on/off"
-        >
-          🎵
-        </button>
-        {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
-            ⏸️
-        </button> */}
-        <button
-          className="button"
-          id="btnNextMusic"
-          onClick={nextMusicButtonClick}
-          title="Next Song"
-        >
-          ⏭️
-        </button>
+      <button
+        className="button"
+        id="btnMusic"
+        onClick={musicModeButtonClick}
+        title="Music on/off"
+      >
+        🎵
+      </button>
+      {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
+          ⏸️
+      </button> */}
+      <button
+        className="button"
+        id="btnNextMusic"
+        onClick={nextMusicButtonClick}
+        title="Next Song"
+      >
+        ⏭️
       </button>
       <button className="button" id="btnAbout" onClick={aboutButtonClick} title="About">
         ?
