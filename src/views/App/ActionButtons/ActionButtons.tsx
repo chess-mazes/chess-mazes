@@ -11,18 +11,16 @@ import playlist from '../musicAssets';
 import './ActionButtons.css';
 
 export let audio = new Audio(playlist[0]);
+export let currentSong = 0;
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, musicMode: musicModeChanged} =
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, musicMode: musicMode} =
     preferencesViewModel;
 
-  let currentSong = -1;
-
-  const playMusicClicked = () => {
-    currentSong = -1;
-    if (musicModeChanged) {
-      playNextSong();
+  const musicModeChange = () => {
+    if (musicMode) {
+      playCurrSong();
     } else {
       audio.pause();
       audio.removeEventListener('ended', playNextSongListener);
@@ -33,6 +31,12 @@ export const ActionButtons: FC = observer(({}) => {
     playNextSong();
   };
 
+  const playCurrSong = () => {
+    audio.src = playlist[currentSong];
+    audio.addEventListener('ended', playNextSongListener);
+    audio.play();
+  };
+
   const playNextSong = () => {
     currentSong = (currentSong+1)%playlist.length
     audio.src = playlist[currentSong];
@@ -41,7 +45,7 @@ export const ActionButtons: FC = observer(({}) => {
   };
 
   const nextMusicButtonClick = () => {
-    if (musicModeChanged) {
+    if (musicMode) {
       audio.pause();
       playNextSong();
     }
@@ -66,8 +70,8 @@ export const ActionButtons: FC = observer(({}) => {
   }, [toggleMusicMode]);
 
   useEffect(() => {
-    playMusicClicked();
-  }, [musicModeChanged]);
+    musicModeChange();
+  }, [musicMode]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -116,7 +120,7 @@ export const ActionButtons: FC = observer(({}) => {
         onClick={musicModeButtonClick}
         title="Music on/off"
       >
-        {musicModeChanged ? '🎵⏹️' : '🎵▶️'}
+        {musicMode ? '🎵⏹️' : '🎵▶️'}
       </button>
       <button
         className="button"
