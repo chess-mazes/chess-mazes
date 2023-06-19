@@ -116,11 +116,8 @@ export const ActionButtons: FC = observer(({}) => {
         onClick={musicModeButtonClick}
         title="Music on/off"
       >
-        🎵
+        {musicModeChanged ? '🎵⏹️' : '🎵▶️'}
       </button>
-      {/* <button className="button" id="btnPauseMusic" onClick={pauseMusicButtonClick} title="Pause Music">
-          ⏸️
-      </button> */}
       <button
         className="button"
         id="btnNextMusic"

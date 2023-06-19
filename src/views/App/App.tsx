@@ -8,7 +8,6 @@ import {SolvedPuzzles} from './SolvedPuzzles/SolvedPuzzles';
 import {boardColorClass} from './boardColors/boardColors';
 
 import './boardColors/boardColors.css';
-import { BgMusic } from './BgMusic/BgMusic';
 
 const App = observer(() => {
   const {boardColors, puzzleId: puzzleNum, isSolved} = gameViewModel;
