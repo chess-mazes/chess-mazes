@@ -10,7 +10,7 @@ import {boardColorClass} from './boardColors/boardColors';
 import './boardColors/boardColors.css';
 
 const App = observer(() => {
-  const {boardColors, puzzleId: puzzleNum, isSolved} = gameViewModel;
+  const {boardColors, puzzleId: puzzleNum, isSolved, isUserPuzzle} = gameViewModel;
   const {themeMode} = preferencesViewModel;
 
   return (
@@ -21,7 +21,8 @@ const App = observer(() => {
     >
       <div className="flex flex-row items-center w-full py-2">
         <p className="font-bold text-4xl mx-auto p-3 font-sans">
-          {displayName} #{puzzleNum + 1} {isSolved(puzzleNum) ? '✅' : ''}
+          {displayName} {isUserPuzzle ? '(Custom)' : `#${puzzleNum + 1}`}
+          {!isUserPuzzle && isSolved(puzzleNum) ? '✅' : ''}
         </p>
         <a
           className="before:bg-black github-fork-ribbon right-top hidden md:!block"
