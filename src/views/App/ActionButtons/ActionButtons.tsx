@@ -9,6 +9,7 @@ import {observer} from 'mobx-react';
 import playlist from '../musicAssets';
 
 import './ActionButtons.css';
+import {unmountComponentAtNode} from 'react-dom';
 
 export let audio = new Audio(playlist[0]);
 export let currentSong = 0;
@@ -29,7 +30,6 @@ export const ActionButtons: FC = observer(({}) => {
       playCurrSong();
     } else {
       audio.pause();
-      audio.removeEventListener('ended', playNextSongListener);
     }
   };
 
@@ -37,16 +37,20 @@ export const ActionButtons: FC = observer(({}) => {
     playNextSong();
   };
 
+  audio.addEventListener('ended', playNextSongListener);
+
+  useEffect(() => {
+    audio.removeEventListener('ended', playNextSongListener);
+  }, [oninput]);
+
   const playCurrSong = () => {
     audio.src = playlist[currentSong];
-    audio.addEventListener('ended', playNextSongListener);
     audio.play();
   };
 
   const playNextSong = () => {
     currentSong = (currentSong + 1) % playlist.length;
     audio.src = playlist[currentSong];
-    audio.addEventListener('ended', playNextSongListener);
     audio.pause();
     audio.play();
   };
