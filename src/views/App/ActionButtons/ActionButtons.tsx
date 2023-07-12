@@ -36,17 +36,19 @@ export const ActionButtons: FC = observer(({}) => {
   const playNextSongListener = (ev: Event) => {
     playNextSong();
   };
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     audio.addEventListener('ended', playNextSongListener);
     return () => {
-        audio.removeEventListener('ended', playNextSongListener);
-    }
-  }, [])
+      audio.removeEventListener('ended', playNextSongListener);
+    };
+  }, []);
 
   const playCurrSong = () => {
     audio.src = playlist[currentSong];
-    audio.play();
+    audio.play().catch((error) => {
+      audio.pause();
+    });
   };
 
   const playNextSong = () => {
