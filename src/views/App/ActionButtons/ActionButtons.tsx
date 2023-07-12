@@ -47,6 +47,8 @@ export const ActionButtons: FC = observer(({}) => {
         if (preferencesViewModel.musicMode) {
           preferencesViewModel.toggleMusicMode();
         }
+      } else {
+        throw e;
       }
     });
   };
