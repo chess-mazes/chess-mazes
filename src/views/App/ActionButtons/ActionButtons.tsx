@@ -16,14 +16,8 @@ export let currentSong = 0;
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {
-    themeMode,
-    toggleThemeMode,
-    soundMode,
-    toggleSoundMode,
-    toggleMusicMode,
-    musicMode: musicMode,
-  } = preferencesViewModel;
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, musicMode} =
+    preferencesViewModel;
 
   const musicModeChange = () => {
     if (musicMode) {
@@ -46,8 +40,14 @@ export const ActionButtons: FC = observer(({}) => {
 
   const playCurrSong = () => {
     audio.src = playlist[currentSong];
-    audio.play().catch((error) => {
-      audio.pause();
+    audio.play().catch((e) => {
+      if (e.name === 'NotAllowedError' || e.name === 'SecurityError') {
+        console.log('Music autoplay not allowed, turning off music.');
+        audio.pause();
+        if (preferencesViewModel.musicMode) {
+          preferencesViewModel.toggleMusicMode();
+        }
+      }
     });
   };
 
