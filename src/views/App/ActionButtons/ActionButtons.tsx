@@ -1,17 +1,71 @@
 import {gameViewModel} from '@/services/gameViewModel';
 import {preferencesViewModel} from '@/services/preferencesViewModel';
 import {About} from '@/views/About';
-import {FC, useCallback} from 'react';
+import {FC, useCallback, useEffect} from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import {observer} from 'mobx-react';
+import playlist from '../musicAssets';
 
 import './ActionButtons.css';
+import {unmountComponentAtNode} from 'react-dom';
+
+export let audio = new Audio(playlist[0]);
+export let currentSong = 0;
 
 export const ActionButtons: FC = observer(({}) => {
   const {bestSolution, nextPuzzle, previousPuzzle, cycleBoardColors, loadFen} = gameViewModel;
-  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode} = preferencesViewModel;
+  const {themeMode, toggleThemeMode, soundMode, toggleSoundMode, toggleMusicMode, musicMode} =
+    preferencesViewModel;
+
+  const musicModeChange = () => {
+    if (musicMode) {
+      playCurrSong();
+    } else {
+      audio.pause();
+    }
+  };
+
+  const playNextSongListener = (ev: Event) => {
+    playNextSong();
+  };
+
+  useEffect(() => {
+    audio.addEventListener('ended', playNextSongListener);
+    return () => {
+      audio.removeEventListener('ended', playNextSongListener);
+    };
+  }, []);
+
+  const playCurrSong = () => {
+    audio.src = playlist[currentSong];
+    audio.play().catch((e) => {
+      if (e.name === 'NotAllowedError' || e.name === 'SecurityError') {
+        console.log('Music autoplay not allowed, turning off music.');
+        audio.pause();
+        if (preferencesViewModel.musicMode) {
+          preferencesViewModel.toggleMusicMode();
+        }
+      } else {
+        throw e;
+      }
+    });
+  };
+
+  const playNextSong = () => {
+    currentSong = (currentSong + 1) % playlist.length;
+    audio.src = playlist[currentSong];
+    audio.pause();
+    audio.play();
+  };
+
+  const nextMusicButtonClick = () => {
+    if (musicMode) {
+      audio.pause();
+      playNextSong();
+    }
+  };
 
   const loadFenButtonClick = useCallback(() => {
     const fen = prompt('Enter FEN:');
@@ -26,6 +80,14 @@ export const ActionButtons: FC = observer(({}) => {
   const soundModeButtonClick = useCallback(() => {
     toggleSoundMode();
   }, [toggleSoundMode]);
+
+  const musicModeButtonClick = useCallback(() => {
+    toggleMusicMode();
+  }, [toggleMusicMode]);
+
+  useEffect(() => {
+    musicModeChange();
+  }, [musicMode]);
 
   const cheatButtonClick = useCallback(() => {}, []);
 
@@ -67,6 +129,12 @@ export const ActionButtons: FC = observer(({}) => {
       </button>
       <button className="button hidden" id="btnCheat" onClick={cheatButtonClick}>
         ✨
+      </button>
+      <button className="button" id="btnMusic" onClick={musicModeButtonClick} title="Music on/off">
+        {musicMode ? '🎵⏹️' : '🎵▶️'}
+      </button>
+      <button className="button" id="btnNextMusic" onClick={nextMusicButtonClick} title="Next Song">
+        ⏭️
       </button>
       <button className="button" id="btnAbout" onClick={aboutButtonClick} title="About">
         ?
