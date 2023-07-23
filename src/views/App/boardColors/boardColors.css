@@ -1,16 +1,23 @@
 .board-colors-default {
   --chess-light: #dee3e6;
   --chess-dark: #8ca2ad;
+  color: #000000;
 }
+
 .board-colors-candy {
   --chess-light: #f9e3e3;
   --chess-dark: #f9c3c3;
+  color: #f17474;
 }
+
 .board-colors-wood {
   --chess-light: #f0d9b5;
   --chess-dark: #b48863;
+  color: #724e30;;
 }
+
 .board-colors-emerald {
   --chess-light: #eeeed3;
   --chess-dark: #759656;
+  color: #324a1c;;
 }
