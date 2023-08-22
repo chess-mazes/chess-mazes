@@ -72,7 +72,7 @@ export const Board: FC = observer(({}) => {
   // we use css container metrics of cqmin (see index.css .board-container and .board-square) which make height and width 100cqmin
   // TODO: maybe it can be done better, but I couldn't make anything else work, so maybe in the future I'll revisit this.
   return (
-    <div className="flex flex-col mx-auto text-black border-text board-square">
+    <div className="flex flex-col mx-auto border-text board-square">
       {Array.from({length: 8}, (_, _row) => {
         const row = 7 - _row;
         return (
