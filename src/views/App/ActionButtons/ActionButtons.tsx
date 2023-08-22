@@ -27,9 +27,9 @@ export const ActionButtons: FC = observer(({}) => {
     }
   };
 
-  const playNextSongListener = (ev: Event) => {
+  const playNextSongListener = useCallback((ev: Event) => {
     playNextSong();
-  };
+  }, []);
 
   useEffect(() => {
     audio.addEventListener('ended', playNextSongListener);
